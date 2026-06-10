@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Map Scientist – TASCO Mapping</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --navy: #0a2744;
+    --blue: #1565c0;
+    --accent: #00897b;
+    --accent-light: #e0f2f1;
+    --gold: #f9a825;
+    --bg: #f5f7fa;
+    --surface: #ffffff;
+    --border: #dde3ed;
+    --text: #1a1a2e;
+    --muted: #5a6580;
+    --tag-bg: #e8f0fe;
+    --tag-text: #1a56db;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; font-size: 14px; }
+
+  /* ── Topbar ── */
+  .topbar { background: var(--navy); padding: 9px 44px; display: flex; align-items: center; gap: 12px; }
+  .topbar-logo { font-size: 12px; font-weight: 700; color: #fff; letter-spacing: 1.2px; }
+  .topbar-div  { width: 1px; height: 14px; background: rgba(255,255,255,0.25); }
+  .topbar-dept { font-size: 11px; color: rgba(255,255,255,0.6); letter-spacing: 0.5px; }
+
+  /* ── Hero ── */
+  .hero { background: linear-gradient(135deg, var(--navy) 0%, #0d3b6e 60%, #0f4c82 100%);
+          padding: 48px 44px 44px; position: relative; overflow: hidden; }
+  .hero::before { content:''; position:absolute; right:-60px; top:-60px; width:400px; height:400px; border-radius:50%; background:rgba(255,255,255,0.03); }
+  .hero-tag  { display:inline-block; background:var(--accent); color:#fff; font-size:10px; font-weight:700; letter-spacing:1.4px; text-transform:uppercase; padding:3px 11px; border-radius:20px; margin-bottom:14px; }
+  .hero h1   { font-size:38px; font-weight:800; color:#fff; line-height:1.15; margin-bottom:10px; }
+  .hero-sub  { font-size:13px; color:rgba(255,255,255,0.7); margin-bottom:22px; }
+  .hero-meta { display:flex; flex-wrap:wrap; gap:7px; }
+  .hero-pill { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.18); color:rgba(255,255,255,0.85); font-size:11px; font-weight:500; padding:4px 12px; border-radius:20px; }
+
+  /* ── About ── */
+  .about { background:var(--surface); border-bottom:1px solid var(--border); }
+  .about-inner { max-width:900px; margin:0 auto; padding:40px 24px; }
+  .sec-label   { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--accent); margin-bottom:4px; }
+  .sec-title   { font-size:24px; font-weight:800; color:var(--navy); margin-bottom:4px; }
+  .sec-divider { width:36px; height:3px; background:var(--accent); border-radius:2px; margin-bottom:28px; }
+
+  .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:28px; }
+  .vision-box { background:var(--bg); border-radius:10px; padding:22px; border-left:4px solid var(--blue); }
+  .vision-box h3 { font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--blue); margin-bottom:8px; }
+  .vision-box p  { font-size:14px; line-height:1.7; }
+
+  .corp-table { width:100%; border-collapse:collapse; border-radius:10px; overflow:hidden; }
+  .corp-table th { background:var(--navy); color:#fff; text-align:left; padding:9px 13px; font-size:11px; font-weight:600; letter-spacing:0.5px; }
+  .corp-table td { padding:8px 13px; font-size:12.5px; border-bottom:1px solid var(--border); }
+  .corp-table tr:last-child td { border-bottom:none; }
+  .corp-table td:first-child { color:var(--muted); font-weight:500; background:#f8fafc; width:160px; font-size:11.5px; }
+  .corp-table td:last-child  { font-weight:600; color:var(--navy); }
+  .corp-link { color:var(--blue); text-decoration:none; }
+
+  /* ── Ecosystem SVG section ── */
+  .eco-pillars { margin-top:24px; }
+  .eco-pillars h3 { font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
+
+  /* ── Numbers banner ── */
+  .numbers { background:var(--navy); padding:40px 24px; }
+  .numbers-inner { max-width:900px; margin:0 auto; }
+  .numbers-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:24px; }
+  .num-card { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:20px 22px; }
+  .num-card-title { font-size:10px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:var(--gold); margin-bottom:16px; }
+  .num-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; }
+  .num-stat-val { font-size:19px; font-weight:800; color:#fff; line-height:1; white-space:nowrap; }
+  .num-stat-lbl { font-size:9.5px; color:rgba(255,255,255,0.6); margin-top:3px; line-height:1.3; }
+
+  /* ── Main ── */
+  .main { max-width:900px; margin:0 auto; padding:40px 24px; }
+  .section { margin-bottom:40px; }
+  .section-head { display:flex; align-items:center; gap:12px; margin-bottom:20px; }
+  .sec-num { display:flex; align-items:center; justify-content:center; width:28px; height:28px; background:var(--navy); color:#fff; border-radius:50%; font-size:12px; font-weight:700; flex-shrink:0; }
+  .section-head h2 { font-size:18px; font-weight:700; color:var(--navy); }
+  .sec-body { padding-left:40px; }
+
+  .overview-table { width:100%; border-collapse:collapse; border-radius:10px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.07); }
+  .overview-table td { padding:10px 16px; border-bottom:1px solid var(--border); font-size:13px; }
+  .overview-table tr:last-child td { border-bottom:none; }
+  .overview-table td:first-child { width:160px; font-weight:600; color:var(--muted); background:#f8fafc; font-size:11.5px; text-transform:uppercase; letter-spacing:0.5px; }
+
+  .purpose-box { background:var(--bg); border-radius:10px; padding:20px 24px; border-left:4px solid var(--accent); font-size:14px; line-height:1.8; }
+  .purpose-box p { margin-bottom:10px; }
+  .purpose-box p:last-child { margin-bottom:0; }
+
+  .resp-area { margin-bottom:24px; }
+  .resp-title { display:inline-flex; align-items:center; font-size:13px; font-weight:700; color:var(--navy); background:var(--tag-bg); padding:5px 12px; border-radius:7px; margin-bottom:12px; color:var(--accent); }
+  .resp-list { list-style:none; padding:0; display:flex; flex-direction:column; gap:7px; }
+  .resp-list li { display:flex; gap:9px; font-size:13px; line-height:1.65; }
+  .resp-list li::before { content:'→'; color:var(--accent); font-weight:700; flex-shrink:0; margin-top:1px; }
+
+  .req-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .req-box { border-radius:10px; padding:20px; border:1px solid var(--border); background:#fff; }
+  .req-box.must { border-top:3px solid var(--navy); }
+  .req-box.nice { border-top:3px solid var(--accent); }
+  .req-box.soft { border-top:3px solid var(--gold); grid-column:1/-1; }
+  .req-box h3   { font-size:11px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; margin-bottom:14px; }
+  .req-box.must h3 { color:var(--navy); }
+  .req-box.nice h3 { color:var(--accent); }
+  .req-box.soft h3 { color:#9a6700; }
+  .req-list { list-style:none; padding:0; display:flex; flex-direction:column; gap:7px; }
+  .req-list li { display:flex; gap:7px; font-size:13px; line-height:1.6; }
+  .req-list li::before { content:'✓'; font-weight:700; flex-shrink:0; }
+  .req-box.must .req-list li::before { color:var(--navy); }
+  .req-box.nice .req-list li::before { color:var(--accent); }
+  .req-box.soft .req-list li::before { color:var(--gold); }
+  .soft-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+
+  .metrics-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .metric-item { background:var(--accent-light); border-radius:8px; padding:12px 16px; display:flex; gap:8px; align-items:flex-start; font-size:13px; line-height:1.55; border-left:3px solid var(--accent); }
+  .metric-item::before { content:'◆'; color:var(--accent); font-size:9px; flex-shrink:0; margin-top:3px; }
+
+  .scope-table { width:100%; border-collapse:collapse; border-radius:10px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.07); }
+  .scope-table th { background:var(--navy); color:#fff; text-align:left; padding:10px 16px; font-size:12px; font-weight:600; }
+  .scope-table td { padding:9px 16px; font-size:13px; border-bottom:1px solid var(--border); vertical-align:top; }
+  .scope-table tr:last-child td { border-bottom:none; }
+  .scope-table td:first-child { font-weight:600; color:var(--navy); background:#f8fafc; width:180px; }
+
+  .tech-wrap { display:flex; flex-wrap:wrap; gap:7px; }
+  .tech-tag { background:var(--tag-bg); color:var(--tag-text); font-size:12px; font-weight:500; padding:4px 11px; border-radius:6px; }
+
+  .diff-table { width:100%; border-collapse:collapse; border-radius:10px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.07); }
+  .diff-table th { background:#334155; color:#fff; text-align:left; padding:10px 16px; font-size:12px; font-weight:600; }
+  .diff-table td { padding:9px 16px; font-size:13px; border-bottom:1px solid var(--border); }
+  .diff-table tr:last-child td { border-bottom:none; }
+  .diff-table td:first-child { font-weight:600; color:var(--navy); background:#f8fafc; width:200px; }
+  .diff-table .hl td  { background:var(--tag-bg); }
+  .diff-table .hl td:first-child { background:#dbeafe; color:var(--blue); }
+  .diff-note { margin-top:12px; font-size:13px; color:var(--muted); font-style:italic; padding:10px 14px; background:var(--bg); border-radius:8px; line-height:1.6; }
+
+  .apply-box { background:linear-gradient(135deg,var(--navy),#0d3b6e); border-radius:14px; padding:36px; text-align:center; }
+  .apply-box h2 { font-size:22px; font-weight:800; color:#fff; margin-bottom:8px; }
+  .apply-box p  { color:rgba(255,255,255,0.75); font-size:13px; margin-bottom:20px; line-height:1.7; }
+  .apply-email  { display:inline-block; background:var(--accent); color:#fff; font-size:13px; font-weight:600; padding:10px 24px; border-radius:8px; text-decoration:none; margin:3px; }
+  .apply-subj   { background:rgba(255,255,255,0.1); border-radius:7px; padding:8px 16px; display:inline-block; font-size:12px; color:rgba(255,255,255,0.85); font-family:monospace; margin-top:14px; }
+  .apply-note   { font-size:12px; color:rgba(255,255,255,0.5); margin-top:12px; line-height:1.6; }
+
+  footer { background:#0a1929; padding:16px 44px; text-align:center; font-size:11px; color:rgba(255,255,255,0.3); }
+
+  /* ── PRINT ── */
+  @media print {
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    body { font-size: 12px; background: #fff; }
+    .topbar { display: none; }
+    .hero { padding: 26px 28px 22px; }
+    .hero h1 { font-size: 28px; margin-bottom: 6px; }
+    .hero-sub { margin-bottom: 14px; font-size: 12px; }
+    .hero-pill { font-size: 10px; padding: 3px 10px; }
+    .hero-tag  { font-size: 9px; margin-bottom: 10px; }
+    .about-inner  { padding: 22px 20px 18px; }
+    .about-grid   { gap: 18px; }
+    .vision-box   { padding: 16px 18px; }
+    .eco-pillars  { margin-top: 14px; }
+    .sec-label    { font-size: 9px; }
+    .sec-title    { font-size: 20px; }
+    .sec-divider  { margin-bottom: 18px; }
+    .numbers      { padding: 28px 20px 24px; }
+    .numbers-inner { padding: 0; }
+    .numbers-grid  { margin-top: 14px; gap: 14px; }
+    .num-card      { padding: 14px 16px; }
+    .num-card-title{ margin-bottom: 10px; }
+    .num-stat-val  { font-size: 17px; }
+    .num-stat-lbl  { font-size: 9px; }
+    .main { padding: 24px 20px; }
+    .section { margin-bottom: 22px; }
+    .purpose-box { padding: 16px 20px; font-size: 13px; }
+    .resp-list li  { font-size: 12px; }
+    .req-box       { padding: 16px; }
+    .metric-item   { padding: 10px 14px; font-size: 12px; }
+    .scope-table td, .scope-table th { padding: 7px 13px; font-size: 12px; }
+    .diff-table td, .diff-table th   { padding: 7px 13px; font-size: 12px; }
+    /* Let content flow — only protect the apply box */
+    .apply-box { page-break-inside: avoid; padding: 28px; }
+    footer { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="topbar-logo">TASCO.COM.VN</span>
+  <span class="topbar-div"></span>
+  <span class="topbar-dept">MAPPING DIVISION — JOB DESCRIPTION</span>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">Geospatial AI · Applied Research</div>
+  <h1>Map Scientist</h1>
+  <p class="hero-sub">Geospatial AI &nbsp;·&nbsp; Map Inference &nbsp;·&nbsp; Road Intelligence &nbsp;·&nbsp; Research-to-Production</p>
+  <div class="hero-meta">
+    <span class="hero-pill">📍 Tasco Building, Hanoi – Pham Hung</span>
+    <span class="hero-pill">🏢 TASCO Mapping</span>
+    <span class="hero-pill">👤 Individual Contributor</span>
+    <span class="hero-pill">📊 Reports to Head of Mapping</span>
+  </div>
+</div>
+
+<!-- ABOUT TASCO -->
+<div class="about">
+  <div class="about-inner">
+    <div class="sec-label">About the Company</div>
+    <div class="sec-title">About Tasco</div>
+    <div class="sec-divider"></div>
+
+    <div class="about-grid">
+      <div>
+        <div class="vision-box">
+          <h3>Vision</h3>
+          <p>A technology-enabled investment ecosystem, integrating Smart Mobility, Insurance, and Investments in essential services and innovation.</p>
+        </div>
+        <div style="margin-top:18px;">
+          <p style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Strategic Partners</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <span style="background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:5px 14px;font-size:12.5px;font-weight:600;color:var(--navy);">Geely Auto</span>
+            <span style="background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:5px 14px;font-size:12.5px;font-weight:600;color:var(--navy);">Mitsui &amp; Co.</span>
+            <span style="background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:5px 14px;font-size:12.5px;font-weight:600;color:var(--navy);">IFC – World Bank Group</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <table class="corp-table">
+          <tr><th colspan="2">Corporate Information</th></tr>
+          <tr><td>Stock Ticker</td><td>HUT (HNX)</td></tr>
+          <tr><td>Established</td><td>1971</td></tr>
+          <tr><td>Subsidiaries &amp; Affiliates</td><td>88</td></tr>
+          <tr><td>Employees</td><td>~10,000</td></tr>
+          <tr><td>Consolidated Sales</td><td>$1.4 billion</td></tr>
+          <tr><td>Total Assets</td><td>$1.98 billion</td></tr>
+          <tr><td>Website</td><td><a class="corp-link" href="https://tasco.com.vn">tasco.com.vn</a></td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- CHART 1: Tasco Ecosystem Pillars -->
+    <div class="eco-pillars">
+      <p style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Business Ecosystem</p>
+      <svg viewBox="0 0 860 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+        <!-- Mobility -->
+        <rect x="0" y="0" width="272" height="130" rx="10" fill="#e8f0fe" stroke="#1565c0" stroke-width="1.5"/>
+        <rect x="0" y="0" width="272" height="34" rx="10" fill="#1565c0"/>
+        <rect x="0" y="24" width="272" height="10" fill="#1565c0"/>
+        <text x="136" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="white" font-family="Arial, sans-serif">MOBILITY</text>
+        <text x="136" y="56" text-anchor="middle" font-size="11.5" fill="#1a3a6e" font-family="Arial, sans-serif">Tasco Auto</text>
+        <text x="136" y="74" text-anchor="middle" font-size="11.5" fill="#1a3a6e" font-family="Arial, sans-serif">VETC</text>
+        <text x="136" y="92" text-anchor="middle" font-size="11.5" fill="#1a3a6e" font-family="Arial, sans-serif">Carpla</text>
+        <text x="136" y="110" text-anchor="middle" font-size="11.5" fill="#1a3a6e" font-family="Arial, sans-serif">VETC Go</text>
+        <!-- Insurance -->
+        <rect x="294" y="0" width="272" height="130" rx="10" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5"/>
+        <rect x="294" y="0" width="272" height="34" rx="10" fill="#2e7d32"/>
+        <rect x="294" y="24" width="272" height="10" fill="#2e7d32"/>
+        <text x="430" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="white" font-family="Arial, sans-serif">INSURANCE</text>
+        <text x="430" y="56" text-anchor="middle" font-size="11.5" fill="#1b5e20" font-family="Arial, sans-serif">Tasco Insurance</text>
+        <text x="430" y="74" text-anchor="middle" font-size="11.5" fill="#1b5e20" font-family="Arial, sans-serif">Tasco Finance</text>
+        <!-- Investment -->
+        <rect x="588" y="0" width="272" height="130" rx="10" fill="#fff8e1" stroke="#f9a825" stroke-width="1.5"/>
+        <rect x="588" y="0" width="272" height="34" rx="10" fill="#f57f17"/>
+        <rect x="588" y="24" width="272" height="10" fill="#f57f17"/>
+        <text x="724" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="white" font-family="Arial, sans-serif">INVESTMENT</text>
+        <text x="724" y="56" text-anchor="middle" font-size="11.5" fill="#7a4a00" font-family="Arial, sans-serif">DNP Water · Tasco Mall</text>
+        <text x="724" y="74" text-anchor="middle" font-size="11.5" fill="#7a4a00" font-family="Arial, sans-serif">Ana Mandara Villas</text>
+        <text x="724" y="92" text-anchor="middle" font-size="11.5" fill="#7a4a00" font-family="Arial, sans-serif">Six Senses</text>
+        <text x="724" y="110" text-anchor="middle" font-size="11.5" fill="#7a4a00" font-family="Arial, sans-serif">Inochi</text>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- MOBILITY IN NUMBERS -->
+<div class="numbers">
+  <div class="numbers-inner">
+    <div class="sec-label" style="color:rgba(255,255,255,0.5);">Why Tasco</div>
+    <div class="sec-title" style="color:#fff;">Our Mobility Ecosystem in Numbers</div>
+    <div class="sec-divider" style="background:var(--gold);"></div>
+    <div class="numbers-grid">
+      <div class="num-card">
+        <div class="num-card-title">Tasco Auto</div>
+        <div class="num-grid">
+          <div><div class="num-stat-val">40k+</div><div class="num-stat-lbl">New Cars Sold</div></div>
+          <div><div class="num-stat-val">180</div><div class="num-stat-lbl">Showrooms</div></div>
+          <div><div class="num-stat-val">Top 5</div><div class="num-stat-lbl">Tax-paying Retailers</div></div>
+          <div><div class="num-stat-val">16</div><div class="num-stat-lbl">Car Brands</div></div>
+          <div><div class="num-stat-val">14.8%</div><div class="num-stat-lbl">Market Share</div></div>
+        </div>
+      </div>
+      <div class="num-card">
+        <div class="num-card-title">VETC — ETC &amp; Mobility</div>
+        <div class="num-grid">
+          <div><div class="num-stat-val">4.2m</div><div class="num-stat-lbl">Car Owners</div></div>
+          <div><div class="num-stat-val">~300</div><div class="num-stat-lbl">Parking Lots</div></div>
+          <div><div class="num-stat-val">2m</div><div class="num-stat-lbl">Transactions / Day</div></div>
+          <div><div class="num-stat-val">650k</div><div class="num-stat-lbl">Car Repairs</div></div>
+          <div><div class="num-stat-val">75%</div><div class="num-stat-lbl">ETC Market Share</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+  <!-- 0. Overview -->
+  <div class="section">
+    <div class="section-head"><div class="sec-num">0</div><h2>Job Overview</h2></div>
+    <div class="sec-body">
+      <table class="overview-table">
+        <tr><td>Position</td><td>Map Scientist</td></tr>
+        <tr><td>Focus</td><td>Geospatial AI, Road Attribute Inference, Lane-Level Map Intelligence, Map Quality Science</td></tr>
+        <tr><td>Department</td><td>TASCO.COM.VN Mapping</td></tr>
+        <tr><td>Location</td><td>Tasco Building Hanoi, Pham Hung</td></tr>
+        <tr><td>Level</td><td>Individual Contributor</td></tr>
+        <tr><td>Reports to</td><td>Head of Mapping</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 1. Job Purpose -->
+  <div class="section">
+    <div class="section-head"><div class="sec-num">1</div><h2>Job Purpose</h2></div>
+    <div class="sec-body">
+      <div class="purpose-box">
+        <p>The Map Scientist supports the development of AI-assisted map-making systems for Tasco Maps, MyTasco, VETC mobility services, navigation, HD Maps / ADAS Maps, and future vehicle intelligence products.</p>
+        <p>This role sits between Map Operations, Data Science, AI Engineering, and Product — translating mapping problems into measurable scientific tasks: dataset design, annotation schema, model benchmarking, geospatial feature engineering, error analysis, and prototype development.</p>
+        <p>It is an <strong>applied research role</strong> focused on turning aerial imagery, street-level imagery, GPS probes, OSM / Overture data, traffic-sign data, POI data, and user feedback into scalable map intelligence for Vietnam.</p>
+      </div>
+
+      <!-- CHART 2: Data Pipeline -->
+      <div style="margin-top:20px;">
+        <p style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">How the Role Works — Data to Map Intelligence</p>
+        <svg viewBox="0 0 860 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+          <!-- Input boxes -->
+          <rect x="0"   y="10" width="148" height="30" rx="6" fill="#e8f0fe" stroke="#1565c0" stroke-width="1"/>
+          <text x="74"  y="30" text-anchor="middle" font-size="11" fill="#0a2744" font-family="Arial, sans-serif" font-weight="600">Aerial / Satellite</text>
+          <rect x="0"   y="48" width="148" height="30" rx="6" fill="#e8f0fe" stroke="#1565c0" stroke-width="1"/>
+          <text x="74"  y="68" text-anchor="middle" font-size="11" fill="#0a2744" font-family="Arial, sans-serif" font-weight="600">Street Imagery</text>
+          <rect x="0"   y="86" width="148" height="22" rx="6" fill="#e8f0fe" stroke="#1565c0" stroke-width="1"/>
+          <text x="74" y="101" text-anchor="middle" font-size="11" fill="#0a2744" font-family="Arial, sans-serif" font-weight="600">GPS Probes</text>
+          <!-- Arrow 1 -->
+          <line x1="152" y1="55" x2="178" y2="55" stroke="#94a3b8" stroke-width="2" marker-end="url(#arr)"/>
+          <!-- Sources 2 -->
+          <rect x="182" y="30" width="110" height="26" rx="6" fill="#f8fafc" stroke="#94a3b8" stroke-width="1"/>
+          <text x="237" y="47" text-anchor="middle" font-size="11" fill="#334155" font-family="Arial, sans-serif">OSM / Overture</text>
+          <rect x="182" y="62" width="110" height="26" rx="6" fill="#f8fafc" stroke="#94a3b8" stroke-width="1"/>
+          <text x="237" y="79" text-anchor="middle" font-size="11" fill="#334155" font-family="Arial, sans-serif">Gov / Field Data</text>
+          <!-- Arrow 2 -->
+          <line x1="296" y1="55" x2="322" y2="55" stroke="#94a3b8" stroke-width="2" marker-end="url(#arr)"/>
+          <!-- Center box -->
+          <rect x="326" y="15" width="200" height="80" rx="10" fill="#0a2744"/>
+          <text x="426" y="48" text-anchor="middle" font-size="13" font-weight="700" fill="white" font-family="Arial, sans-serif">MAP SCIENTIST</text>
+          <text x="426" y="66" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.65)" font-family="Arial, sans-serif">Research · Prototype · Benchmark</text>
+          <text x="426" y="82" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.65)" font-family="Arial, sans-serif">Validate · Document</text>
+          <!-- Arrow 3 -->
+          <line x1="530" y1="55" x2="556" y2="55" stroke="#94a3b8" stroke-width="2" marker-end="url(#arr)"/>
+          <!-- Output boxes -->
+          <rect x="560" y="4"  width="148" height="26" rx="6" fill="#e0f2f1" stroke="#00897b" stroke-width="1"/>
+          <text x="634" y="21" text-anchor="middle" font-size="11" fill="#004d40" font-family="Arial, sans-serif" font-weight="600">Road Intelligence</text>
+          <rect x="560" y="36" width="148" height="26" rx="6" fill="#e0f2f1" stroke="#00897b" stroke-width="1"/>
+          <text x="634" y="53" text-anchor="middle" font-size="11" fill="#004d40" font-family="Arial, sans-serif" font-weight="600">Lane-Level Maps</text>
+          <rect x="560" y="68" width="148" height="26" rx="6" fill="#e0f2f1" stroke="#00897b" stroke-width="1"/>
+          <text x="634" y="85" text-anchor="middle" font-size="11" fill="#004d40" font-family="Arial, sans-serif" font-weight="600">Confidence Scores</text>
+          <!-- Arrow marker -->
+          <defs>
+            <marker id="arr" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L6,3 z" fill="#94a3b8"/>
+            </marker>
+          </defs>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Key Responsibilities -->
+  <div class="section">
+    <div class="section-head"><div class="sec-num">2</div><h2>Key Responsibilities</h2></div>
+    <div class="sec-body">
+      <div class="resp-area">
+        <div class="resp-title">A. Geospatial AI Research &amp; Prototyping</div>
+        <ul class="resp-list">
+          <li>Read, summarize, and reproduce selected papers related to road graph extraction, lane-level topology, road attribute inference, map-matching, traffic-sign detection, POI extraction, and map quality evaluation.</li>
+          <li>Build small-scale prototypes for map inference tasks using Python, PostGIS, PyTorch, computer vision, graph algorithms, and geospatial data processing.</li>
+          <li>Translate research ideas into production-oriented experiments with clear inputs, outputs, baselines, metrics, limitations, and rollout risks.</li>
+          <li>Maintain internal research notes, experiment logs, and technical memos for the Mapping team.</li>
+        </ul>
+      </div>
+      <div class="resp-area">
+        <div class="resp-title">B. Road Intelligence &amp; Lane-Level Map Inference</div>
+        <ul class="resp-list">
+          <li>Support development of models and rules to infer road attributes from aerial imagery, street imagery, OSM, GPS probes, and field data.</li>
+          <li>Work on lane count estimation, road width inference, turn-lane detection, road-surface classification, intersection structure analysis, and traffic-signal / traffic-sign context extraction.</li>
+          <li>Assist in building lane-level and intersection-level datasets for Hanoi, Ho Chi Minh City, expressways, toll stations, parking zones, service roads, and high-priority corridors.</li>
+          <li>Evaluate model outputs against ground truth from MapOps, field collection, authoritative data, and manual QA.</li>
+        </ul>
+      </div>
+      <div class="resp-area">
+        <div class="resp-title">C. Map Quality Science &amp; Confidence Scoring</div>
+        <ul class="resp-list">
+          <li>Design quantitative metrics for map data quality: completeness, freshness, positional accuracy, topology correctness, attribute accuracy, false-positive rate, false-negative rate, and operational impact.</li>
+          <li>Build confidence scores for map objects such as road segments, turn restrictions, lane attributes, traffic signs, POIs, entrances, geofences, and addresses.</li>
+          <li>Analyze disagreement between multiple data sources: OSM, Overture Maps, satellite imagery, street imagery, GPS traces, government data, user reports, and internal business data.</li>
+          <li>Prioritize MapOps work using risk-based scoring: high-traffic roads, high-fine-risk areas, navigation-critical intersections, and stale data regions.</li>
+        </ul>
+      </div>
+      <div class="resp-area">
+        <div class="resp-title">D. Data Annotation, Benchmarking &amp; Evaluation</div>
+        <ul class="resp-list">
+          <li>Define annotation guidelines for AI map tasks: lane marking, stop line, turn arrow, traffic sign, road boundary, POI signboard, entrance, parking polygon, toll station, and road access point.</li>
+          <li>Build benchmark datasets with clear train / validation / test splits by city, road class, imagery source, and complexity level.</li>
+          <li>Establish baseline models and compare performance using precision, recall, F1, IoU, topology correctness, graph connectivity error, routing impact, and human-review cost.</li>
+          <li>Conduct systematic error analysis to identify whether errors come from data quality, annotation inconsistency, model design, imagery quality, road occlusion, GPS noise, or ambiguous legal rules.</li>
+        </ul>
+      </div>
+      <div class="resp-area">
+        <div class="resp-title">E. AI-Assisted Map Operations</div>
+        <ul class="resp-list">
+          <li>Build tools that help MapOps review model predictions faster: candidate generation, object ranking, auto-flagging, active learning queues, and QA dashboards.</li>
+          <li>Work with MapOps Specialists to convert AI predictions into validated map updates.</li>
+          <li>Create SOPs for human-in-the-loop validation of AI-generated map features.</li>
+          <li>Support a practical pipeline where AI proposes, MapOps verifies, Engineering publishes, and Product monitors user impact.</li>
+        </ul>
+      </div>
+      <div class="resp-area">
+        <div class="resp-title">F. Data Sources, Fusion &amp; Validation</div>
+        <ul class="resp-list">
+          <li>Integrate and validate signals from OSM, Overture Maps, satellite imagery, street-level imagery, GPS probes, government data, field collection, user reports, and Tasco/VETC business data.</li>
+          <li>Design conflation logic to reconcile geometry, topology, attributes, source reliability, and temporal freshness across datasets.</li>
+          <li>Support source reliability scoring, data lineage, rollback evidence, and review workflows for critical map features.</li>
+          <li>Partner with Engineering to expose validated outputs to internal map editor tools, QA dashboards, search systems, routing graph generation, and release pipelines.</li>
+        </ul>
+      </div>
+      <div class="resp-area">
+        <div class="resp-title">G. Documentation, SOPs &amp; Team Enablement</div>
+        <ul class="resp-list">
+          <li>Build documentation for dataset specs, annotation rules, benchmark design, model evaluation, confidence scoring, and release readiness.</li>
+          <li>Train junior MapOps members and contributors on AI-assisted validation and map quality standards.</li>
+          <li>Work with Product, Engineering, Data Science, and Business teams to shape the map intelligence roadmap.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Requirements -->
+  <div class="section">
+    <div class="section-head"><div class="sec-num">3</div><h2>Requirements</h2></div>
+    <div class="sec-body">
+      <div class="req-grid">
+        <div class="req-box must">
+          <h3>Must-Have</h3>
+          <ul class="req-list">
+            <li>Bachelor's degree in GIS, Geomatics, CS, Data Science, EE, Transportation Engineering, Applied Mathematics, or related field.</li>
+            <li>0–2 years in geospatial data, ML, computer vision, map operations, remote sensing, navigation, logistics, or mobility data products.</li>
+            <li>Strong Python skills for data processing, geospatial analysis, experiment scripting, and automation.</li>
+            <li>Working knowledge of SQL and PostgreSQL/PostGIS.</li>
+            <li>Familiarity with geospatial data formats: GeoJSON, Shapefile, GeoPackage, PBF, Parquet, raster tiles, vector tiles, GeoTIFF.</li>
+            <li>Basic understanding of OpenStreetMap: nodes, ways, relations, tags, turn restrictions, road classes, POIs, admin boundaries.</li>
+            <li>Basic ML understanding: supervised learning, model evaluation, train/test split, overfitting, precision/recall, confusion matrix, error analysis.</li>
+            <li>Strong written communication in English.</li>
+          </ul>
+        </div>
+        <div class="req-box nice">
+          <h3>Nice-to-Have</h3>
+          <ul class="req-list">
+            <li>Experience with PyTorch, TensorFlow, scikit-learn, XGBoost, CatBoost, or similar ML frameworks.</li>
+            <li>Computer vision: YOLO, U-Net, SegFormer, Mask2Former, SAM, OCR, or object detection / segmentation pipelines.</li>
+            <li>Graph algorithms, road graphs, routing engines, map-matching, Valhalla, OSRM, GraphHopper, or NetworkX.</li>
+            <li>Remote sensing, satellite imagery, aerial imagery, street-level imagery, dashcam data, or LiDAR point clouds.</li>
+            <li>QGIS, JOSM, iD Editor, Overpass Turbo, osmium, osm2pgsql, DuckDB, GDAL, rasterio, or GeoPandas.</li>
+            <li>Active learning, human-in-the-loop labeling, data labeling QA, or model-assisted annotation.</li>
+            <li>OSM contribution history, GitHub portfolio, Kaggle / research project, or thesis in mapping, CV, GIS, traffic, or mobility.</li>
+          </ul>
+        </div>
+        <div class="req-box soft">
+          <h3>Soft Skills &amp; Mindset</h3>
+          <div class="soft-grid">
+            <ul class="req-list">
+              <li>Scientific mindset: skeptical, evidence-based, comfortable with uncertainty.</li>
+              <li>Strong attention to data quality and edge cases.</li>
+              <li>Able to turn ambiguous mapping problems into measurable experiments.</li>
+              <li>Comfortable with messy real-world data: noisy GPS, occluded imagery, inconsistent labels.</li>
+            </ul>
+            <ul class="req-list">
+              <li>Practical orientation: reducing human review cost and improving product impact.</li>
+              <li>Able to work independently, document assumptions, and ask precise technical questions.</li>
+              <li>Interested in building Vietnam-localized map intelligence rather than generic global models.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Success Metrics -->
+  <div class="section">
+    <div class="section-head"><div class="sec-num">4</div><h2>Success Metrics — 6 to 12 Months</h2></div>
+    <div class="sec-body">
+      <div class="metrics-grid">
+        <div class="metric-item">Reproduce and document at least 2 relevant mapping / geospatial AI papers or open-source methods.</div>
+        <div class="metric-item">Deliver at least 1 internal benchmark dataset for a priority problem (lane count, turn lane, traffic sign, POI signboard OCR, road width, or map-change detection).</div>
+        <div class="metric-item">Build at least 1 working prototype that generates candidate map updates for MapOps review.</div>
+        <div class="metric-item">Reduce manual review workload for one selected MapOps workflow through AI candidate ranking or active learning.</div>
+        <div class="metric-item">Establish baseline metrics and error taxonomy for at least one map intelligence task.</div>
+        <div class="metric-item">Create confidence scoring logic for at least one map object type: road attribute, POI, traffic sign, entrance, or geofence.</div>
+        <div class="metric-item">Publish internal documentation: dataset spec, annotation guideline, model benchmark, error analysis, and next-step recommendation.</div>
+        <div class="metric-item">Support Engineering / MapOps in moving one prototype toward a repeatable pipeline.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Product Scope -->
+  <div class="section">
+    <div class="section-head"><div class="sec-num">5</div><h2>Product Scope</h2></div>
+    <div class="sec-body">
+      <table class="scope-table">
+        <tr><th>Product Line</th><th>Responsibility</th></tr>
+        <tr><td>V-Base-Maps</td><td>Road attributes, POI intelligence, map freshness, data completeness</td></tr>
+        <tr><td>V-Navigation-Maps</td><td>Lane guidance, turn restrictions, speed limits, road graph quality</td></tr>
+        <tr><td>HD Maps / ADAS Maps</td><td>Lane-level attributes, road geometry, intersection intelligence</td></tr>
+        <tr><td>Location &amp; AI Search</td><td>POI confidence, signboard OCR, address / entrance signals</td></tr>
+        <tr><td>Contributor Platform</td><td>AI-assisted candidate generation, validation queues, QA scoring</td></tr>
+        <tr><td>Mobility Data Platform</td><td>GPS probe analysis, trajectory features, traffic and safety signals</td></tr>
+        <tr><td>Map Editor / Internal Tools</td><td>Human-in-the-loop review, model-assisted editing, QA dashboard</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 6. Technical Areas -->
+  <div class="section">
+    <div class="section-head"><div class="sec-num">6</div><h2>Technical Working Areas</h2></div>
+    <div class="sec-body">
+      <div class="tech-wrap">
+        <span class="tech-tag">Geospatial AI benchmarks</span><span class="tech-tag">Satellite / aerial imagery</span>
+        <span class="tech-tag">Street-level imagery</span><span class="tech-tag">Road graph &amp; lane topology</span>
+        <span class="tech-tag">Traffic sign / lane marking detection</span><span class="tech-tag">POI signboard OCR</span>
+        <span class="tech-tag">GPS probe feature engineering</span><span class="tech-tag">Map confidence scoring</span>
+        <span class="tech-tag">Active learning &amp; HITL labeling</span><span class="tech-tag">PostGIS / DuckDB / Python</span>
+        <span class="tech-tag">Model evaluation dashboards</span><span class="tech-tag">Research-to-production documentation</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Role Positioning -->
+  <div class="section">
+    <div class="section-head"><div class="sec-num">7</div><h2>How This Role Differs</h2></div>
+    <div class="sec-body">
+
+      <!-- CHART 3: Role Hub Diagram -->
+      <div style="margin-bottom:20px;">
+        <svg viewBox="0 0 860 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+          <!-- Lines from center -->
+          <line x1="430" y1="100" x2="150" y2="100" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="5,3"/>
+          <line x1="430" y1="100" x2="710" y2="100" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="5,3"/>
+          <line x1="430" y1="100" x2="430" y2="25"  stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="5,3"/>
+          <line x1="430" y1="100" x2="430" y2="175" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="5,3"/>
+          <!-- Satellite boxes -->
+          <!-- MapOps (left) -->
+          <rect x="10" y="72" width="136" height="56" rx="10" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5"/>
+          <text x="78" y="96" text-anchor="middle" font-size="12" font-weight="700" fill="#334155" font-family="Arial, sans-serif">MapOps</text>
+          <text x="78" y="113" text-anchor="middle" font-size="10" fill="#64748b" font-family="Arial, sans-serif">Validates &amp; corrects</text>
+          <text x="78" y="124" text-anchor="middle" font-size="10" fill="#64748b" font-family="Arial, sans-serif">map data manually</text>
+          <!-- AI Engineering (right) -->
+          <rect x="714" y="72" width="136" height="56" rx="10" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5"/>
+          <text x="782" y="96" text-anchor="middle" font-size="12" font-weight="700" fill="#334155" font-family="Arial, sans-serif">AI Engineering</text>
+          <text x="782" y="113" text-anchor="middle" font-size="10" fill="#64748b" font-family="Arial, sans-serif">Builds model infra</text>
+          <text x="782" y="124" text-anchor="middle" font-size="10" fill="#64748b" font-family="Arial, sans-serif">&amp; production services</text>
+          <!-- Data Science (top) -->
+          <rect x="340" y="0" width="180" height="22" rx="8" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5"/>
+          <text x="430" y="15" text-anchor="middle" font-size="11" font-weight="700" fill="#334155" font-family="Arial, sans-serif">Data Science — ETA, Routing, Analytics</text>
+          <!-- Product (bottom) -->
+          <rect x="340" y="178" width="180" height="22" rx="8" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5"/>
+          <text x="430" y="193" text-anchor="middle" font-size="11" font-weight="700" fill="#334155" font-family="Arial, sans-serif">Product — Map roadmap, UX, impact</text>
+          <!-- Center: Map Scientist -->
+          <rect x="330" y="55" width="200" height="90" rx="14" fill="#0a2744" stroke="#1565c0" stroke-width="2"/>
+          <text x="430" y="88" text-anchor="middle" font-size="13" font-weight="800" fill="white" font-family="Arial, sans-serif">MAP SCIENTIST</text>
+          <text x="430" y="107" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.7)" font-family="Arial, sans-serif">Research · Benchmark · Prototype</text>
+          <text x="430" y="122" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.7)" font-family="Arial, sans-serif">AI-assisted map making</text>
+          <text x="430" y="137" text-anchor="middle" font-size="9" fill="#00897b" font-family="Arial, sans-serif">⬤ Tasco Mapping</text>
+        </svg>
+      </div>
+
+      <table class="diff-table">
+        <tr><th>Role</th><th>Main Ownership</th></tr>
+        <tr><td>Map Operations Specialist</td><td>Maintains and validates map data manually / operationally</td></tr>
+        <tr><td>POI / Geocoding Ops Specialist</td><td>Owns POI, address, search, geocoding, and geofence quality</td></tr>
+        <tr><td>Data Scientist</td><td>Builds analytics / ML models for ETA, routing quality, trajectory intelligence, and optimization</td></tr>
+        <tr><td>AI Engineer</td><td>Builds scalable model training and inference infrastructure</td></tr>
+        <tr class="hl"><td>Map Scientist</td><td>Converts map problems into scientific experiments, benchmarks, prototypes, and AI-assisted map-making workflows</td></tr>
+      </table>
+      <p class="diff-note">MapOps ensures the map is correct today. Engineering ensures the system scales. Data Science models trip and route behavior. <strong>Map Scientist</strong> builds the scientific bridge that helps Tasco Maps infer, validate, and update map data faster and more intelligently.</p>
+    </div>
+  </div>
+
+  <!-- Apply -->
+  <div class="section">
+    <div class="apply-box">
+      <h2>How to Apply</h2>
+      <p>Send your email with subject <strong>[Tasco Mapping Application - Map Scientist]</strong> with your CV and a portfolio or description of relevant projects in GIS, mapping, computer vision, machine learning, remote sensing, road networks, OSM, traffic, mobility, or geospatial data science.</p>
+      <div>
+        <a class="apply-email" href="mailto:phung.dm@tasco.com.vn">phung.dm@tasco.com.vn</a>
+        <a class="apply-email" href="mailto:tuyendung@vtii.vn" style="background:var(--blue);">tuyendung@vtii.vn</a>
+      </div>
+      <div class="apply-subj">[Tasco Mapping Application - Map Scientist]</div>
+      <p class="apply-note">GitHub repositories, OSM contribution links, notebooks, thesis work, research summaries, benchmark reports, or sample geospatial analysis projects are encouraged.</p>
+    </div>
+  </div>
+
+</div>
+<footer>© 2025 TASCO.COM.VN &nbsp;·&nbsp; Mapping Division &nbsp;·&nbsp; Tasco Building, Pham Hung, Hanoi</footer>
+</body>
+</html>

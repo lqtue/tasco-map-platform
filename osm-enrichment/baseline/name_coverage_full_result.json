@@ -1,0 +1,65 @@
+{
+  "scope": "motorway,trunk,primary,secondary,tertiary,unclassified,residential,living_street,service,pedestrian,road (+ _link folded into parent)",
+  "total_km": 653232.0,
+  "named_km": 112709.5,
+  "no_name_km": 540522.5,
+  "pct_named": 17.3,
+  "any_name_km": 112739.7,
+  "per_class": {
+    "motorway": {
+      "total_km": 6902.0,
+      "named_km": 6552.1,
+      "no_name_km": 349.9
+    },
+    "trunk": {
+      "total_km": 23383.6,
+      "named_km": 22241.5,
+      "no_name_km": 1142.2
+    },
+    "primary": {
+      "total_km": 17748.3,
+      "named_km": 16308.9,
+      "no_name_km": 1439.5
+    },
+    "secondary": {
+      "total_km": 30583.1,
+      "named_km": 25242.1,
+      "no_name_km": 5340.9
+    },
+    "tertiary": {
+      "total_km": 56873.8,
+      "named_km": 14677.5,
+      "no_name_km": 42196.3
+    },
+    "unclassified": {
+      "total_km": 77260.8,
+      "named_km": 2613.6,
+      "no_name_km": 74647.2
+    },
+    "residential": {
+      "total_km": 369033.8,
+      "named_km": 21772.1,
+      "no_name_km": 347261.6
+    },
+    "living_street": {
+      "total_km": 924.7,
+      "named_km": 71.3,
+      "no_name_km": 853.4
+    },
+    "service": {
+      "total_km": 70173.1,
+      "named_km": 3213.3,
+      "no_name_km": 66959.9
+    },
+    "pedestrian": {
+      "total_km": 187.9,
+      "named_km": 15.3,
+      "no_name_km": 172.5
+    },
+    "road": {
+      "total_km": 160.9,
+      "named_km": 1.8,
+      "no_name_km": 159.2
+    }
+  }
+}

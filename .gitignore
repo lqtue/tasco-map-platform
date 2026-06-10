@@ -1,0 +1,9 @@
+config/.env
+pipeline/downloads/
+pipeline/cogs/
+*.pyc
+__pycache__/
+.DS_Store
+*.pbf
+coverage/.venv/
+coverage/data/

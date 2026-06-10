@@ -1,0 +1,17 @@
+[general]
+name=TASCO Timeseries Viewer
+qgisMinimumVersion=3.22
+description=Browse and load timeseries satellite imagery from the TASCO tile server
+version=0.1.0
+author=TASCO Map Team
+email=map@tasco.com.vn
+about=Connects to the TASCO internal timeseries tile server. Browse available satellite imagery dates for the Hanoi AOI, load them as XYZ tile layers, and compare imagery across time periods.
+tracker=https://github.com/tasco-maps/qgis-timeseries-viewer/issues
+repository=https://github.com/tasco-maps/qgis-timeseries-viewer
+tags=tiles,satellite,imagery,timeseries,tasco,hanoi
+homepage=https://github.com/tasco-maps/qgis-timeseries-viewer
+category=Web
+icon=icon.png
+experimental=True
+deprecated=False
+hasProcessingProvider=no

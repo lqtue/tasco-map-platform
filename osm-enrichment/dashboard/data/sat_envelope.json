@@ -1,0 +1,36 @@
+{
+  "thresholds": {
+    "0.00": {
+      "urban": 84558.8,
+      "union_landisland": 84558.8,
+      "union_no_island": 84558.8
+    },
+    "0.05": {
+      "urban": 25935.9,
+      "union_landisland": 30258.5,
+      "union_no_island": 29434.6
+    },
+    "0.10": {
+      "urban": 15354.9,
+      "union_landisland": 20350.3,
+      "union_no_island": 19514.8
+    },
+    "0.20": {
+      "urban": 7054.2,
+      "union_landisland": 12890.7,
+      "union_no_island": 12044.5
+    },
+    "0.30": {
+      "urban": 3562.5,
+      "union_landisland": 9889.4,
+      "union_no_island": 9038.9
+    }
+  },
+  "components_fixed_km2": {
+    "road_built": 5662.0,
+    "road_constr": 380.9,
+    "island_land": 866.6,
+    "island_zone": 6370.2,
+    "total_candidate": 84558.8
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "unit": "km_geodesic_wgs84",
+  "classes": {
+    "primary": {
+      "total_km": 17538.652979970215,
+      "maxspeed_km": 3123.381920610292,
+      "any_maxspeed_km": 3441.025027273633,
+      "pct_maxspeed": 17.808562175084425,
+      "n_ways": 20445,
+      "n_ways_maxspeed": 3783
+    },
+    "tertiary": {
+      "total_km": 56693.47364077621,
+      "maxspeed_km": 1177.5050564567398,
+      "any_maxspeed_km": 1437.1248473580551,
+      "pct_maxspeed": 2.076967560530338,
+      "n_ways": 53545,
+      "n_ways_maxspeed": 2082
+    },
+    "primary_link": {
+      "total_km": 209.6763994920978,
+      "maxspeed_km": 9.014272298317344,
+      "any_maxspeed_km": 10.084551950029581,
+      "pct_maxspeed": 4.299135391561829,
+      "n_ways": 5275,
+      "n_ways_maxspeed": 120
+    },
+    "trunk": {
+      "total_km": 23087.444956215633,
+      "maxspeed_km": 5020.372985077823,
+      "any_maxspeed_km": 5937.575482817913,
+      "pct_maxspeed": 21.745034994555475,
+      "n_ways": 21150,
+      "n_ways_maxspeed": 5761
+    },
+    "motorway": {
+      "total_km": 6036.698631844346,
+      "maxspeed_km": 5821.757720015666,
+      "any_maxspeed_km": 5881.20860106308,
+      "pct_maxspeed": 96.43942948062968,
+      "n_ways": 6303,
+      "n_ways_maxspeed": 5970
+    },
+    "motorway_link": {
+      "total_km": 865.3231682219747,
+      "maxspeed_km": 370.4181335751409,
+      "any_maxspeed_km": 371.01292373862054,
+      "pct_maxspeed": 42.80691274408596,
+      "n_ways": 2786,
+      "n_ways_maxspeed": 1062
+    },
+    "secondary": {
+      "total_km": 30414.654891548023,
+      "maxspeed_km": 2129.722053909819,
+      "any_maxspeed_km": 2431.9496391070243,
+      "pct_maxspeed": 7.0022890659254236,
+      "n_ways": 31024,
+      "n_ways_maxspeed": 2485
+    },
+    "secondary_link": {
+      "total_km": 168.43309394063408,
+      "maxspeed_km": 2.8560230062137792,
+      "any_maxspeed_km": 6.650107512613692,
+      "pct_maxspeed": 1.695642429521845,
+      "n_ways": 4110,
+      "n_ways_maxspeed": 52
+    },
+    "trunk_link": {
+      "total_km": 296.1743313007492,
+      "maxspeed_km": 45.094248353965995,
+      "any_maxspeed_km": 46.98448679357714,
+      "pct_maxspeed": 15.225576151693984,
+      "n_ways": 5183,
+      "n_ways_maxspeed": 354
+    },
+    "tertiary_link": {
+      "total_km": 180.31557249647835,
+      "maxspeed_km": 3.576421754248474,
+      "any_maxspeed_km": 4.348623507767844,
+      "pct_maxspeed": 1.9834236748012009,
+      "n_ways": 2618,
+      "n_ways_maxspeed": 37
+    }
+  },
+  "tertiary_plus": {
+    "total_km": 133770.92510035442,
+    "maxspeed_km": 17272.73973607034,
+    "any_maxspeed_km": 19128.883597619704,
+    "pct_maxspeed": 12.912177831701767
+  }
+}

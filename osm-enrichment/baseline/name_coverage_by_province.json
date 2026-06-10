@@ -1,0 +1,240 @@
+[
+  {
+    "province":"tỉnh Thanh Hóa",
+    "total_km":5483.6,
+    "named_km":2846.9,
+    "no_name_km":2636.7,
+    "pct_named":51.9
+  },
+  {
+    "province":"tỉnh Lâm Đồng",
+    "total_km":6794.8,
+    "named_km":4364.6,
+    "no_name_km":2430.2,
+    "pct_named":64.2
+  },
+  {
+    "province":"tỉnh Phú Thọ",
+    "total_km":5255.6,
+    "named_km":2918.2,
+    "no_name_km":2337.4,
+    "pct_named":55.5
+  },
+  {
+    "province":"tỉnh Đắk Lắk",
+    "total_km":5068.8,
+    "named_km":2888.8,
+    "no_name_km":2180.1,
+    "pct_named":57.0
+  },
+  {
+    "province":"tỉnh Tuyên Quang",
+    "total_km":4274.8,
+    "named_km":2136.7,
+    "no_name_km":2138.1,
+    "pct_named":50.0
+  },
+  {
+    "province":"tỉnh Quảng Ngãi",
+    "total_km":4530.2,
+    "named_km":2445.4,
+    "no_name_km":2084.9,
+    "pct_named":54.0
+  },
+  {
+    "province":"tỉnh Bắc Ninh",
+    "total_km":4074.4,
+    "named_km":2048.3,
+    "no_name_km":2026.1,
+    "pct_named":50.3
+  },
+  {
+    "province":"tỉnh Gia Lai",
+    "total_km":5365.9,
+    "named_km":3574.1,
+    "no_name_km":1791.8,
+    "pct_named":66.6
+  },
+  {
+    "province":"tỉnh Nghệ An",
+    "total_km":4404.8,
+    "named_km":2614.1,
+    "no_name_km":1790.7,
+    "pct_named":59.3
+  },
+  {
+    "province":"tỉnh Sơn La",
+    "total_km":3508.5,
+    "named_km":1803.6,
+    "no_name_km":1704.9,
+    "pct_named":51.4
+  },
+  {
+    "province":"tỉnh Lào Cai",
+    "total_km":4207.2,
+    "named_km":2507.5,
+    "no_name_km":1699.7,
+    "pct_named":59.6
+  },
+  {
+    "province":"tỉnh Đồng Nai",
+    "total_km":5078.3,
+    "named_km":3456.6,
+    "no_name_km":1621.6,
+    "pct_named":68.1
+  },
+  {
+    "province":"tỉnh Lạng Sơn",
+    "total_km":2728.8,
+    "named_km":1331.7,
+    "no_name_km":1397.0,
+    "pct_named":48.8
+  },
+  {
+    "province":"tỉnh Hà Tĩnh",
+    "total_km":3078.9,
+    "named_km":1717.5,
+    "no_name_km":1361.4,
+    "pct_named":55.8
+  },
+  {
+    "province":"tỉnh Thái Nguyên",
+    "total_km":3056.5,
+    "named_km":1702.9,
+    "no_name_km":1353.6,
+    "pct_named":55.7
+  },
+  {
+    "province":"tỉnh Cao Bằng",
+    "total_km":2199.9,
+    "named_km":855.8,
+    "no_name_km":1344.1,
+    "pct_named":38.9
+  },
+  {
+    "province":"thành phố Hải Phòng",
+    "total_km":3383.3,
+    "named_km":2067.6,
+    "no_name_km":1315.7,
+    "pct_named":61.1
+  },
+  {
+    "province":"Thủ đô Hà Nội",
+    "total_km":4675.5,
+    "named_km":3363.0,
+    "no_name_km":1312.5,
+    "pct_named":71.9
+  },
+  {
+    "province":"tỉnh Quảng Ninh",
+    "total_km":3014.2,
+    "named_km":1704.3,
+    "no_name_km":1309.8,
+    "pct_named":56.5
+  },
+  {
+    "province":"tỉnh Hưng Yên",
+    "total_km":2684.6,
+    "named_km":1438.5,
+    "no_name_km":1246.1,
+    "pct_named":53.6
+  },
+  {
+    "province":"thành phố Đà Nẵng",
+    "total_km":4128.1,
+    "named_km":2896.2,
+    "no_name_km":1231.9,
+    "pct_named":70.2
+  },
+  {
+    "province":"tỉnh Ninh BÌnh",
+    "total_km":3616.3,
+    "named_km":2386.7,
+    "no_name_km":1229.6,
+    "pct_named":66.0
+  },
+  {
+    "province":"tỉnh Lai Châu",
+    "total_km":2407.2,
+    "named_km":1213.5,
+    "no_name_km":1193.8,
+    "pct_named":50.4
+  },
+  {
+    "province":"tỉnh Tây Ninh",
+    "total_km":4605.1,
+    "named_km":3466.5,
+    "no_name_km":1138.5,
+    "pct_named":75.3
+  },
+  {
+    "province":"tỉnh Đồng Tháp",
+    "total_km":3409.5,
+    "named_km":2278.3,
+    "no_name_km":1131.3,
+    "pct_named":66.8
+  },
+  {
+    "province":"tỉnh Vĩnh Long",
+    "total_km":3753.8,
+    "named_km":2652.2,
+    "no_name_km":1101.6,
+    "pct_named":70.7
+  },
+  {
+    "province":"tỉnh Quảng Trị",
+    "total_km":3865.8,
+    "named_km":2838.3,
+    "no_name_km":1027.5,
+    "pct_named":73.4
+  },
+  {
+    "province":"thành phố Cần Thơ",
+    "total_km":3729.2,
+    "named_km":2769.1,
+    "no_name_km":960.1,
+    "pct_named":74.3
+  },
+  {
+    "province":"tỉnh An Giang",
+    "total_km":3564.8,
+    "named_km":2645.9,
+    "no_name_km":918.9,
+    "pct_named":74.2
+  },
+  {
+    "province":"thành phố Hồ Chí Minh",
+    "total_km":7414.5,
+    "named_km":6670.9,
+    "no_name_km":743.6,
+    "pct_named":90.0
+  },
+  {
+    "province":"tỉnh Cà Mau",
+    "total_km":2265.3,
+    "named_km":1567.0,
+    "no_name_km":698.3,
+    "pct_named":69.2
+  },
+  {
+    "province":"thành phố Huế",
+    "total_km":1760.0,
+    "named_km":1227.1,
+    "no_name_km":533.0,
+    "pct_named":69.7
+  },
+  {
+    "province":"tỉnh Điện Biên",
+    "total_km":1513.6,
+    "named_km":993.1,
+    "no_name_km":520.5,
+    "pct_named":65.6
+  },
+  {
+    "province":"tỉnh Khánh Hòa",
+    "total_km":3151.5,
+    "named_km":2698.4,
+    "no_name_km":453.1,
+    "pct_named":85.6
+  }
+]

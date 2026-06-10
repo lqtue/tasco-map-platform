@@ -1,0 +1,35 @@
+{
+  "scope": "tertiary_plus (motorway,trunk,primary,secondary,tertiary + _link folded in)",
+  "total_km": 135490.8,
+  "named_km": 85022.1,
+  "no_name_km": 50468.7,
+  "pct_named": 62.8,
+  "any_name_km": 85040.2,
+  "per_class": {
+    "motorway": {
+      "total_km": 6902.0,
+      "named_km": 6552.1,
+      "no_name_km": 349.9
+    },
+    "trunk": {
+      "total_km": 23383.6,
+      "named_km": 22241.5,
+      "no_name_km": 1142.2
+    },
+    "primary": {
+      "total_km": 17748.3,
+      "named_km": 16308.9,
+      "no_name_km": 1439.5
+    },
+    "secondary": {
+      "total_km": 30583.1,
+      "named_km": 25242.1,
+      "no_name_km": 5340.9
+    },
+    "tertiary": {
+      "total_km": 56873.8,
+      "named_km": 14677.5,
+      "no_name_km": 42196.3
+    }
+  }
+}

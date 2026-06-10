@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<imagery>
+    <!-- TASCO Timeseries Satellite Imagery — Latest -->
+    <entry>
+        <name>TASCO Satellite (Latest)</name>
+        <id>tasco-satellite-latest</id>
+        <type>tms</type>
+        <url>https://tiles.tasco-internal.vn/sentinel2/latest/tiles/{zoom}/{x}/{y}.png</url>
+        <min-zoom>5</min-zoom>
+        <max-zoom>18</max-zoom>
+        <category>photo</category>
+        <description>Latest Sentinel-2 composite from TASCO internal tile server</description>
+    </entry>
+
+    <!--
+    To add a specific date, duplicate the entry above and change the URL:
+    https://tiles.tasco-internal.vn/sentinel2/2025-03/tiles/{zoom}/{x}/{y}.png
+    -->
+</imagery>

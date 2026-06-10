@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Map Operations Specialist (POI & Search) – TASCO Mapping</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root { --navy:#0a2744; --blue:#1565c0; --accent:#6a1b9a; --accent-light:#f3e5f5; --gold:#f9a825; --bg:#f5f7fa; --surface:#ffffff; --border:#dde3ed; --text:#1a1a2e; --muted:#5a6580; --tag-bg:#f3e5f5; --tag-text:#4a148c; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); line-height:1.6; font-size:14px; }
+  .topbar { background:var(--navy); padding:9px 44px; display:flex; align-items:center; gap:12px; }
+  .topbar-logo { font-size:12px; font-weight:700; color:#fff; letter-spacing:1.2px; }
+  .topbar-div  { width:1px; height:14px; background:rgba(255,255,255,0.25); }
+  .topbar-dept { font-size:11px; color:rgba(255,255,255,0.6); letter-spacing:0.5px; }
+  .hero { background:linear-gradient(135deg,#0a2744 0%,#2a0a4a 55%,#4a148c 100%); padding:48px 44px 44px; position:relative; overflow:hidden; }
+  .hero::before { content:''; position:absolute; right:-60px; top:-60px; width:400px; height:400px; border-radius:50%; background:rgba(106,27,154,0.1); }
+  .hero-tag { display:inline-block; background:var(--accent); color:#fff; font-size:10px; font-weight:700; letter-spacing:1.4px; text-transform:uppercase; padding:3px 11px; border-radius:20px; margin-bottom:14px; }
+  .hero h1   { font-size:36px; font-weight:800; color:#fff; line-height:1.2; margin-bottom:10px; }
+  .hero-sub  { font-size:13px; color:rgba(255,255,255,0.7); margin-bottom:22px; }
+  .hero-meta { display:flex; flex-wrap:wrap; gap:7px; }
+  .hero-pill { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.18); color:rgba(255,255,255,0.85); font-size:11px; font-weight:500; padding:4px 12px; border-radius:20px; }
+  .about { background:var(--surface); border-bottom:1px solid var(--border); }
+  .about-inner { max-width:900px; margin:0 auto; padding:40px 24px; }
+  .sec-label { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--accent); margin-bottom:4px; }
+  .sec-title { font-size:24px; font-weight:800; color:var(--navy); margin-bottom:4px; }
+  .sec-divider { width:36px; height:3px; background:var(--accent); border-radius:2px; margin-bottom:28px; }
+  .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:28px; }
+  .vision-box { background:var(--bg); border-radius:10px; padding:22px; border-left:4px solid var(--blue); }
+  .vision-box h3 { font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--blue); margin-bottom:8px; }
+  .vision-box p  { font-size:14px; line-height:1.7; }
+  .corp-table { width:100%; border-collapse:collapse; border-radius:10px; overflow:hidden; }
+  .corp-table th { background:var(--navy); color:#fff; text-align:left; padding:9px 13px; font-size:11px; font-weight:600; }
+  .corp-table td { padding:8px 13px; font-size:12.5px; border-bottom:1px solid var(--border); }
+  .corp-table tr:last-child td { border-bottom:none; }
+  .corp-table td:first-child { color:var(--muted); font-weight:500; background:#f8fafc; width:160px; font-size:11.5px; }
+  .corp-table td:last-child  { font-weight:600; color:var(--navy); }
+  .corp-link { color:var(--blue); text-decoration:none; }
+  .eco-pillars { margin-top:24px; }
+  .numbers { background:var(--navy); padding:40px 24px; }
+  .numbers-inner { max-width:900px; margin:0 auto; }
+  .numbers-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:24px; }
+  .num-card { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:20px 22px; }
+  .num-card-title { font-size:10px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:var(--gold); margin-bottom:16px; }
+  .num-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; }
+  .num-stat-val { font-size:19px; font-weight:800; color:#fff; line-height:1; white-space:nowrap; }
+  .num-stat-lbl { font-size:9.5px; color:rgba(255,255,255,0.6); margin-top:3px; line-height:1.3; }
+  .main { max-width:900px; margin:0 auto; padding:40px 24px; }
+  .section { margin-bottom:40px; }
+  .section-head { display:flex; align-items:center; gap:12px; margin-bottom:20px; }
+  .sec-num { display:flex; align-items:center; justify-content:center; width:28px; height:28px; background:var(--navy); color:#fff; border-radius:50%; font-size:12px; font-weight:700; flex-shrink:0; }
+  .section-head h2 { font-size:18px; font-weight:700; color:var(--navy); }
+  .sec-body { padding-left:40px; }
+  .overview-table { width:100%; border-collapse:collapse; border-radius:10px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.07); }
+  .overview-table td { padding:10px 16px; border-bottom:1px solid var(--border); font-size:13px; }
+  .overview-table tr:last-child td { border-bottom:none; }
+  .overview-table td:first-child { width:160px; font-weight:600; color:var(--muted); background:#f8fafc; font-size:11.5px; text-transform:uppercase; letter-spacing:0.5px; }
+  .purpose-box { background:var(--bg); border-radius:10px; padding:20px 24px; border-left:4px solid var(--accent); font-size:14px; line-height:1.8; }
+  .purpose-box p { margin-bottom:10px; }
+  .purpose-box p:last-child { margin-bottom:0; }
+  .resp-area { margin-bottom:24px; }
+  .resp-title { display:inline-flex; font-size:13px; font-weight:700; color:var(--accent); background:var(--tag-bg); padding:5px 12px; border-radius:7px; margin-bottom:12px; }
+  .resp-list { list-style:none; padding:0; display:flex; flex-direction:column; gap:7px; }
+  .resp-list li { display:flex; gap:9px; font-size:13px; line-height:1.65; }
+  .resp-list li::before { content:'→'; color:var(--accent); font-weight:700; flex-shrink:0; margin-top:1px; }
+  .req-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .req-box { border-radius:10px; padding:20px; border:1px solid var(--border); background:#fff; }
+  .req-box.must { border-top:3px solid var(--navy); } .req-box.nice { border-top:3px solid var(--accent); } .req-box.soft { border-top:3px solid var(--gold); grid-column:1/-1; }
+  .req-box h3 { font-size:11px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; margin-bottom:14px; }
+  .req-box.must h3 { color:var(--navy); } .req-box.nice h3 { color:var(--accent); } .req-box.soft h3 { color:#9a6700; }
+  .req-list { list-style:none; padding:0; display:flex; flex-direction:column; gap:7px; }
+  .req-list li { display:flex; gap:7px; font-size:13px; line-height:1.6; }
+  .req-list li::before { content:'✓'; font-weight:700; flex-shrink:0; }
+  .req-box.must .req-list li::before { color:var(--navy); } .req-box.nice .req-list li::before { color:var(--accent); } .req-box.soft .req-list li::before { color:var(--gold); }
+  .metrics-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .metric-item { background:var(--accent-light); border-radius:8px; padding:12px 16px; display:flex; gap:8px; align-items:flex-start; font-size:13px; line-height:1.55; border-left:3px solid var(--accent); }
+  .metric-item::before { content:'◆'; color:var(--accent); font-size:9px; flex-shrink:0; margin-top:3px; }
+  .scope-table { width:100%; border-collapse:collapse; border-radius:10px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.07); }
+  .scope-table th { background:var(--navy); color:#fff; text-align:left; padding:10px 16px; font-size:12px; font-weight:600; }
+  .scope-table td { padding:9px 16px; font-size:13px; border-bottom:1px solid var(--border); vertical-align:top; }
+  .scope-table tr:last-child td { border-bottom:none; }
+  .scope-table td:first-child { font-weight:600; color:var(--navy); background:#f8fafc; width:190px; }
+  .tech-wrap { display:flex; flex-wrap:wrap; gap:7px; }
+  .tech-tag { background:var(--tag-bg); color:var(--tag-text); font-size:12px; font-weight:500; padding:4px 11px; border-radius:6px; }
+  .diff-table { width:100%; border-collapse:collapse; border-radius:10px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.07); }
+  .diff-table th { background:#334155; color:#fff; text-align:left; padding:10px 16px; font-size:12px; font-weight:600; }
+  .diff-table td { padding:9px 16px; font-size:12.5px; border-bottom:1px solid var(--border); vertical-align:top; }
+  .diff-table tr:last-child td { border-bottom:none; }
+  .diff-table td:first-child { font-weight:600; color:var(--navy); background:#f8fafc; width:180px; }
+  .diff-table .hl td { background:var(--accent-light); }
+  .diff-table .hl td:first-child { color:var(--accent); }
+  .diff-note { margin-top:12px; font-size:13px; color:var(--muted); font-style:italic; padding:10px 14px; background:var(--bg); border-radius:8px; line-height:1.6; }
+  .apply-box { background:linear-gradient(135deg,var(--navy),#2a0a4a); border-radius:14px; padding:36px; text-align:center; }
+  .apply-box h2 { font-size:22px; font-weight:800; color:#fff; margin-bottom:8px; }
+  .apply-box p  { color:rgba(255,255,255,0.75); font-size:13px; margin-bottom:20px; line-height:1.7; }
+  .apply-email  { display:inline-block; background:var(--accent); color:#fff; font-size:13px; font-weight:600; padding:10px 24px; border-radius:8px; text-decoration:none; margin:3px; }
+  .apply-subj   { background:rgba(255,255,255,0.1); border-radius:7px; padding:8px 16px; display:inline-block; font-size:12px; color:rgba(255,255,255,0.85); font-family:monospace; margin-top:14px; }
+  .apply-note   { font-size:12px; color:rgba(255,255,255,0.5); margin-top:12px; line-height:1.6; }
+  footer { background:#0a1929; padding:16px 44px; text-align:center; font-size:11px; color:rgba(255,255,255,0.3); }
+  @media print {
+    * { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+    body { font-size:12px; background:#fff; }
+    .topbar { display:none; }
+    .hero { padding:26px 28px 22px; }
+    .hero h1 { font-size:26px; margin-bottom:6px; }
+    .hero-sub { margin-bottom:14px; font-size:12px; }
+    .hero-pill { font-size:10px; padding:3px 10px; }
+    .hero-tag  { font-size:9px; margin-bottom:10px; }
+    .about-inner  { padding:22px 20px 18px; }
+    .about-grid   { gap:18px; }
+    .vision-box   { padding:16px 18px; }
+    .eco-pillars  { margin-top:14px; }
+    .sec-label    { font-size:9px; }
+    .sec-title    { font-size:20px; }
+    .sec-divider  { margin-bottom:18px; }
+    .numbers      { padding:28px 20px 24px; }
+    .numbers-inner { padding:0; }
+    .numbers-grid  { margin-top:14px; gap:14px; }
+    .num-card      { padding:14px 16px; }
+    .num-card-title{ margin-bottom:10px; }
+    .num-stat-val  { font-size:17px; }
+    .num-stat-lbl  { font-size:9px; }
+    .main { padding:24px 20px; }
+    .section { margin-bottom:22px; }
+    .purpose-box { padding:16px 20px; font-size:13px; }
+    .resp-list li  { font-size:12px; }
+    .req-box       { padding:16px; }
+    .metric-item   { padding:10px 14px; font-size:12px; }
+    .scope-table td, .scope-table th { padding:7px 13px; font-size:12px; }
+    .diff-table td, .diff-table th   { padding:7px 13px; font-size:12px; }
+    .apply-box { page-break-inside:avoid; padding:28px; }
+    footer { display:none; }
+  }
+</style>
+</head>
+<body>
+<div class="topbar"><span class="topbar-logo">TASCO.COM.VN</span><span class="topbar-div"></span><span class="topbar-dept">MAPPING DIVISION — JOB DESCRIPTION</span></div>
+
+<div class="hero">
+  <div class="hero-tag">Map Operations · POI &amp; Search</div>
+  <h1>Map Operations Specialist<br><span style="font-size:0.65em;font-weight:500;opacity:0.85;">POI, Geocoding &amp; Search</span></h1>
+  <p class="hero-sub">POI Data Quality &nbsp;·&nbsp; Address Intelligence &nbsp;·&nbsp; Search Relevance &nbsp;·&nbsp; Geofencing</p>
+  <div class="hero-meta">
+    <span class="hero-pill">📍 Tasco Building, Hanoi – Pham Hung</span>
+    <span class="hero-pill">🏢 TASCO Mapping</span>
+    <span class="hero-pill">👤 Individual Contributor</span>
+    <span class="hero-pill">📊 Reports to Head of Mapping</span>
+    <span class="hero-pill">⏱ 2–4 years experience</span>
+  </div>
+</div>
+
+<div class="about">
+  <div class="about-inner">
+    <div class="sec-label">About the Company</div>
+    <div class="sec-title">About Tasco</div>
+    <div class="sec-divider"></div>
+    <div class="about-grid">
+      <div>
+        <div class="vision-box"><h3>Vision</h3><p>A technology-enabled investment ecosystem, integrating Smart Mobility, Insurance, and Investments in essential services and innovation.</p></div>
+        <div style="margin-top:18px;"><p style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Strategic Partners</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <span style="background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:5px 14px;font-size:12.5px;font-weight:600;color:var(--navy);">Geely Auto</span>
+            <span style="background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:5px 14px;font-size:12.5px;font-weight:600;color:var(--navy);">Mitsui &amp; Co.</span>
+            <span style="background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:5px 14px;font-size:12.5px;font-weight:600;color:var(--navy);">IFC – World Bank Group</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <table class="corp-table">
+          <tr><th colspan="2">Corporate Information</th></tr>
+          <tr><td>Stock Ticker</td><td>HUT (HNX)</td></tr>
+          <tr><td>Established</td><td>1971</td></tr>
+          <tr><td>Subsidiaries &amp; Affiliates</td><td>88</td></tr>
+          <tr><td>Employees</td><td>~10,000</td></tr>
+          <tr><td>Consolidated Sales</td><td>$1.4 billion</td></tr>
+          <tr><td>Total Assets</td><td>$1.98 billion</td></tr>
+          <tr><td>Website</td><td><a class="corp-link" href="https://tasco.com.vn">tasco.com.vn</a></td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="eco-pillars">
+      <p style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Business Ecosystem</p>
+      <svg viewBox="0 0 860 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+        <rect x="0" y="0" width="272" height="130" rx="10" fill="#e8f0fe" stroke="#1565c0" stroke-width="1.5"/><rect x="0" y="0" width="272" height="34" rx="10" fill="#1565c0"/><rect x="0" y="24" width="272" height="10" fill="#1565c0"/>
+        <text x="136" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="white" font-family="Arial, sans-serif">MOBILITY</text>
+        <text x="136" y="56" text-anchor="middle" font-size="11.5" fill="#1a3a6e" font-family="Arial, sans-serif">Tasco Auto</text><text x="136" y="74" text-anchor="middle" font-size="11.5" fill="#1a3a6e" font-family="Arial, sans-serif">VETC</text><text x="136" y="92" text-anchor="middle" font-size="11.5" fill="#1a3a6e" font-family="Arial, sans-serif">Carpla</text><text x="136" y="110" text-anchor="middle" font-size="11.5" fill="#1a3a6e" font-family="Arial, sans-serif">VETC Go</text>
+        <rect x="294" y="0" width="272" height="130" rx="10" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5"/><rect x="294" y="0" width="272" height="34" rx="10" fill="#2e7d32"/><rect x="294" y="24" width="272" height="10" fill="#2e7d32"/>
+        <text x="430" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="white" font-family="Arial, sans-serif">INSURANCE</text>
+        <text x="430" y="56" text-anchor="middle" font-size="11.5" fill="#1b5e20" font-family="Arial, sans-serif">Tasco Insurance</text><text x="430" y="74" text-anchor="middle" font-size="11.5" fill="#1b5e20" font-family="Arial, sans-serif">Tasco Finance</text>
+        <rect x="588" y="0" width="272" height="130" rx="10" fill="#fff8e1" stroke="#f9a825" stroke-width="1.5"/><rect x="588" y="0" width="272" height="34" rx="10" fill="#f57f17"/><rect x="588" y="24" width="272" height="10" fill="#f57f17"/>
+        <text x="724" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="white" font-family="Arial, sans-serif">INVESTMENT</text>
+        <text x="724" y="56" text-anchor="middle" font-size="11.5" fill="#7a4a00" font-family="Arial, sans-serif">DNP Water · Tasco Mall</text><text x="724" y="74" text-anchor="middle" font-size="11.5" fill="#7a4a00" font-family="Arial, sans-serif">Ana Mandara Villas</text><text x="724" y="92" text-anchor="middle" font-size="11.5" fill="#7a4a00" font-family="Arial, sans-serif">Six Senses</text><text x="724" y="110" text-anchor="middle" font-size="11.5" fill="#7a4a00" font-family="Arial, sans-serif">Inochi</text>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<div class="numbers">
+  <div class="numbers-inner">
+    <div class="sec-label" style="color:rgba(255,255,255,0.5);">Why Tasco</div>
+    <div class="sec-title" style="color:#fff;">Our Mobility Ecosystem in Numbers</div>
+    <div class="sec-divider" style="background:var(--gold);"></div>
+    <div class="numbers-grid">
+      <div class="num-card"><div class="num-card-title">Tasco Auto</div>
+        <div class="num-grid">
+          <div><div class="num-stat-val">40k+</div><div class="num-stat-lbl">New Cars Sold</div></div>
+          <div><div class="num-stat-val">180</div><div class="num-stat-lbl">Showrooms</div></div>
+          <div><div class="num-stat-val">Top 5</div><div class="num-stat-lbl">Tax-paying Retailers</div></div>
+          <div><div class="num-stat-val">16</div><div class="num-stat-lbl">Car Brands</div></div>
+          <div><div class="num-stat-val">14.8%</div><div class="num-stat-lbl">Market Share</div></div>
+        </div>
+      </div>
+      <div class="num-card"><div class="num-card-title">VETC — ETC &amp; Mobility</div>
+        <div class="num-grid">
+          <div><div class="num-stat-val">4.2m</div><div class="num-stat-lbl">Car Owners</div></div>
+          <div><div class="num-stat-val">~300</div><div class="num-stat-lbl">Parking Lots</div></div>
+          <div><div class="num-stat-val">2m</div><div class="num-stat-lbl">Transactions / Day</div></div>
+          <div><div class="num-stat-val">650k</div><div class="num-stat-lbl">Car Repairs</div></div>
+          <div><div class="num-stat-val">75%</div><div class="num-stat-lbl">ETC Market Share</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="section">
+    <div class="section-head"><div class="sec-num">0</div><h2>Job Overview</h2></div>
+    <div class="sec-body">
+      <table class="overview-table">
+        <tr><td>Position</td><td>Map Operations Specialist — POI / Geocoding / Search</td></tr>
+        <tr><td>Focus</td><td>POI Data Quality, Geocoding, Search Relevance, Geofence Governance</td></tr>
+        <tr><td>Department</td><td>TASCO.COM.VN Mapping</td></tr>
+        <tr><td>Location</td><td>Tasco Building Hanoi, Pham Hung</td></tr>
+        <tr><td>Level</td><td>Individual Contributor</td></tr>
+        <tr><td>Reports to</td><td>Head of Mapping</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><div class="sec-num">1</div><h2>Job Purpose</h2></div>
+    <div class="sec-body">
+      <div class="purpose-box">
+        <p>The POI / Geocoding / Search Operations Specialist owns the quality, completeness, and usability of the place and address data that powers Tasco Maps, MyTasco, VETC mobility services, local search, discovery, routing destinations, and vehicle-related commerce.</p>
+        <p>This role is responsible for building and maintaining high-quality datasets for points of interest, addresses, entrances, access points, administrative hierarchy, search ranking signals, and geofences.</p>
+        <p>The role is not only about maintaining POIs. It is about building a <strong>Vietnam-localized place intelligence system</strong> for maps, navigation, parking, fuel, EV charging, toll stations, vehicle services, insurance, logistics, and local commerce.</p>
+      </div>
+      <!-- POI / Search Pipeline Diagram -->
+      <div style="margin-top:20px;">
+        <p style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">How the Role Works — Sources to Place Intelligence</p>
+        <svg viewBox="0 0 860 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+          <defs><marker id="arr" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#94a3b8"/></marker></defs>
+          <rect x="0"   y="8"  width="128" height="26" rx="6" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="1"/>
+          <text x="64"  y="25" text-anchor="middle" font-size="11" fill="#4a148c" font-family="Arial, sans-serif" font-weight="600">OSM / Overture</text>
+          <rect x="0"   y="40" width="128" height="26" rx="6" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="1"/>
+          <text x="64"  y="57" text-anchor="middle" font-size="11" fill="#4a148c" font-family="Arial, sans-serif" font-weight="600">Gov / Partner Data</text>
+          <rect x="0"   y="72" width="128" height="26" rx="6" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="1"/>
+          <text x="64"  y="89" text-anchor="middle" font-size="11" fill="#4a148c" font-family="Arial, sans-serif" font-weight="600">Field / UGC</text>
+          <line x1="132" y1="53" x2="156" y2="53" stroke="#94a3b8" stroke-width="2" marker-end="url(#arr)"/>
+          <rect x="160" y="28" width="120" height="50" rx="8" fill="#0a2744"/>
+          <text x="220" y="49" text-anchor="middle" font-size="11.5" font-weight="700" fill="white" font-family="Arial, sans-serif">POI OPS</text>
+          <text x="220" y="65" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.65)" font-family="Arial, sans-serif">QA · Conflate · Enrich</text>
+          <line x1="284" y1="53" x2="308" y2="53" stroke="#94a3b8" stroke-width="2" marker-end="url(#arr)"/>
+          <rect x="312" y="28" width="130" height="50" rx="8" fill="#4a148c"/>
+          <text x="377" y="49" text-anchor="middle" font-size="11.5" font-weight="700" fill="white" font-family="Arial, sans-serif">Geocoding</text>
+          <text x="377" y="65" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.65)" font-family="Arial, sans-serif">Address → Coordinate</text>
+          <line x1="446" y1="53" x2="470" y2="53" stroke="#94a3b8" stroke-width="2" marker-end="url(#arr)"/>
+          <rect x="474" y="28" width="130" height="50" rx="8" fill="#4a148c"/>
+          <text x="539" y="49" text-anchor="middle" font-size="11.5" font-weight="700" fill="white" font-family="Arial, sans-serif">Search Index</text>
+          <text x="539" y="65" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.65)" font-family="Arial, sans-serif">Rank · Autocomplete</text>
+          <line x1="608" y1="53" x2="632" y2="53" stroke="#94a3b8" stroke-width="2" marker-end="url(#arr)"/>
+          <rect x="636" y="8"  width="140" height="26" rx="6" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="1"/>
+          <text x="706" y="25" text-anchor="middle" font-size="11" fill="#4a148c" font-family="Arial, sans-serif" font-weight="600">Place Discovery</text>
+          <rect x="636" y="40" width="140" height="26" rx="6" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="1"/>
+          <text x="706" y="57" text-anchor="middle" font-size="11" fill="#4a148c" font-family="Arial, sans-serif" font-weight="600">Routing Destinations</text>
+          <rect x="636" y="72" width="140" height="26" rx="6" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="1"/>
+          <text x="706" y="89" text-anchor="middle" font-size="11" fill="#4a148c" font-family="Arial, sans-serif" font-weight="600">Geofence Services</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><div class="sec-num">2</div><h2>Key Responsibilities</h2></div>
+    <div class="sec-body">
+      <div class="resp-area">
+        <div class="resp-title">A. POI Data Quality Governance</div>
+        <ul class="resp-list">
+          <li>Own and define POI data-quality standards for Tasco Maps across priority regions: Hanoi, Ho Chi Minh City, expressways, national highways, VETC/Tasco locations, parking sites, fuel stations, EV charging stations, car service centers, and toll stations.</li>
+          <li>Design and maintain POI classification taxonomy, naming standards, category hierarchy, address format, opening hours, phone number, website, payment method, brand, chain ID, and operational status.</li>
+          <li>Define minimum data requirements per POI category: display name, category, address, lat/lng, entrance/access point, road-side access direction, business status, source, freshness, and validation status.</li>
+          <li>Lead large-scale POI cleaning, deduplication, merging, normalization, and enrichment workflows.</li>
+          <li>Monitor POI completeness, duplication rate, wrong-location rate, stale data rate, and category accuracy by city, district, and business category.</li>
+        </ul>
+      </div>
+      <div class="resp-area">
+        <div class="resp-title">B. Geocoding &amp; Address Intelligence</div>
+        <ul class="resp-list">
+          <li>Own the quality of forward and reverse geocoding datasets for Vietnamese addresses.</li>
+          <li>Build address normalization rules for Vietnam-specific structures: province/city, ward/commune, street, alley/lane/ngo/ngach/hem, building, house number, apartment, floor, and unit.</li>
+          <li>Improve address-to-coordinate accuracy for residential addresses, business addresses, VETC/Tasco service points, logistics pickup/dropoff, parking entrances, and toll station entrances.</li>
+          <li>Establish accuracy metrics: rooftop-level accuracy, street-level accuracy, ward-level accuracy, wrong-side-of-road rate, entrance mismatch rate, and failed geocode rate.</li>
+        </ul>
+      </div>
+      <div class="resp-area">
+        <div class="resp-title">C. POI Search &amp; Discovery Quality</div>
+        <ul class="resp-list">
+          <li>Own search quality for POI and place discovery in Tasco Maps, MyTasco, VETC, and related mobility applications.</li>
+          <li>Define relevance metrics: top-1 accuracy, top-3 accuracy, click-through rate, zero-result rate, wrong-result rate, category precision, distance-to-intent, and reroute-after-search rate.</li>
+          <li>Work with Search/AI Engineering to improve autocomplete, fuzzy matching, Vietnamese accent-insensitive search, abbreviation handling, brand search, category search, nearby search, and search ranking.</li>
+          <li>Maintain query dictionaries for Vietnamese mobility contexts: parking, EV charging, fuel stations, car wash, toll station, vehicle inspection, garage, roadside assistance, insurance, VETC, and Tasco.</li>
+        </ul>
+      </div>
+      <div class="resp-area">
+        <div class="resp-title">D. POI Geofence &amp; Polygon Governance</div>
+        <ul class="resp-list">
+          <li>Define and maintain geofences for operational and commercial use cases: parking zones, toll station zones, service coverage areas, dealership catchment areas, restricted service zones, logistics pickup/dropoff zones, and high-demand mobility zones.</li>
+          <li>Own the spatial quality of POI polygons and geofences: geometry validity, polygon overlap, containment, entrance/exit points, road access, service-area boundaries, and point-in-polygon accuracy.</li>
+          <li>Define geofence KPIs: false inclusion rate, false exclusion rate, polygon freshness, business-rule compliance, and geofence-trigger accuracy.</li>
+        </ul>
+      </div>
+      <div class="resp-area">
+        <div class="resp-title">E. Data Sources, Conflation &amp; Validation</div>
+        <ul class="resp-list">
+          <li>Integrate and validate data from OpenStreetMap, Overture Maps, government datasets, Tasco/VETC internal business data, partner data, field collection, street imagery, user contributions, and business-owner submissions.</li>
+          <li>Design POI conflation rules to merge duplicates. Establish evidence requirements for POI validation: image evidence, source URL, field verification, contributor confirmation, business-owner claim.</li>
+          <li>Partner with Data Science to develop confidence scores for POI, address, and geofence objects.</li>
+        </ul>
+      </div>
+      <div class="resp-area">
+        <div class="resp-title">F. Troubleshooting, RCA &amp; Product Feedback</div>
+        <ul class="resp-list">
+          <li>Investigate user and internal reports related to wrong POI location, missing POI, duplicate POI, incorrect address, wrong category, wrong entrance, bad search result, failed reverse geocode, and incorrect geofence trigger.</li>
+          <li>Conduct root-cause analysis for high-impact POI/search/geocoding incidents.</li>
+          <li>Translate field/user feedback into data updates, search-ranking improvements, or product requirements.</li>
+          <li>Define escalation workflows for P0/P1 location-search issues.</li>
+        </ul>
+      </div>
+      <div class="resp-area">
+        <div class="resp-title">G. Documentation, SOPs &amp; Team Enablement</div>
+        <ul class="resp-list">
+          <li>Build and maintain documentation for POI data standard, category taxonomy, address standard, geocoding QA, search quality QA, geofence data standard, contributor validation, and POI release checklist.</li>
+          <li>Train junior MapOps members on POI creation, validation, and QA standards.</li>
+          <li>Work with Product, Engineering, Data Science, and Business teams to shape the POI/Search roadmap.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><div class="sec-num">3</div><h2>Requirements</h2></div>
+    <div class="sec-body">
+      <div class="req-grid">
+        <div class="req-box must"><h3>Must-Have</h3>
+          <ul class="req-list">
+            <li>2–4 years of hands-on experience in POI operations, geocoding, local search, GIS data operations, map operations, ride-hailing, logistics, delivery, navigation, or location-based products.</li>
+            <li>Strong understanding of POI data structures, address data, administrative boundaries, and spatial data quality.</li>
+            <li>Experience with QGIS, PostgreSQL/PostGIS, spreadsheets, and spatial QA workflows.</li>
+            <li>Working knowledge of OpenStreetMap data, POI tags, address tags, administrative boundaries, and Overpass API.</li>
+            <li>Strong understanding of search-quality concepts: autocomplete, fuzzy search, category search, ranking, zero-result analysis, and click-through analysis.</li>
+            <li>Experience with POI deduplication, conflation, or data normalization.</li>
+            <li>Strong communication skills with Product, Engineering, Operations, and Business teams.</li>
+          </ul>
+        </div>
+        <div class="req-box nice"><h3>Nice-to-Have</h3>
+          <ul class="req-list">
+            <li>Experience with Elasticsearch, OpenSearch, Pelias, Nominatim, Photon, or similar search/geocoding systems.</li>
+            <li>Experience with Mapbox Search Box API, Google Places API, HERE Geocoding, TomTom Search API, GrabMaps Places, or equivalent APIs.</li>
+            <li>Experience with geofence creation, polygon QA, point-in-polygon analysis, or service-area modeling.</li>
+            <li>Experience with Python for ETL, POI cleaning, deduplication, and spatial analysis.</li>
+            <li>Familiarity with Vietnamese address normalization and administrative boundary changes.</li>
+            <li>Familiarity with mobility, parking, tolling, EV charging, fuel, logistics, insurance, or automotive service data.</li>
+            <li>OSM contribution history or open-source mapping experience.</li>
+          </ul>
+        </div>
+        <div class="req-box soft"><h3>Soft Skills &amp; Mindset</h3>
+          <ul class="req-list" style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
+            <li>Detail-oriented and skeptical about data quality.</li>
+            <li>Strong ownership of data correctness and user experience.</li>
+            <li>Comfortable with ambiguous, messy, incomplete real-world data.</li>
+            <li>Data-driven mindset; decisions grounded in metrics and evidence.</li>
+            <li>Able to translate business needs into data standards and operational workflows.</li>
+            <li>Able to work independently and lead small data-quality initiatives.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><div class="sec-num">4</div><h2>Success Metrics — 6 to 12 Months</h2></div>
+    <div class="sec-body">
+      <div class="metrics-grid">
+        <div class="metric-item">Improve POI completeness in priority categories and regions.</div>
+        <div class="metric-item">Reduce duplicate POI rate and wrong-location POI incidents.</div>
+        <div class="metric-item">Improve top-1 and top-3 search result accuracy.</div>
+        <div class="metric-item">Reduce zero-result rate for common Vietnamese mobility queries.</div>
+        <div class="metric-item">Improve reverse-geocoding accuracy for pickup/dropoff and destination use cases.</div>
+        <div class="metric-item">Build and roll out POI category taxonomy and address standard.</div>
+        <div class="metric-item">Build geofence governance process for parking, toll, fuel, EV charging, and service zones.</div>
+        <div class="metric-item">Establish POI/Search QA dashboard and deliver SOPs for POI creation, validation, merge, and deletion.</div>
+        <div class="metric-item">Support reliable POI/search/geocoding release workflow for Tasco Maps and MyTasco.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><div class="sec-num">5</div><h2>Product Scope</h2></div>
+    <div class="sec-body">
+      <table class="scope-table">
+        <tr><th>Product Line</th><th>Responsibility</th></tr>
+        <tr><td>V-Base-Maps</td><td>POI display, categories, place cards, administrative hierarchy</td></tr>
+        <tr><td>V-Navigation-Maps</td><td>Destination quality, entrances, routable points, reverse geocode</td></tr>
+        <tr><td>Location &amp; AI Search</td><td>Search text, autocomplete, category search, ranking</td></tr>
+        <tr><td>Place &amp; Discovery</td><td>Office, restaurant, cafe, parking, fuel, EV charging, car wash, toll station</td></tr>
+        <tr><td>Contributor Platform</td><td>User-submitted POI, validation workflow, business-owner claim</td></tr>
+        <tr><td>Commercial Mobility Layer</td><td>Geofences for parking, tolling, vehicle services, campaigns, logistics</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><div class="sec-num">6</div><h2>Technical Working Areas</h2></div>
+    <div class="sec-body">
+      <div class="tech-wrap">
+        <span class="tech-tag">POI database</span><span class="tech-tag">Administrative boundary database</span>
+        <span class="tech-tag">Address normalization rules</span><span class="tech-tag">Elasticsearch / OpenSearch</span>
+        <span class="tech-tag">Geocoding &amp; reverse-geocoding</span><span class="tech-tag">POI conflation pipeline</span>
+        <span class="tech-tag">Geofence / polygon database</span><span class="tech-tag">Contributor validation system</span>
+        <span class="tech-tag">Map Editor / internal approval tools</span><span class="tech-tag">QA dashboards</span>
+        <span class="tech-tag">Release management</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><div class="sec-num">7</div><h2>How This Role Differs from Navigation &amp; Routing</h2></div>
+    <div class="sec-body">
+      <table class="diff-table">
+        <tr><th>Routing &amp; Navigation JD</th><th>POI / Geocoding / Search JD (This Role)</th></tr>
+        <tr><td>Road topology &amp; OSM data quality</td><td>POI / address / location object quality</td></tr>
+        <tr><td>Traffic signs and restrictions</td><td>POI taxonomy and address hierarchy</td></tr>
+        <tr><td>Routing engine tuning</td><td>Search ranking and geocoding quality</td></tr>
+        <tr><td>Speed / camera / turn alerts</td><td>POI discovery and destination accuracy</td></tr>
+        <tr class="hl"><td>Map-matching vehicle movement</td><td>Address/POI matching and entrance selection</td></tr>
+        <tr class="hl"><td>Road-rule compliance</td><td>Geofence and service-area correctness</td></tr>
+        <tr class="hl"><td>Route incident RCA</td><td>Search / geocode / POI incident RCA</td></tr>
+      </table>
+      <p class="diff-note">Routing roles ensure vehicles go on the correct road. <strong>POI/Search roles</strong> ensure users find the correct place, select the correct destination, enter through the correct entrance, and the system understands the correct service area.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="apply-box">
+      <h2>How to Apply</h2>
+      <p>Send your email with subject <strong>[Tasco Mapping Application - POI Search]</strong> with your CV and a portfolio or descriptions of POI, geocoding, search, geofence, GIS, logistics, ride-hailing, delivery, or location-data projects you have worked on.</p>
+      <div>
+        <a class="apply-email" href="mailto:phung.dm@tasco.com.vn">phung.dm@tasco.com.vn</a>
+        <a class="apply-email" href="mailto:tuyendung@vtii.vn" style="background:var(--blue);">tuyendung@vtii.vn</a>
+      </div>
+      <div class="apply-subj">[Tasco Mapping Application - POI Search]</div>
+      <p class="apply-note">OSM contribution links, GitHub repositories, POI/search dashboards, or sample data-quality projects are encouraged.</p>
+    </div>
+  </div>
+
+</div>
+<footer>© 2025 TASCO.COM.VN &nbsp;·&nbsp; Mapping Division &nbsp;·&nbsp; Tasco Building, Pham Hung, Hanoi</footer>
+</body>
+</html>

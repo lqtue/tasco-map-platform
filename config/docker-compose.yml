@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  titiler:
+    build:
+      context: .
+      dockerfile: titiler.Dockerfile
+    environment:
+      - AWS_ACCESS_KEY_ID=${R2_ACCESS_KEY}
+      - AWS_SECRET_ACCESS_KEY=${R2_SECRET_KEY}
+      - AWS_ENDPOINT_URL=${R2_ENDPOINT}
+      - AWS_REGION=auto
+      - AWS_NO_SIGN_REQUEST=NO
+      - GDAL_HTTP_MERGE_CONSECUTIVE_RANGES=YES
+      - GDAL_INGESTED_BYTES_AT_OPEN=32768
+      - VSI_CACHE=TRUE
+      - VSI_CACHE_SIZE=5000000
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "443:443"
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - nginx-cache:/var/cache/nginx
+    depends_on:
+      - titiler
+    restart: unless-stopped
+
+volumes:
+  nginx-cache:
