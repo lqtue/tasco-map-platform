@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TASCO Mapping — Bảng Dự toán Chi phí</title>
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet"/>
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #090d14;
+    --panel: #111820;
+    --elev: #1a2230;
+    --topbar: #0e141c;
+    --inset: #0d1219;
+    --ink: #f0f4f8;
+    --ink2: #dce3ec;
+    --mut: #6b7a8d;
+    --line: rgba(255,255,255,0.07);
+    --line2: rgba(255,255,255,0.04);
+    --accent: #4c8dff;
+    --amber: #d4993a;
+    --teal: #2ca6a4;
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body {
+    height: 100%; color: var(--ink); background: var(--bg);
+    font: 13px/1.5 'Inter', -apple-system, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  #app { display: grid; grid-template-columns: 440px 1fr; grid-template-rows: 52px 1fr; height: 100vh; }
+
+  /* top bar */
+  #topbar {
+    grid-column: 1/3; display: flex; align-items: center; gap: 12px;
+    background: var(--topbar); border-bottom: 1px solid var(--line); padding: 0 20px; z-index: 10;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand .bname { font-size: 14px; font-weight: 700; color: #fff; }
+  .brand .bsub { font-size: 10.5px; color: var(--mut); }
+
+  /* sidebar */
+  #side {
+    background: var(--panel); border-right: 1px solid var(--line);
+    overflow-y: auto; display: flex; flex-direction: column;
+  }
+  #side::-webkit-scrollbar { width: 5px; }
+  #side::-webkit-scrollbar-track { background: transparent; }
+  #side::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+
+  /* hero */
+  .hero {
+    padding: 24px 20px 20px; background: linear-gradient(180deg, rgba(76,141,255,0.08) 0%, transparent 100%);
+    border-bottom: 1px solid var(--line); text-align: center;
+  }
+  .hero-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--mut); font-weight: 600; margin-bottom: 6px; }
+  .hero-usd { font-size: 38px; font-weight: 800; color: #fff; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; line-height: 1.1; }
+  .hero-vnd { font-size: 16px; font-weight: 600; color: var(--mut); margin-top: 4px; font-variant-numeric: tabular-nums; }
+  .hero-scope {
+    display: inline-block; background: var(--inset); border: 1px solid var(--line);
+    border-radius: 20px; padding: 4px 12px; font-size: 11.5px; color: var(--ink2); margin-top: 12px;
+  }
+
+  /* sections */
+  .section { padding: 12px 20px; border-bottom: 1px solid var(--line); }
+  .section:last-child { border-bottom: none; }
+  .sec-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--mut); font-weight: 600; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;}
+
+  /* 3x3 matrix */
+  .matrix {
+    display: grid;
+    grid-template-columns: 80px repeat(3, 1fr);
+    gap: 4px;
+    margin-bottom: 4px;
+  }
+  .m-head {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--mut);
+    text-align: center; font-weight: 600; padding: 6px 4px; line-height: 1.2;
+  }
+  .m-row-head {
+    font-size: 11px; font-weight: 600; color: var(--ink2);
+    display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; text-align: right; line-height: 1.2;
+  }
+  .m-cell {
+    background: var(--inset); border: 1px solid var(--line); border-radius: 8px;
+    padding: 10px 4px; text-align: center; cursor: pointer; transition: all 0.15s;
+    display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px;
+  }
+  .m-cell:hover { background: var(--elev); border-color: rgba(255,255,255,0.15); }
+  .m-cell.active {
+    background: color-mix(in srgb, var(--accent) 15%, var(--inset));
+    border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent);
+  }
+  .m-usd { font-size: 14px; font-weight: 700; color: #fff; font-variant-numeric: tabular-nums; }
+  .m-vnd { font-size: 10px; color: var(--mut); font-variant-numeric: tabular-nums; font-weight: 500;}
+
+  /* breakdown cards */
+  .bd-grid { display: grid; gap: 6px; }
+  .bd-card {
+    background: var(--inset); border: 1px solid var(--line); border-radius: 8px;
+    padding: 10px 12px; border-left: 3px solid var(--cc);
+  }
+  .bd-card .hd { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .bd-card .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cc); flex: none; }
+  .bd-card .nm { font-weight: 600; font-size: 12px; color: #fff; flex: 1; }
+  .bd-card .dt { font-size: 10.5px; color: var(--mut); line-height: 1.4; }
+  .bd-card .val { display: flex; align-items: baseline; gap: 6px; }
+  .bd-card .val-usd { font-size: 14px; font-weight: 700; color: var(--ink); }
+  .bd-card .val-vnd { font-size: 10.5px; color: var(--mut); }
+
+  /* collapsible tech details */
+  details.detail > summary {
+    cursor: pointer; list-style: none; color: var(--mut); font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.06em; padding: 8px 0;
+    display: flex; align-items: center; gap: 6px; user-select: none; font-weight: 600;
+  }
+  details.detail > summary::-webkit-details-marker { display: none; }
+  details.detail > summary::after { content: '▾'; margin-left: auto; font-size: 12px; transition: transform 0.15s; }
+  details.detail[open] > summary::after { transform: rotate(180deg); }
+
+  .tech-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 11px; }
+  .tech-table th { text-align: left; padding: 6px 8px; color: var(--mut); border-bottom: 1px solid var(--line); font-weight: 500;}
+  .tech-table td { padding: 6px 8px; border-bottom: 1px solid var(--line2); color: var(--ink2); text-align: center;}
+  .tech-table td:first-child { text-align: left; color: var(--mut); }
+
+  /* map */
+  #main { position: relative; }
+  #map { position: absolute; inset: 0; }
+  .legend {
+    position: absolute; bottom: 16px; left: 14px; z-index: 5;
+    background: rgba(14,20,28,0.88); border: 1px solid var(--line); border-radius: 8px;
+    padding: 10px 14px; font-size: 11px; backdrop-filter: blur(10px); box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  }
+  .legend b { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mut); font-weight: 600; display: block; margin-bottom: 6px; }
+  .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin: 0 6px -2px 0; }
+  #err { position: absolute; top: 12px; left: 12px; right: 50px; z-index: 9; background: #6b1a1a; color: #fff; padding: 8px 12px; border-radius: 8px; display: none; font-size: 12px; }
+  #load { position: absolute; inset: 0; z-index: 8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; background: var(--bg); color: var(--mut); font-size: 13px; }
+  #load .spin { width: 28px; height: 28px; border: 3px solid rgba(255,255,255,0.08); border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .maplibregl-popup-content { background: #141a23; color: #e8edf3; font-size: 11px; line-height: 1.55; border-radius: 8px; padding: 8px 11px; border: 1px solid var(--line); box-shadow: 0 4px 16px rgba(0,0,0,0.5); }
+  .maplibregl-popup-content b { font-size: 12px; }
+  .maplibregl-popup-anchor-top .maplibregl-popup-tip { border-bottom-color: #141a23; }
+  .maplibregl-popup-anchor-bottom .maplibregl-popup-tip { border-top-color: #141a23; }
+</style>
+</head>
+<body>
+<div id="app">
+  <header id="topbar">
+    <div class="brand">
+      <svg width="26" height="26" viewBox="0 0 28 28" aria-hidden="true"><polygon points="14,2 25,8 25,20 14,26 3,20 3,8" fill="none" stroke="#4c8dff" stroke-width="2" stroke-linejoin="round"/><polygon points="14,8 19,11 19,17 14,20 9,17 9,11" fill="#4c8dff" opacity=".85"/></svg>
+      <div><div class="bname">TASCO Mapping</div><div class="bsub">Ước tính chi phí làm giàu dữ liệu đường bộ Việt Nam</div></div>
+    </div>
+  </header>
+
+  <aside id="side">
+    <div class="hero">
+      <div class="hero-label">Tổng chi phí dự kiến</div>
+      <div class="hero-usd" id="hUsd">$0</div>
+      <div class="hero-vnd" id="hVnd">₫0</div>
+      <div class="hero-scope" id="hScope">Đang tải...</div>
+    </div>
+
+    <div class="section">
+      <div class="sec-title">Ma trận chi phí (Theo giai đoạn & chất lượng)</div>
+      <div class="matrix" id="matrix">
+        <!-- Generated by JS -->
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="sec-title">Phân bổ ngân sách</div>
+      <div class="bd-grid">
+        <div class="bd-card" style="--cc:var(--amber)">
+          <div class="hd">
+            <span class="dot"></span><span class="nm">Ảnh vệ tinh vùng đô thị</span>
+            <div class="val"><div class="val-usd" id="bdSatUsd">$0</div><div class="val-vnd" id="bdSatVnd">₫0</div></div>
+          </div>
+          <div class="dt" id="bdSatTxt">Đang tính toán...</div>
+        </div>
+        <div class="bd-card" style="--cc:var(--teal)">
+          <div class="hd">
+            <span class="dot"></span><span class="nm">Thu thập & Xử lý Street View</span>
+            <div class="val"><div class="val-usd" id="bdSvUsd">$0</div><div class="val-vnd" id="bdSvVnd">₫0</div></div>
+          </div>
+          <div class="dt" id="bdSvTxt">Bao gồm lái xe chụp ảnh, lưu trữ, và nhân công xác minh tốc độ/tên đường.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <details class="detail">
+        <summary>⚙ Giả định kỹ thuật</summary>
+        <table class="tech-table">
+          <thead><tr><th>Thông số</th><th>Tiết kiệm</th><th>Tiêu chuẩn</th><th>Độ nét cao</th></tr></thead>
+          <tbody id="techBody"></tbody>
+        </table>
+        <div style="margin-top: 12px; font-size: 10.5px; color: var(--mut); line-height: 1.5;">
+          Tỷ giá quy đổi: ₫25.000/USD.<br>
+          <i>Chỉnh sửa trực tiếp các thông số trên để cập nhật ma trận.</i>
+        </div>
+      </details>
+    </div>
+  </aside>
+
+  <main id="main">
+    <div id="err"></div>
+    <div id="map"></div>
+    <div id="load"><span class="spin"></span> Đang tải bản đồ…</div>
+    <div class="legend" id="legend"></div>
+  </main>
+</div>
+
+<script src="data.js"></script>
+<script>
+const D = window.DATA;
+const $ = id => document.getElementById(id);
+const fmt = n => Math.round(n).toLocaleString('en-US');
+const fmtDec = (n, d) => n.toLocaleString('en-US', {minimumFractionDigits:d, maximumFractionDigits:d});
+const showErr = m => { const e = $('err'); e.style.display = 'block'; e.textContent = m; };
+window.onerror = (m, src, l, c) => showErr('Lỗi JS: ' + m + ' @' + l + ':' + c);
+
+if (!D) showErr('Không tải được data.js');
+
+// Constants
+const FX = 25000; // VND/USD
+
+// Configuration Models
+const TIERS = [
+  { id: 't1', name: 'Tiết kiệm',
+    px: 3, svSpeed: 40, svData: 0.2, svStore: 10, svProcRate: 15, svProcCost: 3, thrIdx: 4 }, // 30%
+  { id: 't2', name: 'Tiêu chuẩn',
+    px: 8, svSpeed: 30, svData: 0.5, svStore: 20, svProcRate: 10, svProcCost: 5, thrIdx: 2 }, // 10%
+  { id: 't3', name: 'Độ nét cao',
+    px: 15, svSpeed: 20, svData: 1.5, svStore: 40, svProcRate: 5, svProcCost: 8, thrIdx: 0 }  // 0%
+];
+
+const findProv = names => D.provinces.map((p, idx) => ({ n: p.toLowerCase(), idx }))
+  .filter(item => names.some(n => item.n.includes(n.toLowerCase()))).map(item => item.idx);
+
+const PHASES = [
+  { id: 'p1', name: 'GĐ 1', label: '3 Tỉnh lớn', provs: new Set(findProv(['hà nội', 'hồ chí minh', 'đà nẵng'])) },
+  { id: 'p2', name: 'GĐ 2', label: '12 Tỉnh chính', provs: new Set(findProv(['hà nội', 'hồ chí minh', 'đà nẵng', 'bình dương', 'đồng nai', 'hải phòng', 'cần thơ', 'quảng ninh', 'khánh hòa', 'lâm đồng', 'thừa thiên huế', 'long an'])) },
+  { id: 'p3', name: 'GĐ 3', label: 'Toàn quốc', provs: null } // null = all
+];
+
+// State
+let activePhase = PHASES[1]; // GĐ 2 default
+let activeTier = TIERS[1]; // Tiêu chuẩn default
+
+// Render Tech Table
+function renderTechTable() {
+  const thrOpts = [0, 5, 10, 20, 30];
+  const mkInput = (idx, key, val, step, w) => `<input type="number" value="${val}" step="${step}" style="width:${w}px; background:rgba(255,255,255,0.05); border:1px solid var(--line); color:var(--ink); border-radius:4px; padding:2px 4px; text-align:center; font:inherit; outline:none;" onchange="updateTier(${idx}, '${key}', this.value)">`;
+  const mkSel = (idx, val) => `<select style="background:rgba(255,255,255,0.05); border:1px solid var(--line); color:var(--ink); border-radius:4px; padding:2px; font:inherit; outline:none" onchange="updateTier(${idx}, 'thrIdx', this.value)">${thrOpts.map((v, i) => `<option value="${i}" ${i==val?'selected':''} style="color:#000">≥${v}%</option>`).join('')}</select>`;
+
+  $('techBody').innerHTML = `
+    <tr><td>Mật độ đô thị</td>${TIERS.map((t, i)=>`<td>${mkSel(i, t.thrIdx)}</td>`).join('')}</tr>
+    <tr><td>Vệ tinh ($/km²)</td>${TIERS.map((t, i)=>`<td>$${mkInput(i, 'px', t.px, 1, 35)}</td>`).join('')}</tr>
+    <tr><td>Xe SV (km/h)</td>${TIERS.map((t, i)=>`<td>${mkInput(i, 'svSpeed', t.svSpeed, 5, 35)}</td>`).join('')}</tr>
+    <tr><td>Dữ liệu (MB/s)</td>${TIERS.map((t, i)=>`<td>${mkInput(i, 'svData', t.svData, 0.1, 40)}</td>`).join('')}</tr>
+    <tr><td>Lưu trữ ($/TB)</td>${TIERS.map((t, i)=>`<td>$${mkInput(i, 'svStore', t.svStore, 5, 35)}</td>`).join('')}</tr>
+    <tr><td>Xử lý (km/h)</td>${TIERS.map((t, i)=>`<td>${mkInput(i, 'svProcRate', t.svProcRate, 1, 35)}</td>`).join('')}</tr>
+    <tr><td>Phí Xử lý ($/h)</td>${TIERS.map((t, i)=>`<td>$${mkInput(i, 'svProcCost', t.svProcCost, 1, 35)}</td>`).join('')}</tr>
+  `;
+}
+
+window.updateTier = (idx, key, val) => {
+  TIERS[idx][key] = Number(val);
+  renderMatrix();
+  updateDashboard();
+};
+
+renderTechTable();
+
+function calcCost(phase, tier) {
+  let buy = 0, roadKm = 0;
+  D.prov.forEach((p, i) => {
+    if (phase.provs && !phase.provs.has(i)) return;
+    buy += p.buy_km2[tier.thrIdx];
+    roadKm += p.road_km;
+  });
+
+  // Satellite
+  const satUsd = buy * tier.px;
+  const satVnd = satUsd * FX;
+
+  // Street View
+  const driveHours = roadKm / tier.svSpeed;
+  const driveSeconds = driveHours * 3600;
+  const dataTB = (driveSeconds * tier.svData) / 1_000_000;
+  const storageUsd = dataTB * tier.svStore;
+  const procHours = roadKm / tier.svProcRate;
+  const procUsd = procHours * tier.svProcCost;
+
+  const svUsd = storageUsd + procUsd;
+  const svVnd = svUsd * FX;
+
+  return { buy, roadKm, driveHours, dataTB, procHours, satUsd, satVnd, svUsd, svVnd, totalUsd: satUsd + svUsd, totalVnd: satVnd + svVnd };
+}
+
+// Build Matrix
+function renderMatrix() {
+  const mx = $('matrix');
+  let html = `<div class="m-head"></div>`;
+  TIERS.forEach(t => html += `<div class="m-head">${t.name}</div>`);
+  
+  PHASES.forEach(p => {
+    html += `<div class="m-row-head">${p.name}<br><span style="font-weight:400;font-size:9.5px">${p.label}</span></div>`;
+    TIERS.forEach(t => {
+      const c = calcCost(p, t);
+      const isActive = (p === activePhase && t === activeTier) ? 'active' : '';
+      html += `<div class="m-cell ${isActive}" data-p="${p.id}" data-t="${t.id}">
+        <div class="m-usd">$${fmt(c.totalUsd)}</div>
+        <div class="m-vnd">₫${fmt(c.totalVnd / 1e6)}M</div>
+      </div>`;
+    });
+  });
+  mx.innerHTML = html;
+
+  // Bind clicks
+  mx.querySelectorAll('.m-cell').forEach(el => {
+    el.onclick = () => {
+      activePhase = PHASES.find(x => x.id === el.dataset.p);
+      activeTier = TIERS.find(x => x.id === el.dataset.t);
+      renderMatrix(); // re-render to update active class
+      updateDashboard();
+    };
+  });
+}
+
+function updateDashboard() {
+  const c = calcCost(activePhase, activeTier);
+  
+  // Hero
+  $('hUsd').textContent = '$' + fmt(c.totalUsd);
+  $('hVnd').textContent = '₫' + fmt(c.totalVnd);
+  $('hScope').textContent = `${activePhase.name} (${activePhase.label}) · Cấu hình ${activeTier.name}`;
+
+  // Breakdown - Sat
+  $('bdSatUsd').textContent = '$' + fmt(c.satUsd);
+  $('bdSatVnd').textContent = '₫' + fmt(c.satVnd);
+  $('bdSatTxt').textContent = `Mua ảnh vệ tinh độ phân giải ${activeTier.px < 5 ? 'thấp' : activeTier.px < 10 ? 'tiêu chuẩn' : 'cao'} cho ${fmt(c.buy)} km² khu vực đô thị.`;
+
+  // Breakdown - SV
+  $('bdSvUsd').textContent = '$' + fmt(c.svUsd);
+  $('bdSvVnd').textContent = '₫' + fmt(c.svVnd);
+  $('bdSvTxt').innerHTML = `Thu thập và xử lý toàn bộ ${fmt(c.roadKm)} km đường.<br>• Lái xe: ${fmt(c.driveHours)} giờ<br>• Lưu trữ: ${fmtDec(c.dataTB, 2)} TB<br>• Xử lý: ${fmt(c.procHours)} giờ`;
+
+  if (mapReady) {
+    // filter
+    let crit = null; // all
+    if (activePhase.provs) crit = ['in', ['get', 'p'], ['literal', [...activePhase.provs]]];
+    map.setFilter('hexfill', crit);
+  }
+}
+
+function colorExpr(mode) {
+  if (mode === 'built') return ['interpolate', ['linear'], ['get', 'b'], 0, 'rgb(255,237,160)', 1, 'rgb(189,0,38)'];
+  if (mode === 'road') return ['interpolate', ['linear'], ['get', 'r'], 0, 'rgb(247,251,255)', 20, 'rgb(8,48,107)'];
+  // missing
+  return ['interpolate', ['linear'], ['+', ['get', 'm'], ['get', 'n']], 0, 'rgb(254,235,226)', 10, 'rgb(122,1,119)'];
+}
+
+function renderLegend(mode) {
+  const sw = (rgb, t) => `<i style="background:${rgb}"></i>${t} `;
+  const L = $('legend');
+  if (mode === 'built') L.innerHTML = `<b>Mật độ đô thị</b>${sw('rgb(255,237,160)','Thấp')} → ${sw('rgb(189,0,38)','Cao')}`;
+  else if (mode === 'road') L.innerHTML = `<b>Mạng lưới đường (km)</b>${sw('rgb(247,251,255)','0')} → ${sw('rgb(8,48,107)','≥20')}`;
+  else L.innerHTML = `<b>Dữ liệu thiếu (km)</b>${sw('rgb(254,235,226)','0')} → ${sw('rgb(122,1,119)','≥10')}`;
+}
+
+class ColorControl {
+  onAdd(map) {
+    this._container = document.createElement('div');
+    this._container.className = 'maplibregl-ctrl maplibregl-ctrl-group';
+    this._container.style.position = 'relative';
+    this._container.innerHTML = `
+      <button class="maplibregl-ctrl-icon" type="button" title="Thay đổi lớp bản đồ" style="width: 29px; height: 29px; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; background: transparent; padding: 0;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>
+        </svg>
+      </button>
+      <select id="colorBy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; -webkit-appearance: none; appearance: none;">
+        <option value="missing">Màu: Dữ liệu thiếu</option>
+        <option value="built">Màu: Mật độ đô thị</option>
+        <option value="road">Màu: Mạng lưới đường</option>
+      </select>
+    `;
+    this._container.querySelector('select').onchange = (e) => {
+      if (!mapReady) return;
+      const m = e.target.value;
+      map.setPaintProperty('hexfill', 'fill-color', colorExpr(m));
+      renderLegend(m);
+    };
+    return this._container;
+  }
+  onRemove() {
+    this._container.parentNode.removeChild(this._container);
+  }
+}
+
+let mapReady = false;
+const map = new maplibregl.Map({
+  container: 'map',
+  style: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
+  center: [107.6, 16.2], zoom: 5.1,
+  attributionControl: false
+});
+map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+map.addControl(new ColorControl(), 'top-right');
+map.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-right');
+map.on('load', () => {
+  map.addSource('hex', { type: 'geojson', data: D.fc });
+  map.addLayer({ id: 'hexfill', type: 'fill', source: 'hex',
+    paint: { 'fill-color': colorExpr('missing'), 'fill-opacity': 0.7, 'fill-outline-color': 'rgba(0,0,0,0)' } });
+  
+  const popup = new maplibregl.Popup({ closeButton: false, closeOnClick: false });
+  map.on('mousemove', 'hexfill', e => {
+    const p = e.features[0].properties;
+    map.getCanvas().style.cursor = 'pointer';
+    popup.setLngLat(e.lngLat).setHTML(
+      `<b>${D.provinces[p.p]}</b><br>Đô thị: ${(p.b*100).toFixed(0)}% · Đường: ${p.r.toFixed(1)} km<br>` +
+      `<span style="color:#e5675f">Thiếu tốc độ: ${p.m.toFixed(1)} km</span><br>` +
+      `<span style="color:#b89aec">Thiếu tên: ${p.n.toFixed(1)} km</span>`
+    ).addTo(map);
+  });
+  map.on('mouseleave', 'hexfill', () => { map.getCanvas().style.cursor = ''; popup.remove(); });
+  
+  mapReady = true;
+  $('load').style.display = 'none';
+  
+  renderMatrix();
+  updateDashboard();
+  renderLegend('missing');
+});
+map.on('error', e => showErr('Lỗi bản đồ: ' + (e && e.error ? e.error.message : 'không rõ')));
+</script>
+</body>
+</html>
