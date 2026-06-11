@@ -1,0 +1,107 @@
+{
+  "name": "Vietnam admin boundary — current + past (2025 merger)",
+  "version": "2026-06-11",
+  "crs": "EPSG:4326",
+  "purpose": "Reverse geocoding: coordinate -> current and past admin name",
+  "files": {
+    "README.md": {
+      "bytes": 10104,
+      "sha256": "aa56ad03d3110839fa4e68406dbcfd69b86a65e119f1ab6b3ed46f7c1834c636"
+    },
+    "admin_current.parquet": {
+      "bytes": 110206911,
+      "sha256": "3af156f8efd54bd5436a3255b33fc2d3b2192d2af981f86bca757a28c1d55932",
+      "rows": 3321,
+      "columns": {
+        "current_id": "large_string",
+        "ward_name": "large_string",
+        "ward_type": "large_string",
+        "province_id": "large_string",
+        "province_name": "large_string",
+        "province_type": "large_string",
+        "population": "double",
+        "area_km2_off": "double",
+        "area_km2_geom": "double",
+        "lat": "double",
+        "lon": "double",
+        "former_units": "large_string",
+        "ward_name_ascii": "large_string",
+        "province_ascii": "large_string",
+        "osm_rel_id": "int64",
+        "wikidata": "large_string",
+        "osm_name_match": "bool",
+        "geometry": "binary"
+      }
+    },
+    "admin_past.parquet": {
+      "bytes": 42792659,
+      "sha256": "c45ed92291f758324e9fc3535b7b6a7ee01f43290784a3db7673134d90451958",
+      "rows": 10622,
+      "columns": {
+        "past_id": "large_string",
+        "ward_name": "large_string",
+        "ward_type": "large_string",
+        "district_id": "large_string",
+        "district_name": "large_string",
+        "district_type": "large_string",
+        "province_id": "large_string",
+        "province_name": "large_string",
+        "province_type": "large_string",
+        "area_km2_geom": "double",
+        "tier": "large_string",
+        "ward_name_ascii": "large_string",
+        "district_ascii": "large_string",
+        "province_ascii": "large_string",
+        "geometry": "binary"
+      }
+    },
+    "crosswalk.parquet": {
+      "bytes": 890992,
+      "sha256": "c441e2d813c101805d2754736e34f102727049a9ccd6486dac209470884f2eea",
+      "rows": 38455,
+      "columns": {
+        "past_id": "large_string",
+        "past_ward": "large_string",
+        "past_district": "large_string",
+        "past_province": "large_string",
+        "current_id": "large_string",
+        "current_ward": "large_string",
+        "current_province": "large_string",
+        "past_area": "double",
+        "cur_area": "double",
+        "ov_km2": "double",
+        "pct_of_past": "double",
+        "pct_of_current": "double",
+        "is_primary_for_current": "int64",
+        "is_primary_for_past": "int64",
+        "significant": "bool"
+      }
+    },
+    "geocode.py": {
+      "bytes": 2481,
+      "sha256": "fcb220a8700f8db4747b7bb978ab5d7a7fa9ae7486a5ecc4d4f84ed0e1f54683"
+    },
+    "osm_validation_flags.csv": {
+      "bytes": 1845,
+      "sha256": "0fc4f036bdc4a611ddc0b92fe73a2784860225acdb2f5c67f1e3d0f21fabd17c"
+    },
+    "requirements.txt": {
+      "bytes": 52,
+      "sha256": "54a40f7f56d49a59f3fa4e3805145a3455eecd86e656b7279526985a6ff0775d"
+    }
+  },
+  "summary": {
+    "current_wards": 3321,
+    "past_units": 10622,
+    "past_tier": {
+      "ward": 10610,
+      "district": 12
+    },
+    "keys": {
+      "admin_current": "current_id",
+      "admin_past": "past_id (string, 5-digit zero-padded; islands H-<ma_huyen>)"
+    },
+    "join": "PIP each layer independently; admin_past prefer tier=ward then tier=district (islands)",
+    "name_model": "*_name = bare proper name; *_type lowercase (ward_type/district_type/province_type)"
+  }
+}

@@ -73,7 +73,7 @@
 
 **Lưu trữ (satellite tile — deprioritized)** → [`archive/`](./archive/)
 
-**Code & module** (ngoài docs/): [`../osm-enrichment/`](../osm-enrichment/) (enrichment + baseline + dashboard + research) · [`../coverage/`](../coverage/) (H3 imagery planner) · [`../CLAUDE.md`](../CLAUDE.md) (chỉ dẫn repo)
+**Code & module** (ngoài docs/): [`../osm-enrichment/`](../osm-enrichment/) (enrichment + baseline + dashboard + research + [`wiki/`](../osm-enrichment/wiki/) luật→OSM tag → Confluence + [`plans/`](../osm-enrichment/plans/) kế hoạch edit) · [`../coverage/`](../coverage/) (H3 imagery planner) · [`../geocode/`](../geocode/) (dataset reverse-geocode admin VN current+past, 2025 merger) · [`../CLAUDE.md`](../CLAUDE.md) (chỉ dẫn repo)
 
 ## 6 · Số liệu chốt (verified)
 

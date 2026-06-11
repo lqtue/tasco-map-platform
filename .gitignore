@@ -7,3 +7,4 @@ __pycache__/
 *.pbf
 coverage/.venv/
 coverage/data/
+geocode/data/
