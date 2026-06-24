@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>TASCO Mapping — Satellite Imagery Coverage & Procurement</title>
+<title>TASCO Maps — Satellite Imagery Coverage</title>
 <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet"/>
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -71,7 +71,7 @@
   <header id="topbar">
     <div class="brand">
       <svg width="26" height="26" viewBox="0 0 28 28"><polygon points="14,2 25,8 25,20 14,26 3,20 3,8" fill="none" stroke="#4c8dff" stroke-width="2" stroke-linejoin="round"/><polygon points="14,8 19,11 19,17 14,20 9,17 9,11" fill="#4c8dff" opacity=".85"/></svg>
-      <div><div class="bname">TASCO Mapping</div><div class="bsub">Satellite Imagery — Coverage Selection &amp; Procurement Tracking</div></div>
+      <div><div class="bname">TASCO Maps</div><div class="bsub">Satellite Imagery — Coverage Selection</div></div>
     </div>
     <div class="tag" id="genTag">Vietnam · H3</div>
   </header>
@@ -113,13 +113,6 @@
         <div class="bd-card" style="--cc:var(--accent)"><span class="nm">Strategic roads</span><span class="dt" id="bRoadShare"></span><span class="val" id="bRoad">—</span></div>
       </div>
     </div>
-
-    <div class="section">
-      <div class="sec-title">Procurement tracking — acquired vs selected</div>
-      <div class="trk-row" style="font-weight:600;color:#fff"><span class="trk-name">National</span><div class="trk-bar"><div class="trk-fill" id="natFill" style="width:0%"></div></div><span class="trk-num" id="natPct">0%</span></div>
-      <div id="trkProv" style="margin-top:10px"></div>
-      <div class="note" id="trkNote">Illustrative acquisition status — pending live procurement feed.</div>
-    </div>
   </aside>
 
   <main id="main">
@@ -150,9 +143,6 @@ const SCOPES = [
   {id:'p2', name:'Key 12',   sub:'expansion', provs:new Set(findProv(['hà nội','hồ chí minh','đà nẵng','hải phòng','cần thơ','huế','khánh hòa','lâm đồng','quảng ninh','bắc ninh','nghệ an','an giang']))},
   {id:'p3', name:'Nationwide',sub:'full roll-out', provs:null},
 ];
-// ponytail: illustrative acquired fraction per province; replace with live feed.
-const ACQ = {'Hà Nội':1.0,'Hồ Chí Minh':0.75,'Đà Nẵng':1.0,'Hải Phòng':0.45,'Cần Thơ':0.30,'Huế':0.20};
-
 const LAYERS=[{id:'urban',name:'Urban'},{id:'road',name:'Roads'}];
 let scope=SCOPES[1], thrIdx=2, cutIdx=2;
 let on={urban:true, road:true};
@@ -160,7 +150,7 @@ let on={urban:true, road:true};
 function inScope(i){ return !scope.provs || scope.provs.has(i); }
 
 function calc(){
-  let env=0, urban=0, roads=0, acq=0;
+  let env=0, urban=0, roads=0;
   const U=on.urban, R=on.road;
   D.prov.forEach((p,i)=>{
     if(!inScope(i)) return;
@@ -169,9 +159,8 @@ function calc(){
     const e = (U&&R) ? p.ur_km2[thrIdx][cutIdx] : (U?u:0)+(R?rd:0);
     env+=e;
     if(U) urban+=u; if(R) roads+=rd;
-    acq+=(ACQ[provName(D.provinces[i])]||0)*e;
   });
-  return {env,urban,roads,acq};
+  return {env,urban,roads};
 }
 
 // --- render ----------------------------------------------------------------
@@ -204,18 +193,6 @@ function renderControls(){
   $('cutSection').style.opacity=on.road?1:0.4;
 }
 
-function provBars(){
-  const rows=D.prov.map((p,i)=>({i,name:provName(D.provinces[i]),env:p.buy_grid[thrIdx][cutIdx]}))
-    .filter(r=>inScope(r.i) && r.env>0)
-    .sort((a,b)=>b.env-a.env).slice(0,8);
-  $('trkProv').innerHTML=rows.map(r=>{
-    const f=ACQ[r.name]||0, pct=Math.round(f*100);
-    return `<div class="trk-row"><span class="trk-name" title="${r.name}">${r.name}</span>`+
-      `<div class="trk-bar"><div class="trk-fill" style="width:${pct}%"></div></div>`+
-      `<span class="trk-num">${fmt(f*r.env)}/${fmt(r.env)}</span></div>`;
-  }).join('');
-}
-
 function update(){
   renderControls();
   const c=calc();
@@ -226,9 +203,6 @@ function update(){
   const card=(elV,elS,active,val)=>{ $(elV).textContent=active?fmt(val)+' km²':'off'; $(elV).style.color=active?'':'var(--mut)'; $(elS).textContent=active?'included':'excluded'; };
   card('bUrban','bUrbanShare',on.urban,c.urban);
   card('bRoad','bRoadShare',on.road,c.roads);
-  const np=c.env>0?Math.round(c.acq/c.env*100):0;
-  $('natFill').style.width=np+'%'; $('natPct').textContent=np+'%';
-  provBars();
   if(mapReady){ paintMap(); renderLegend(); }
 }
 
