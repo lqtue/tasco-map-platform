@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TASCO Mapping — Satellite Imagery Coverage & Procurement</title>
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet"/>
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    --bg:#090d14; --panel:#111820; --elev:#1a2230; --topbar:#0e141c; --inset:#0d1219;
+    --ink:#f0f4f8; --ink2:#dce3ec; --mut:#6b7a8d; --line:rgba(255,255,255,0.07); --line2:rgba(255,255,255,0.04);
+    --accent:#4c8dff; --amber:#d4993a; --teal:#2ca6a4; --green:#3ba776; --radius:12px;
+  }
+  *{box-sizing:border-box;margin:0}
+  html,body{height:100%;color:var(--ink);background:var(--bg);font:13px/1.5 'Inter',-apple-system,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  #app{display:grid;grid-template-columns:460px 1fr;grid-template-rows:52px 1fr;height:100vh}
+  #topbar{grid-column:1/3;display:flex;align-items:center;gap:12px;background:var(--topbar);border-bottom:1px solid var(--line);padding:0 20px;z-index:10}
+  .brand{display:flex;align-items:center;gap:10px}
+  .brand .bname{font-size:14px;font-weight:700;color:#fff}
+  .brand .bsub{font-size:10.5px;color:var(--mut)}
+  .tag{margin-left:auto;font-size:10.5px;color:var(--mut);border:1px solid var(--line);border-radius:20px;padding:3px 11px}
+  #side{background:var(--panel);border-right:1px solid var(--line);overflow-y:auto;display:flex;flex-direction:column}
+  #side::-webkit-scrollbar{width:5px}#side::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:3px}
+  .hero{padding:22px 20px 18px;background:linear-gradient(180deg,rgba(76,141,255,0.08) 0%,transparent 100%);border-bottom:1px solid var(--line);text-align:center}
+  .hero-label{font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--mut);font-weight:600;margin-bottom:6px}
+  .hero-km{font-size:34px;font-weight:800;color:#fff;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1.1}
+  .hero-km small{font-size:16px;font-weight:600;color:var(--mut)}
+  .hero-usd{font-size:15px;font-weight:600;color:var(--accent);margin-top:5px;font-variant-numeric:tabular-nums}
+  .hero-scope{display:inline-block;background:var(--inset);border:1px solid var(--line);border-radius:20px;padding:4px 12px;font-size:11px;color:var(--ink2);margin-top:11px}
+  .section{padding:14px 20px;border-bottom:1px solid var(--line)}
+  .section:last-child{border-bottom:none}
+  .sec-title{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);font-weight:600;margin-bottom:11px}
+  .pills{display:flex;gap:6px;flex-wrap:wrap}
+  .pill{flex:1;min-width:0;background:var(--inset);border:1px solid var(--line);border-radius:8px;padding:8px 6px;text-align:center;cursor:pointer;transition:.15s;font-size:11.5px;color:var(--ink2)}
+  .pill:hover{background:var(--elev)}
+  .pill.active{background:color-mix(in srgb,var(--accent) 16%,var(--inset));border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);color:#fff;font-weight:600}
+  .pill .sub{display:block;font-size:9.5px;color:var(--mut);font-weight:400;margin-top:2px}
+  .pill.active .sub{color:var(--ink2)}
+  .bd-grid{display:grid;gap:6px}
+  .bd-card{background:var(--inset);border:1px solid var(--line);border-radius:8px;padding:9px 12px;border-left:3px solid var(--cc);display:flex;align-items:center;gap:10px}
+  .bd-card .nm{font-weight:600;font-size:12px;color:#fff;flex:1}
+  .bd-card .dt{font-size:10px;color:var(--mut)}
+  .bd-card .val{font-size:14px;font-weight:700;font-variant-numeric:tabular-nums}
+  .trk-row{display:grid;grid-template-columns:120px 1fr 58px;gap:8px;align-items:center;margin-bottom:7px;font-size:11px}
+  .trk-name{color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .trk-bar{height:8px;background:var(--inset);border-radius:5px;overflow:hidden;border:1px solid var(--line)}
+  .trk-fill{height:100%;background:var(--green);border-radius:5px}
+  .trk-num{color:var(--mut);text-align:right;font-variant-numeric:tabular-nums}
+  .note{font-size:10px;color:var(--mut);line-height:1.5;margin-top:10px}
+  #main{position:relative}
+  #map{position:absolute;inset:0}
+  .legend{position:absolute;bottom:16px;left:14px;z-index:5;background:rgba(14,20,28,0.88);border:1px solid var(--line);border-radius:8px;padding:10px 14px;font-size:11px;backdrop-filter:blur(10px)}
+  .legend b{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);font-weight:600;display:block;margin-bottom:6px}
+  .legend i{display:inline-block;width:12px;height:12px;border-radius:2px;margin:0 6px -2px 0}
+  #err{position:absolute;top:12px;left:12px;right:50px;z-index:9;background:#6b1a1a;color:#fff;padding:8px 12px;border-radius:8px;display:none;font-size:12px}
+  #load{position:absolute;inset:0;z-index:8;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:var(--bg);color:var(--mut);font-size:13px}
+  #load .spin{width:28px;height:28px;border:3px solid rgba(255,255,255,0.08);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .maplibregl-popup-content{background:#141a23;color:#e8edf3;font-size:11px;line-height:1.55;border-radius:8px;padding:8px 11px;border:1px solid var(--line)}
+  .maplibregl-popup-content b{font-size:12px}
+  .maplibregl-popup-anchor-top .maplibregl-popup-tip{border-bottom-color:#141a23}
+  .maplibregl-popup-anchor-bottom .maplibregl-popup-tip{border-top-color:#141a23}
+</style>
+</head>
+<body>
+<div id="app">
+  <header id="topbar">
+    <div class="brand">
+      <svg width="26" height="26" viewBox="0 0 28 28"><polygon points="14,2 25,8 25,20 14,26 3,20 3,8" fill="none" stroke="#4c8dff" stroke-width="2" stroke-linejoin="round"/><polygon points="14,8 19,11 19,17 14,20 9,17 9,11" fill="#4c8dff" opacity=".85"/></svg>
+      <div><div class="bname">TASCO Mapping</div><div class="bsub">Satellite Imagery — Coverage Selection &amp; Procurement Tracking</div></div>
+    </div>
+    <div class="tag" id="genTag">Vietnam · H3</div>
+  </header>
+
+  <aside id="side">
+    <div class="hero">
+      <div class="hero-label">Selected imaging area</div>
+      <div class="hero-km" id="hKm">0 <small>km²</small></div>
+      <div class="hero-scope" id="hScope">Loading…</div>
+    </div>
+
+    <div class="section">
+      <div class="sec-title">1 · Coverage layers — view separately or combined</div>
+      <div class="pills" id="layerPills"></div>
+      <div class="note">Toggle each target type. The envelope is the <i>union</i> of whatever is on — urban only, roads only, or both combined.</div>
+    </div>
+
+    <div class="section">
+      <div class="sec-title">2 · Geographic scope (procurement phase)</div>
+      <div class="pills" id="scopePills"></div>
+    </div>
+
+    <div class="section" id="thrSection">
+      <div class="sec-title">3 · Urban-density threshold</div>
+      <div class="pills" id="thrPills"></div>
+      <div class="note">How dense a cell must be to count as an urban target. Raise to buy only the densest cores; lower to widen coverage.</div>
+    </div>
+
+    <div class="section" id="cutSection">
+      <div class="sec-title">4 · Strategic-road class</div>
+      <div class="pills" id="cutPills"></div>
+      <div class="note" id="cutNote">Which road classes pull a corridor cell in. <b id="cutKm"></b> of national network included.</div>
+    </div>
+
+    <div class="section">
+      <div class="sec-title">Why these cells — selection breakdown</div>
+      <div class="bd-grid">
+        <div class="bd-card" style="--cc:var(--amber)"><span class="nm">Urban / built-up</span><span class="dt" id="bUrbanShare"></span><span class="val" id="bUrban">—</span></div>
+        <div class="bd-card" style="--cc:var(--accent)"><span class="nm">Strategic roads</span><span class="dt" id="bRoadShare"></span><span class="val" id="bRoad">—</span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="sec-title">Procurement tracking — acquired vs selected</div>
+      <div class="trk-row" style="font-weight:600;color:#fff"><span class="trk-name">National</span><div class="trk-bar"><div class="trk-fill" id="natFill" style="width:0%"></div></div><span class="trk-num" id="natPct">0%</span></div>
+      <div id="trkProv" style="margin-top:10px"></div>
+      <div class="note" id="trkNote">Illustrative acquisition status — pending live procurement feed.</div>
+    </div>
+  </aside>
+
+  <main id="main">
+    <div id="err"></div>
+    <div id="map"></div>
+    <div id="load"><span class="spin"></span> Loading map…</div>
+    <div class="legend" id="legend"></div>
+  </main>
+</div>
+
+<script src="data.js?v=3"></script>
+<script>
+const D = window.DATA;
+const $ = id => document.getElementById(id);
+const fmt = n => Math.round(n).toLocaleString('en-US');
+const showErr = m => { const e=$('err'); e.style.display='block'; e.textContent=m; };
+window.onerror = (m,s,l,c)=>showErr('JS error: '+m+' @'+l+':'+c);
+if(!D) showErr('Could not load data.js');
+
+// Strip Vietnamese admin prefix for clean display names.
+const provName = raw => raw.replace(/^(Thủ đô|thành phố|tỉnh)\s+/i,'').trim();
+const findProv = subs => D.provinces.map((p,i)=>({n:p.toLowerCase(),i}))
+  .filter(o=>subs.some(s=>o.n.includes(s))).map(o=>o.i);
+
+// --- selection model -------------------------------------------------------
+const SCOPES = [
+  {id:'p1', name:'3 cities', sub:'pilot',     provs:new Set(findProv(['hà nội','hồ chí minh','đà nẵng']))},
+  {id:'p2', name:'Key 12',   sub:'expansion', provs:new Set(findProv(['hà nội','hồ chí minh','đà nẵng','hải phòng','cần thơ','huế','khánh hòa','lâm đồng','quảng ninh','bắc ninh','nghệ an','an giang']))},
+  {id:'p3', name:'Nationwide',sub:'full roll-out', provs:null},
+];
+// ponytail: illustrative acquired fraction per province; replace with live feed.
+const ACQ = {'Hà Nội':1.0,'Hồ Chí Minh':0.75,'Đà Nẵng':1.0,'Hải Phòng':0.45,'Cần Thơ':0.30,'Huế':0.20};
+
+const LAYERS=[{id:'urban',name:'Urban'},{id:'road',name:'Roads'}];
+let scope=SCOPES[1], thrIdx=2, cutIdx=2;
+let on={urban:true, road:true};
+
+function inScope(i){ return !scope.provs || scope.provs.has(i); }
+
+function calc(){
+  let env=0, urban=0, roads=0, acq=0;
+  const U=on.urban, R=on.road;
+  D.prov.forEach((p,i)=>{
+    if(!inScope(i)) return;
+    const u=p.urban_km2[thrIdx], rd=p.road_km2_by_cut[cutIdx];
+    // union of enabled layers; urban∩road overlap removed via ur_km2
+    const e = (U&&R) ? p.ur_km2[thrIdx][cutIdx] : (U?u:0)+(R?rd:0);
+    env+=e;
+    if(U) urban+=u; if(R) roads+=rd;
+    acq+=(ACQ[provName(D.provinces[i])]||0)*e;
+  });
+  return {env,urban,roads,acq};
+}
+
+// --- render ----------------------------------------------------------------
+function renderPills(el,items,activeId,onClick){
+  el.innerHTML='';
+  items.forEach(it=>{
+    const d=document.createElement('div');
+    d.className='pill'+(it.id===activeId?' active':'');
+    d.innerHTML=`${it.name}<span class="sub">${it.sub}</span>`;
+    d.onclick=()=>onClick(it);
+    el.appendChild(d);
+  });
+}
+function renderToggles(el,items,isOn,toggle){
+  el.innerHTML='';
+  items.forEach(it=>{
+    const d=document.createElement('div');
+    d.className='pill'+(isOn(it)?' active':'');
+    d.textContent=it.name;
+    d.onclick=()=>toggle(it);
+    el.appendChild(d);
+  });
+}
+function renderControls(){
+  renderToggles($('layerPills'),LAYERS,it=>on[it.id],it=>{on[it.id]=!on[it.id];update();});
+  renderPills($('scopePills'),SCOPES,scope.id,it=>{scope=it;update();});
+  renderPills($('thrPills'),D.thresholds.map((t,i)=>({id:'h'+i,name:'≥'+Math.round(t*100)+'%',sub:''})),'h'+thrIdx,it=>{thrIdx=+it.id.slice(1);update();});
+  renderPills($('cutPills'),D.cutoffs.map((c,i)=>({id:'c'+i,name:c,sub:''})),'c'+cutIdx,it=>{cutIdx=+it.id.slice(1);update();});
+  $('thrSection').style.opacity=on.urban?1:0.4;
+  $('cutSection').style.opacity=on.road?1:0.4;
+}
+
+function provBars(){
+  const rows=D.prov.map((p,i)=>({i,name:provName(D.provinces[i]),env:p.buy_grid[thrIdx][cutIdx]}))
+    .filter(r=>inScope(r.i) && r.env>0)
+    .sort((a,b)=>b.env-a.env).slice(0,8);
+  $('trkProv').innerHTML=rows.map(r=>{
+    const f=ACQ[r.name]||0, pct=Math.round(f*100);
+    return `<div class="trk-row"><span class="trk-name" title="${r.name}">${r.name}</span>`+
+      `<div class="trk-bar"><div class="trk-fill" style="width:${pct}%"></div></div>`+
+      `<span class="trk-num">${fmt(f*r.env)}/${fmt(r.env)}</span></div>`;
+  }).join('');
+}
+
+function update(){
+  renderControls();
+  const c=calc();
+  $('hKm').innerHTML=`${fmt(c.env)} <small>km²</small>`;
+  const parts=[]; if(on.urban)parts.push('urban ≥'+Math.round(D.thresholds[thrIdx]*100)+'%'); if(on.road)parts.push(D.cutoffs[cutIdx]);
+  $('hScope').textContent=`${scope.name} · ${parts.join(' + ')||'no layers'}`;
+  $('cutKm').textContent=`${fmt(D.class_km[cutIdx])} km`;
+  const card=(elV,elS,active,val)=>{ $(elV).textContent=active?fmt(val)+' km²':'off'; $(elV).style.color=active?'':'var(--mut)'; $(elS).textContent=active?'included':'excluded'; };
+  card('bUrban','bUrbanShare',on.urban,c.urban);
+  card('bRoad','bRoadShare',on.road,c.roads);
+  const np=c.env>0?Math.round(c.acq/c.env*100):0;
+  $('natFill').style.width=np+'%'; $('natPct').textContent=np+'%';
+  provBars();
+  if(mapReady){ paintMap(); renderLegend(); }
+}
+
+// --- map -------------------------------------------------------------------
+const C_URBAN='#d4993a', C_ROAD='#4c8dff', C_MIX='#2ca6a4', C_OFF='rgba(120,130,145,0.08)';
+function membership(){
+  const thr=D.thresholds[thrIdx];
+  const inS = scope.provs ? ['in',['get','p'],['literal',[...scope.provs]]] : true;
+  const U = on.urban ? ['>=',['get','b'],thr] : false;
+  const R = on.road  ? ['all',['>=',['get','c'],0],['<=',['get','c'],cutIdx]] : false;
+  return {inS,U,R};
+}
+function paintMap(){
+  const {inS,U,R}=membership();
+  // colour by which enabled layer a hex satisfies; mixed = urban AND road
+  map.setPaintProperty('hexfill','fill-color',['case',
+    ['all',inS,U,R], C_MIX,
+    ['all',inS,U],   C_URBAN,
+    ['all',inS,R],   C_ROAD,
+    C_OFF]);
+  map.setPaintProperty('hexfill','fill-outline-color',
+    ['case',['all',inS,['any',U,R]],'rgba(255,255,255,0.10)','rgba(0,0,0,0)']);
+}
+function renderLegend(){
+  $('legend').innerHTML='<b>Selected for imaging</b>'+
+    (on.urban?`<i style="background:${C_URBAN}"></i>Urban `:'')+
+    (on.road?`<i style="background:${C_ROAD}"></i>Roads `:'')+
+    (on.urban&&on.road?`<i style="background:${C_MIX}"></i>Both `:'')+
+    `<i style="background:rgba(120,130,145,.35)"></i>Not selected`;
+}
+
+let mapReady=false;
+// Self-contained style — no external glyphs/sprites/tiles, so nothing on a CDN
+// can break the demo. The hex layer (added on load) is the whole map.
+const map=new maplibregl.Map({container:'map',
+  style:{version:8,sources:{},layers:[{id:'bg',type:'background',paint:{'background-color':'#0a0f16'}}]},
+  center:[107.6,16.2],zoom:5.1,attributionControl:false});
+map.addControl(new maplibregl.NavigationControl({showCompass:false}),'top-right');
+map.on('load',()=>{
+  map.addSource('hex',{type:'geojson',data:D.fc});
+  map.addLayer({id:'hexfill',type:'fill',source:'hex',paint:{'fill-opacity':0.72}});
+  const CLS=['Motorway','Trunk','Primary','Secondary','Tertiary'];
+  const pop=new maplibregl.Popup({closeButton:false,closeOnClick:false});
+  map.on('mousemove','hexfill',e=>{
+    const p=e.features[0].properties;
+    map.getCanvas().style.cursor='pointer';
+    const cls = p.c>=0 ? CLS[p.c] : '<span style="color:var(--mut)">no major road</span>';
+    pop.setLngLat(e.lngLat).setHTML(
+      `<b>${provName(D.provinces[p.p])}</b><br>Built-up: ${(p.b*100).toFixed(0)}% · Roads: ${p.r.toFixed(1)} km<br>Top road class: ${cls}`
+    ).addTo(map);
+  });
+  map.on('mouseleave','hexfill',()=>{map.getCanvas().style.cursor='';pop.remove();});
+  mapReady=true; $('load').style.display='none';
+  paintMap(); renderLegend();
+});
+map.on('error',e=>console.warn('map:',e&&e.error?e.error.message:e));  // non-fatal; don't alarm partners
+
+$('genTag').textContent=`Vietnam · H3 res-${D.map_res} · ${D.generated}`;
+update();
+</script>
+</body>
+</html>

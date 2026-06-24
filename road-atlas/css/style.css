@@ -1,0 +1,636 @@
+/*Width of  borders*/
+body {
+  background: #f2f5f7;
+  font-size: 12px;
+  font-family: sans-serif;
+  min-width: 1200px; }
+
+div.config {
+  display: block;
+  width: 200px;
+  float: left;
+  background: #f7f5f2;
+  border: 1px solid #aaa;
+  margin: 2px; }
+
+div.selectquery {
+  display: block;
+  margin: 2px;
+  margin-left: 20px;
+  width: 300px;
+  float: left;
+  background: #f7f5f2;
+  padding-left: 3px;
+  border: 1px solid #aaa; }
+
+div.config h3, div.selectquery h3 {
+  margin: 2px;
+  font-size: 15px; }
+
+div.selectquery input[type=text] {
+  width: 100px; }
+
+div.way {
+  position: relative; }
+
+div.way:hover {
+  z-index: 5; }
+  div.way:hover .middle {
+    opacity: 0; }
+  div.way:hover div.refcont > div {
+    z-index: 5;
+    max-height: 1000px;
+    overflow: visible; }
+
+div.wayname {
+  z-index: 10; }
+
+div.sep {
+  clear: both;
+  height: 2px;
+  width: 100%;
+  background: #ddd;
+  font-size: 12px;
+  opacity: 30%;
+  z-index: -10;
+  position: relative; }
+
+div.sep .name {
+  position: absolute;
+  top: -15px;
+  left: 100px;
+  z-index: 10; }
+
+div.waylayout {
+  position: absolute;
+  top: -187px;
+  left: 200px;
+  height: 100px;
+  width: 100px;
+  background: white;
+  border-radius: 50px;
+  box-shadow: 5px 5px 5px #aaa;
+  border: 1px solid #aaa; }
+
+div.connects {
+  position: absolute;
+  top: 45px;
+  left: 0px;
+  width: 0px;
+  height: 10px;
+  border-right: 50px solid #40ff30;
+  border-left: 50px solid transparent;
+  z-index: 24;
+  opacity: 0.9; }
+
+div.connects.next {
+  border-right-color: #888;
+  z-index: 2;
+  opacity: 1; }
+
+div.connects.main {
+  border-right-color: #ccc; }
+
+div.connects.main.from {
+  border-right-color: black;
+  z-index: 2;
+  opacity: 1; }
+
+div.connects.toward {
+  border-right: 50px solid #ff4030; }
+
+div.waylayout a {
+  text-decoration: none !important; }
+
+div.label {
+  width: 100px;
+  height: 135px;
+  position: relative;
+  float: left;
+  top: -15px; }
+
+div.info {
+  z-index: 10;
+  float: left;
+  position: relative;
+  width: 150px;
+  height: 135px; }
+
+div.width {
+  position: absolute;
+  bottom: 2px;
+  width: 108px;
+  font-size: 10px;
+  text-align: center; }
+
+div.max {
+  width: 25px;
+  height: 25px;
+  float: left;
+  text-align: center;
+  border: 4px solid red;
+  border-radius: 25px;
+  font-size: 10px;
+  background: white !important;
+  font-weight: bold;
+  line-height: 25px;
+  overflow: hidden;
+  box-shadow: 3px 3px 3px #aaa; }
+
+div.min {
+  width: 25px;
+  height: 25px;
+  float: left;
+  text-align: center;
+  border: 1px solid white;
+  border-radius: 1px;
+  font-size: 10px;
+  color: white;
+  background: blue !important;
+  font-weight: bold;
+  line-height: 25px;
+  overflow: hidden;
+  box-shadow: 3px 3px 3px #aaa;
+  margin-top: 2px; }
+
+div.max.none {
+  border-color: #aaa;
+  background: white;
+  color: white; }
+
+div.max.unkwn {
+  border-color: yellow;
+  background: white;
+  color: #aaa; }
+
+div.min.unkwn, div.min.none {
+  display: none; }
+
+div.signs div {
+  width: 35px;
+  height: 35px;
+  float: left;
+  text-align: center;
+  background: center center no-repeat transparent;
+  background-size: 30px; }
+div.signs .max, div.signs .min {
+  width: 25px;
+  height: 25px; }
+
+.lane div.signs div {
+  height: 26px;
+  width: 26px;
+  background-size: 20px; }
+
+.lane .signs .max {
+  background-color: white;
+  border-width: 3px;
+  font-size: 10px;
+  height: 20px;
+  width: 20px;
+  line-height: 20px; }
+
+.lane .signs .min {
+  background-color: blue;
+  border-width: 3px;
+  font-size: 10px;
+  height: 20px;
+  width: 20px;
+  line-height: 20px; }
+
+div.maxcont {
+  width: 33px;
+  float: left; }
+
+div.maxcont .max, div.maxcont .min {
+  float: none; }
+
+div.maxcont .condition {
+  border: 1px solid black;
+  border-radius: 2px;
+  text-align: center;
+  font-size: 9px;
+  background: no-repeat center center white;
+  width: 31px;
+  height: 12px;
+  background-size: 30px; }
+
+div.condition {
+  border: none; }
+
+div.lane .signs {
+  position: absolute;
+  bottom: 5px;
+  left: 0px;
+  height: 24px;
+  width: 100%; }
+
+div.lane {
+  position: relative;
+  height: 135px;
+  border-left: 3px dashed white;
+  border-right: 3px dashed white;
+  width: 114px;
+  float: left;
+  display: inline-block;
+  cursor: default; }
+
+div.lane.forward {
+  background: #cdc; }
+
+div.lane.backward {
+  background: #dcc; }
+
+div.lane.bothlane {
+  background: #ccccc5 !important;
+  border-left: 3px solid white !important;
+  border-right: 3px solid white !important;
+  height: 135px;
+  width: 114px;
+  display: inline-block;
+  float: left; }
+
+div.lane.restrictlane {
+  background: #aaa !important;
+  border-left: 3px solid white !important;
+  border-right: 3px solid white !important;
+  height: 135px;
+  width: 114px;
+  display: inline-block;
+  float: left; }
+
+div.lane.nolane {
+  /*   background:#666 !important; */
+  border-left: 3px solid white !important;
+  border-right: 3px solid white !important;
+  height: 135px;
+  width: 114px;
+  display: inline-block;
+  float: left;
+  background: repeating-linear-gradient(-45deg, #666, #666 6px, white 6px, white 14px, #666 14px, #666 20px); }
+
+div.lane.no {
+  border-left: 3px solid white;
+  border-right: 3px solid white; }
+
+div.lane.not_left.forward, div.lane.not_right.backward {
+  border-left: 3px solid white; }
+
+div.lane.not_right.forward, div.lane.not_left.backward {
+  border-right: 3px solid white; }
+
+div.placeholder {
+  position: relative;
+  height: 132px;
+  display: inline-block;
+  padding: 0; }
+
+div.lane.bicycledesig {
+  background: #ccc; }
+
+div.shoulder, div.noshoulder {
+  background: #ccc;
+  height: 135px; }
+
+div.shoulder {
+  border-left: 3px solid white;
+  border-right: 3px solid white;
+  width: 66px;
+  background: #ccc; }
+
+div.noshoulder {
+  border: none;
+  width: 4px;
+  background: #aaa; }
+
+div.sidewalk {
+  border: none;
+  width: 60px;
+  background: #bde; }
+
+div.nosidewalk {
+  border: none;
+  width: 4px;
+  background: #bde; }
+
+div.turns.backward {
+  position: relative;
+  top: 110px;
+  transform: rotate(180deg); }
+
+div.nolane.island {
+  /*   background:#666 !important; */
+  background: repeating-linear-gradient(-45deg, #666, #666 6px, white 6px, white 14px, #666 14px, #666 20px);
+  width: 54px; }
+
+div.middle {
+  z-index: 4;
+  position: relative;
+  height: 135px;
+  left: 730px;
+  width: 1px;
+  background: #888;
+  float: left;
+  opacity: .5; }
+
+div.destination {
+  font-size: 9px;
+  position: relative;
+  width: 110px;
+  text-align: center;
+  top: 10px;
+  margin-left: 2px;
+  z-index: 5; }
+
+.backward div.destination {
+  top: -10px; }
+
+div.destination.double {
+  width: 230px; }
+
+div.destination.triple {
+  width: 350px; }
+
+div.destination.quadruple {
+  width: 470px; }
+
+div.bridge::after {
+  box-shadow: 5px 0px 5px 0 #444;
+  width: 2px;
+  height: 100%;
+  content: " ";
+  display: inline-block; }
+
+div.tunnel::after {
+  background: #000;
+  width: 10px;
+  height: 100%;
+  content: " ";
+  display: inline-block;
+  box-shadow: 5px 0px 5px #000; }
+
+.label a {
+  font-size: 12px;
+  text-decoration: none; }
+
+div.clear {
+  visibility: none;
+  clear: both;
+  height: 0px; }
+
+div.destCountry {
+  margin: 2 px;
+  padding: 0px 5px 1px 5px;
+  background: white;
+  color: black;
+  border: 1px solid black;
+  border-radius: 30px;
+  font-size: 9px;
+  height: 9px;
+  width: 10px;
+  max-width: 100px;
+  display: inline;
+  float: left; }
+
+span.destCountry {
+  margin: 1 px;
+  margin-left: 2px;
+  padding: 0px 5px 1px 5px;
+  background: white;
+  color: black;
+  border: 1px solid black;
+  min-width: 20px;
+  width: auto !important;
+  border-radius: 30px;
+  font-size: 9px;
+  height: 8px;
+  max-width: 100px;
+  display: inline; }
+
+.info .A, .info .B, .info .S, .info .E, .info .N, .info .R,
+.info .refA, .info .refB, .info .refK, .info .refS, .info .refE, .info .refN, .info .refR {
+  float: left;
+  height: 14px;
+  font-size: 11px;
+  padding: 1px; }
+
+div.refA, div.refB, div.refK, div.refS, div.refE, div.refN, div.refR,
+span.refA, span.refB, span.refK, span.refS, span.refE, span.ref, span.refN, span.refR {
+  margin: 2px 2px 2px 2px;
+  padding: 0px 2px 0 2px;
+  border-radius: 4px;
+  max-width: 100px;
+  display: inline;
+  float: right; }
+
+span.refA, span.refB, span.refK, span.refS, span.refE, span.refN, span.refR, span.ref {
+  display: inline-block;
+  float: none; }
+
+span.ref {
+  border: 1px solid #aaa; }
+
+div.refcont {
+  position: relative;
+  display: inline-block;
+  width: 110px;
+  z-index: 5; }
+
+div.A, div.B, div.K, div.S, div.N {
+  max-height: 115px;
+  overflow: hidden;
+  position: relative; }
+
+div.refcont div div.dest {
+  width: 103px;
+  margin: 1px 0 1px 2px;
+  min-height: 12px; }
+
+.double div.refcont {
+  width: 230px; }
+.double div.refcont div div.dest {
+  max-width: 223px;
+  min-width: 103px;
+  width: auto; }
+.double div.refcont div div > span {
+  max-width: 219px;
+  min-width: 99px;
+  width: auto; }
+
+.triple div.refcont {
+  width: 350px; }
+.triple div.refcont div div.dest {
+  max-width: 343px;
+  min-width: 103px;
+  width: auto; }
+.triple div.refcont div div > span {
+  max-width: 339px;
+  min-width: 99px;
+  width: auto; }
+
+.quadruple div.refcont {
+  width: 470px; }
+.quadruple div.refcont div div.dest {
+  max-width: 463px;
+  min-width: 103px;
+  width: auto; }
+.quadruple div.refcont div div > span {
+  max-width: 459px;
+  min-width: 99px;
+  width: auto; }
+
+div.refcont div div.dest {
+  margin: auto; }
+div.refcont div div > span {
+  display: inline-block;
+  width: 99px;
+  padding: 1px 2px;
+  min-height: 11px; }
+div.refcont div div.symbol > span {
+  min-height: 15px; }
+div.refcont div div.symbol > span::before {
+  background-size: 12px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  top: 3px;
+  content: ""; }
+div.refcont div div.symbolonly {
+  float: left;
+  height: 24px;
+  width: 24px; }
+div.refcont div div.symbolonly > span {
+  width: 24px; }
+div.refcont div div.symbolonly > span::before {
+  background-size: 18px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  top: 0px;
+  content: ""; }
+
+div.dest > span span {
+  display: inline-block; }
+
+div.dest > span span.l {
+  transform: rotate(-180deg); }
+
+div.dest > span span.sl {
+  transform: rotate(-135deg); }
+
+div.dest > span span.t {
+  transform: rotate(-90deg); }
+
+div.dest > span span.sr {
+  transform: rotate(-45deg); }
+
+div.dest > span span.r {
+  transform: rotate(0deg); }
+
+/* ---- intersection count (crossing roads on this segment) ---- */
+div.xcount {
+  clear: both;
+  display: inline-block;
+  margin: 3px 0;
+  padding: 1px 7px;
+  background: #F0E060;
+  border: 1px solid #000;
+  border-radius: 9px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #000;
+  cursor: help;
+  white-space: pre-line; }
+
+div.refcont:hover .tooltip {
+  opacity: 1;
+  margin: 0px; }
+
+div.refcont .tooltip {
+  z-index: 5;
+  position: absolute;
+  top: 20px;
+  left: -220px;
+  width: 200px;
+  background-color: #ffffdd;
+  color: black;
+  border: 2px solid white;
+  border-radius: 4px;
+  box-shadow: 3px 3px 3px #aaa;
+  opacity: 0;
+  margin-left: -999em;
+  margin-top: -999em;
+  transition: opacity 0.1s linear 0.3s; }
+
+div.turns {
+  color: white;
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  margin-top: -5px;
+  margin-bottom: -15px;
+  height: 30px;
+  letter-spacing: -10px; }
+
+div.connectdestination .K, div.connectdestination .A, div.connectdestination .B {
+  box-shadow: 5px 5px 5px #aaa; }
+
+div.connectdestination {
+  position: absolute;
+  top: -175px;
+  left: 300px; }
+
+div.connectdestination div.destination {
+  float: left; }
+
+hr {
+  margin-bottom: 20px; }
+
+#header {
+  margin-right: 320px; }
+
+#map {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  width: 300px;
+  max-width:20vw;
+  max-height:25vh;
+  height: 300px;
+  border: 1px solid white;
+  z-index: 10;
+  box-shadow: 3px 3px 3px #aaa;
+  /*   visibility:hidden; */ }
+
+@media only screen and (max-width: 600px) {
+#map {
+  position:absolute;
+  max-width:20vw;
+  max-height:25vh;
+}
+}
+  
+  
+span.navigation {
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+  font-weight: bold;
+  font-size: 20px;
+  cursor: pointer; }
+
+span.normal {
+  color: blue;
+  cursor: pointer; }
+
+/*# sourceMappingURL=style.css.map */

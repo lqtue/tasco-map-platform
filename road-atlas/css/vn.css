@@ -1,0 +1,110 @@
+/* Vietnam country pack for OSM Lane Visualizer.
+ *
+ * Shield letter-classes are mapped in visualizer.ts refClass():
+ *   A = CT  (đường cao tốc / expressway)
+ *   B = QL  (quốc lộ / national highway)
+ *   K = DT/ĐT/TL (đường tỉnh / provincial)
+ *   E = AH  (Asian Highway)
+ *   S = other / default
+ *
+ * Traffic-sign and destination-symbol images are reused from the German pack
+ * as placeholders — swap the URLs below for Vietnamese signage when available.
+ */
+
+/* ---- traffic signs (placeholder = German imagery) ---- */
+div.signs .bicycleno {
+  background-image: url("http://upload.wikimedia.org/wikipedia/commons/b/b0/Zeichen_254_-_Verbot_für_Radfahrer%2C_StVO_1992.svg"); }
+div.signs .footno {
+  background-image: url("http://upload.wikimedia.org/wikipedia/commons/f/f6/Zeichen_259_-_Verbot_für_Fußgänger%2C_StVO_1992.svg"); }
+div.signs .hgvno {
+  background-image: url("http://upload.wikimedia.org/wikipedia/commons/9/9a/Zeichen_253_-_Verbot_für_Kraftfahrzeuge_mit_einem_zulässigen_Gesamtgewicht%2C_StVO_1992.svg"); }
+div.signs .motorroad {
+  background-image: url("http://upload.wikimedia.org/wikipedia/commons/7/77/Zeichen_331.1_-_Kraftfahrstraße%2C_StVO_2013.svg"); }
+div.signs .overtaking {
+  background-image: url("http://upload.wikimedia.org/wikipedia/commons/5/5e/Zeichen_276_-_Überholverbot_für_Kraftfahrzeuge_aller_Art%2C_StVO_1992.svg"); }
+div.signs .overtakinghgv {
+  background-image: url("http://upload.wikimedia.org/wikipedia/commons/a/ad/Zeichen_277_-_Überholverbot_für_Kraftfahrzeuge_mit_einem_zulässigen_Gesamtgewicht_über_2%2C8_t%2C_einschließlich_ihrer_Anhänger%2C_StVO_1992.svg"); }
+div.signs .bicycledesig {
+  background-image: url("http://upload.wikimedia.org/wikipedia/commons/9/91/Zeichen_237_-_Sonderweg_Radfahrer%2C_StVO_1992.svg"); }
+div.signs .busdesig {
+  background-image: url("http://upload.wikimedia.org/wikipedia/commons/0/05/Zeichen_245_-_Bussonderfahrstreifen%2C_StVO_2013.svg"); }
+div.signs .roundabout {
+  background-image: url("http://upload.wikimedia.org/wikipedia/commons/7/72/Zeichen_215_-_Kreisverkehr%2C_StVO_2000.svg"); }
+div.signs .taxiyes {
+  background-image: url("http://upload.wikimedia.org/wikipedia/commons/4/43/Zusatzzeichen_1026-30_-_Taxi_frei%2C_StVO_1992.svg"); }
+div.signs .traffic_signals {
+  background-image: url("http://upload.wikimedia.org/wikipedia/commons/4/45/Zeichen_131_-_Lichtzeichenanlage%2C_StVO_1970.svg"); }
+div.signs .give_way {
+  background-image: url("http://upload.wikimedia.org/wikipedia/commons/6/6f/Zeichen_205_-_Vorfahrt_gewähren!_StVO_1970.svg"); }
+div.signs .stop {
+  background-image: url("http://upload.wikimedia.org/wikipedia/commons/2/2f/Zeichen_206_-_Halt!_Vorfahrt_gewähren!_StVO_1970.svg"); }
+div.signs .crossing {
+  background-image: url("http://upload.wikimedia.org/wikipedia/commons/6/60/Zeichen_350-10_-_Fußgängerüberweg_(rechts)%2C_StVO_1992.svg"); }
+div.signs .condition.wet {
+  background-image: url("http://upload.wikimedia.org/wikipedia/commons/b/be/Zusatzzeichen_1053-35_-_Bei_Nässe_(600x600)%2C_StVO_2017.svg");
+  border: none;
+  background-color: transparent;
+  height: 35px; }
+div.signs .condition.hgv {
+  border: none;
+  background-color: transparent;
+  height: 20px; }
+
+/* ---- destination symbols (placeholder = German imagery) ---- */
+div.refcont div div.airport > span::before {
+  background-image: url("http://upload.wikimedia.org/wikipedia/commons/7/70/RWBA_Flughafen(R).svg"); }
+div.refcont div div.parking > span::before {
+  background-image: url("http://upload.wikimedia.org/wikipedia/commons/6/6e/RWB-RWBA_Parkplatz.svg"); }
+div.refcont div div.fuel > span::before {
+  background-image: url("http://upload.wikimedia.org/wikipedia/commons/9/9c/RWBA_Tankstelle.svg"); }
+div.refcont div div.hospital > span::before {
+  background-image: url("http://upload.wikimedia.org/wikipedia/commons/9/94/RWB_Krankenhaus.svg"); }
+div.refcont div div.centre > span::before {
+  background-image: url("http://upload.wikimedia.org/wikipedia/commons/9/92/Sinnbild_Stadt-Ortszentrum%2C_RWB_2000.svg"); }
+div.refcont div div.motorway > span::before, div.refcont div div.highway > span::before {
+  background-image: url("http://upload.wikimedia.org/wikipedia/commons/a/ac/RWB-RWBA_Autobahn.svg"); }
+div.refcont div div.motorway.refto > span {
+  background-color: #168039;
+  border: 1px white solid;
+  margin: 1px;
+  width: 97px;
+  color: white; }
+
+/* ---- Vietnam route-shield colours ---- */
+div.refA, span.refA {            /* CT expressway */
+  background: #168039;
+  border: 1px solid white;
+  color: white; }
+div.refB, span.refB {            /* QL national highway */
+  background: #1a5fb4;
+  border: 1px solid white;
+  color: white; }
+div.refK, span.refK {            /* DT/ĐT provincial */
+  background: white;
+  border: 1px solid black;
+  color: black; }
+div.refE, span.refE {            /* Asian Highway */
+  background: #16407a;
+  border: 1px solid white;
+  color: white; }
+div.refS, span.refS {            /* other */
+  background: white;
+  border: 1px solid black;
+  color: black; }
+
+div.A {                          /* CT expressway sign */
+  background: #168039;
+  border: 1px solid white;
+  color: white; }
+div.B {                          /* QL national sign */
+  background: #1a5fb4;
+  color: white;
+  border: 1px solid white; }
+div.K {                          /* DT provincial sign */
+  background: #1a5fb4;
+  color: white;
+  border: 1px solid white; }
+div.S {                          /* other */
+  background: #1a5fb4;
+  color: white;
+  border: 1px solid white; }
