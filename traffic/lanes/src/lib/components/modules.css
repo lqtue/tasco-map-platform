@@ -1,0 +1,147 @@
+/* Shared chrome for the app modules (search, export, dashboard).
+   Imported once from +page.svelte so every module looks the same. */
+
+/* the ported style.css forces body { min-width:1200px }, which made the whole
+   page scroll horizontally on top of the diagram's own scroll. Drop it. */
+body {
+  min-width: 0 !important; /* beat the verbatim ported style.css we don't edit */
+}
+
+.module {
+  border: 1px solid #d9dee6;
+  border-radius: 8px;
+  background: #fff;
+  padding: 12px 14px;
+  margin: 0 0 14px;
+  font-family: sans-serif;
+}
+
+.module > header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
+}
+.module > header h2 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  flex: 1;
+}
+
+/* a whole module collapsed via <details class="module">: the <summary> is its header */
+details.module > summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  list-style: none;
+}
+details.module > summary::-webkit-details-marker {
+  display: none;
+}
+details.module > summary::before {
+  content: '▾';
+  font-size: 11px;
+  color: #9ca3af;
+}
+details.module:not([open]) > summary::before {
+  content: '▸';
+}
+details.module > summary h2 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+details.module[open] > summary {
+  margin-bottom: 10px;
+}
+/* compact recap shown next to the title (current search / headline scores) */
+.summary-hint {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 400;
+}
+.module .lead {
+  margin: -4px 0 10px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* form rows: label on the left, control on the right, evenly spaced */
+.module .row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.module label {
+  font-size: 13px;
+  color: #374151;
+}
+
+.module input[type='text'],
+.module select {
+  font: inherit;
+  font-size: 13px;
+  padding: 5px 8px;
+  border: 1px solid #cbd2dc;
+  border-radius: 5px;
+  background: #fff;
+}
+.module input[type='text']:focus,
+.module select:focus {
+  outline: 2px solid #9bb4d6;
+  border-color: #9bb4d6;
+}
+
+.btn {
+  font: inherit;
+  font-size: 13px;
+  padding: 6px 14px;
+  border: 1px solid #cbd2dc;
+  border-radius: 5px;
+  background: #f3f5f9;
+  color: #374151;
+  cursor: pointer;
+}
+.btn:hover {
+  background: #e7ebf2;
+}
+/* a toggle button in its active (panel-open) state */
+.btn.on {
+  background: #dbe5fb;
+  border-color: #9bb4d6;
+  color: #1d4ed8;
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.btn-primary {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #fff;
+}
+.btn-primary:hover {
+  background: #1d4ed8;
+}
+
+/* native <details> disclosure whose <summary> looks like a .btn */
+summary.btn {
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  width: fit-content;
+}
+summary.btn::-webkit-details-marker {
+  display: none;
+}
+summary.btn::before {
+  content: '▸';
+  font-size: 10px;
+}
+details[open] > summary.btn::before {
+  content: '▾';
+}

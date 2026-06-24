@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MapOps Toolkit — system introduction &amp; how to use</title>
+<style>
+  :root {
+    --ink: #111827; --muted: #5b6472; --line: #e5e7eb; --bg: #fff;
+    --blue: #1a5fb4; --green: #168039; --amber: #b45309; --red: #b00020;
+    --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: #f3f4f6; color: var(--ink);
+    font-family: var(--sans); line-height: 1.5; font-size: 14px;
+  }
+  .sheet {
+    max-width: none; margin: 0; background: var(--bg);
+    padding: 40px 56px 56px; box-shadow: none;
+    border-top: 5px solid var(--blue); min-height: 100vh;
+  }
+  header .kicker {
+    font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--blue); font-weight: 700;
+  }
+  h1 { font-size: 26px; margin: 4px 0 6px; letter-spacing: -.01em; }
+  .lede { font-size: 15px; color: var(--muted); max-width: 76ch; margin: 0 0 4px; }
+  .meta { font-size: 12px; color: var(--muted); margin-top: 8px; }
+  h2 {
+    font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--ink); border-bottom: 2px solid var(--ink);
+    padding-bottom: 5px; margin: 34px 0 16px;
+  }
+  h3 { font-size: 14px; margin: 0 0 4px; }
+  p { margin: 0 0 10px; }
+  .muted { color: var(--muted); }
+  code, pre { font-family: var(--mono); }
+  /* ---- pipeline diagram ---- */
+  .diagram { border: 1px solid var(--line); border-radius: 8px; padding: 18px; background: #fafbfc; }
+  .lane { display: flex; align-items: stretch; gap: 8px; flex-wrap: wrap; }
+  .lane + .lane { margin-top: 14px; }
+  .lane-label {
+    flex: 0 0 92px; font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--muted); align-self: center; font-weight: 700;
+  }
+  .box {
+    border: 1px solid #cbd5e1; border-radius: 6px; background: #fff;
+    padding: 8px 12px; font-size: 12.5px; display: flex; flex-direction: column;
+    justify-content: center; min-width: 88px;
+  }
+  .box b { font-size: 12.5px; }
+  .box small { color: var(--muted); font-size: 10.5px; }
+  .box.core { border-color: var(--blue); border-width: 2px; background: #eef4fc; }
+  .box.engine { border-color: var(--green); background: #eef7f0; }
+  .box.live { border-color: var(--amber); background: #fdf3e7; }
+  .arrow { align-self: center; color: var(--muted); font-size: 18px; padding: 0 2px; white-space: nowrap; }
+  .arrow small { display: block; font-size: 9px; letter-spacing: .04em; text-align: center; }
+  .nodes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+  .node {
+    border: 1px solid var(--line); border-left: 4px solid var(--blue);
+    border-radius: 6px; padding: 12px 14px;
+  }
+  .node.meta { border-left-color: var(--green); }
+  .node .who { font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+  .node ul { margin: 6px 0 0; padding-left: 18px; }
+  .node li { margin: 2px 0; }
+  /* ---- status pills ---- */
+  .pill {
+    display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .04em;
+    padding: 1px 7px; border-radius: 10px; text-transform: uppercase; vertical-align: middle;
+  }
+  .p-done { background: #e6f4ea; color: var(--green); }
+  .p-wip  { background: #fef3e2; color: var(--amber); }
+  .p-todo { background: #fdeaea; color: var(--red); }
+  /* ---- schema block ---- */
+  pre.sql {
+    background: #0f172a; color: #e7ebf3; border-radius: 8px; padding: 18px 20px;
+    overflow-x: auto; font-size: 12px; line-height: 1.5;
+  }
+  pre.sql .c { color: #7f93b0; }   /* comment */
+  pre.sql .k { color: #7cc4ff; }   /* keyword */
+  pre.sql .t { color: #ffd479; }   /* table name */
+  table.grid { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table.grid th, table.grid td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.grid th { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .ask { border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; background: #fafbfc; }
+  .ask b { color: var(--blue); }
+  ol.steps { margin: 0; padding-left: 18px; }
+  ol.steps li { margin: 6px 0; }
+  ol.steps b { color: var(--ink); }
+  footer { margin-top: 36px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 11px; color: var(--muted); }
+  @media print { body { background: #fff; } .sheet { box-shadow: none; margin: 0; max-width: none; } }
+  @media (max-width: 720px) { .two, .nodes { grid-template-columns: 1fr; } .sheet { padding: 24px; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <header>
+    <div class="kicker">MapOps Toolkit · Introduction &amp; how to use</div>
+    <h1>MapOps Toolkit — the system for editing Vietnam map data</h1>
+    <p class="lede">
+      The <b>MapOps Toolkit</b> is one controlled editing layer between a <b>local OSM extract (PBF)</b> and the
+      <b>production map</b>. It ingests many sources, fuses them into <b>suggestions</b> a human confirms with
+      evidence, stages every change as <b>versioned OSM XML / osmChange (.osc)</b>, gates it through review, then
+      both <b>serves it in production</b> and can <b>push it back to live OSM</b>. Two editing tracks share that one
+      pipeline: <b>geometry &amp; QA</b> (Quân) and <b>metadata</b> (Tuệ). This page introduces the system and shows
+      how to use it.
+    </p>
+    <div class="meta">Metadata track: Tuệ · Geometry &amp; QA track: Quân · Editor DB / backend: with O4 + infra</div>
+  </header>
+
+  <h2>How it sits in the pipeline</h2>
+  <div class="diagram">
+    <div class="lane">
+      <span class="lane-label">Inputs</span>
+      <div class="box">OSM<br><small>local PBF tags</small></div>
+      <div class="box">Mapillary<br><small>sign points</small></div>
+      <div class="box">Google SV<br><small>GSV API</small></div>
+      <div class="box">Satellite / MMS<br><small>CNN detections</small></div>
+      <div class="box">Legal TT38<br><small>rule defaults</small></div>
+      <div class="box">Probe / GPS<br><small>nav-crawl, speed</small></div>
+      <span class="arrow">→</span>
+      <div class="box engine"><b>Suggestion engine</b><small>Bayesian fusion + decision tree → ranked value + confidence + evidence</small></div>
+    </div>
+
+    <div class="lane">
+      <span class="lane-label">Core</span>
+      <div class="box">Local PBF<br><small>Geofabrik VN</small></div>
+      <span class="arrow">→<small>import</small></span>
+      <div class="box core"><b>Editor DB</b><small>Temporal Spatial DB · PostGIS · versioned</small></div>
+      <span class="arrow">→<small>export .osc/.xml</small></span>
+      <div class="box">Merge + validate<br><small>conflict check</small></div>
+      <span class="arrow">→<small>publish</small></span>
+      <div class="box">Production<br><small>Serving DB · Martin · Valhalla</small></div>
+    </div>
+
+    <div class="lane">
+      <span class="lane-label">Sync</span>
+      <div class="box live"><b>Live OSM</b><small>openstreetmap.org</small></div>
+      <span class="arrow">⇅<small>pull base · push changeset</small></span>
+      <span class="muted" style="align-self:center;font-size:12px">The Editor DB forks features from live OSM (records <code>base_version</code>) and uploads approved changesets back — base_version mismatch = conflict to resolve, not overwrite.</span>
+    </div>
+
+    <div class="nodes">
+      <div class="node geom">
+        <div class="who">Geometry &amp; QA node · led by Quân</div>
+        <h3>Road geometry, topology &amp; the review gate</h3>
+        <ul>
+          <li>Digitise / align / split ways; conflate new roads from satellite &amp; MMS</li>
+          <li>Connectivity &amp; route-relation integrity (his RouteSense C1–C7 checks)</li>
+          <li>Changeset <b>review → approve</b> gate before push (OSMCha-style diff)</li>
+          <li>Tool: <b>JOSM</b> today; clone <b>GeoLibre</b> for in-browser geometry editing if needed</li>
+        </ul>
+      </div>
+      <div class="node meta">
+        <div class="who">Metadata node · led by Tuệ</div>
+        <h3>Attribute (tag) editing — table-based</h3>
+        <ul>
+          <li>The lane-visualizer concept: one row per way, inline edit, evidence links</li>
+          <li>Length-weighted completeness, edit-freshness profile, Mapillary/JOSM/iD deep-links</li>
+          <li><b>Presets</b> drive the columns: <b>maxspeed</b> (live) → extensible to <b>maxheight</b>, <b>turn restriction</b>, <b>lanes</b></li>
+          <li>Every edit carries street-view evidence + provenance into the changeset</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <h2>Suggestion engine — AI detects, rules &amp; probability reason, human decides</h2>
+  <div class="two">
+    <div>
+      <p><b>Multi-source, never blind-copy.</b> Each input drops <code>observation</code> rows
+      (<code>lat, lon, attr, value, source, confidence, date, image</code>). For a given way + attribute the engine produces one ranked suggestion:</p>
+      <ul>
+        <li><b>Decision tree</b> — deterministic legal/morphology rules (Circular 38/2024: carriageway type → default speed). Already encoded as the editor's U/R legal defaults.</li>
+        <li><b>Bayesian fusion</b> — combine noisy observations into a posterior P(value | evidence): a Mapillary sign, a GSV read, the legal prior, and neighbour-segment consensus each update belief, weighted by source reliability.</li>
+      </ul>
+      <p>The human editor sees <b>value + posterior + the evidence behind it</b>, and <b>accept / override / reject</b> — recorded on the edit. No changeset ships without verifiable evidence (the SOP rule that keeps accounts un-banned).</p>
+    </div>
+    <div>
+      <p class="muted" style="font-size:12px;margin-bottom:6px">Two editing modes, one suggestion flow:</p>
+      <table class="grid">
+        <tr><th>Track</th><th>Edits</th><th>Suggested by</th></tr>
+        <tr><td>Geometry</td><td>node/way/relation shape &amp; topology</td><td>satellite/MMS conflation + connectivity checks</td></tr>
+        <tr><td>Metadata</td><td>tags (maxspeed, maxheight, turn, lanes…)</td><td>sign detections + legal rule + consensus</td></tr>
+      </table>
+      <p style="margin-top:10px" class="muted" style="font-size:12px">Same store, same review gate, same push path — only the editing surface differs.</p>
+    </div>
+  </div>
+
+  <h2>How to use</h2>
+  <div class="two">
+    <div>
+      <h3 style="margin-bottom:6px">Metadata track — edit a road's attributes</h3>
+      <ol class="steps">
+        <li><b>Open a road.</b> In the Editor, <i>Search by</i> ref / name / id (e.g. <code>QL.51</code>), or click <b>Open →</b> from the Dashboard, or deep-link <code>/editor?ref=QL.51</code>.</li>
+        <li><b>Read the speed profile.</b> Bar height = maxspeed, colour = edit freshness (green fresh → red ≥2 yr stale), grey = missing. Use the <b>zoom</b> slider on long routes; hover a bar for segment stats.</li>
+        <li><b>Edit in the table.</b> One row per way. Pick a <b>preset</b> (Max speed), inline-select a value or apply the <b>U / R legal default</b> (Circular 38). Checkbox + Shift-range to bulk-set; a blue ring marks a staged edit.</li>
+        <li><b>Verify with evidence.</b> Per-row chips — 📷 Mapillary, iD, JOSM, L0 — open street view / editors at that segment. <b>No edit ships without a street-view check.</b></li>
+        <li><b>Stage &amp; apply.</b> <b>Copy</b> emits <code>way,maxspeed</code> CSV to apply in iD/JOSM today; later it writes straight to the Editor DB.</li>
+      </ol>
+    </div>
+    <div>
+      <h3 style="margin-bottom:6px">Geometry &amp; QA track — RouteSense</h3>
+      <ol class="steps">
+        <li><b>Check a route.</b> Search a relation → the <b>C1–C7</b> checks flag connectivity islands, oneway / flow, maxspeed sanity, broken turn restrictions, ref continuity, lanes and access. Filter by severity, click a row to zoom + deep-link iD.</li>
+        <li><b>Review a mapper.</b> Changeset mode: enter an OSM username → per-changeset tag diffs, moved-node arrows, deleted geometry (OSMCha-style), and edit-km totals.</li>
+      </ol>
+      <div class="ask" style="margin-top:12px"><b>Everything stays in sync.</b> Click a segment on the <b>map</b>, the <b>table</b>, or the <b>speed profile</b> and the other two focus the same way — so evidence, edit and chart always agree.</div>
+      <div class="ask" style="margin-top:10px"><b>Tip.</b> Hover any table row to highlight that segment on the map in place; the <b>(Z)</b> chip zooms to it. Drag the divider to resize table vs map; the layer control (top-right) switches base imagery or takes a custom <code>{z}/{x}/{y}</code> tile source.</div>
+    </div>
+  </div>
+
+  <h2>Editor DB — PostGIS schema (proposed)</h2>
+  <p class="muted">Temporal Spatial DB: versioned, write-heavy. <code>feature</code> = the editable entity; <code>observation</code> = the OKR <code>[lat,lon,loại,giá trị,nguồn,ngày]</code> row; <code>edit</code> = the temporal change log; <code>changeset</code> = the review/approve/push unit. Both tracks write the same tables.</p>
+  <pre class="sql"><span class="c">-- Editor (Temporal) Spatial DB — PostGIS, versioned, write-heavy</span>
+<span class="k">CREATE EXTENSION IF NOT EXISTS</span> postgis;
+
+<span class="c">-- 1 · Canonical editable feature (forked from local PBF / live OSM)</span>
+<span class="k">CREATE TABLE</span> <span class="t">feature</span> (
+  feature_id   bigserial <span class="k">PRIMARY KEY</span>,
+  osm_type     text <span class="k">NOT NULL CHECK</span> (osm_type <span class="k">IN</span> ('node','way','relation')),
+  osm_id       bigint,                          <span class="c">-- null until first push to OSM</span>
+  geom         geometry(Geometry,4326) <span class="k">NOT NULL</span>,
+  tags         jsonb <span class="k">NOT NULL DEFAULT</span> '{}',     <span class="c">-- current accepted tag set</span>
+  track        text <span class="k">CHECK</span> (track <span class="k">IN</span> ('geometry','metadata')),
+  version      int  <span class="k">NOT NULL DEFAULT</span> 1,
+  base_version int,                             <span class="c">-- live-OSM version forked from (conflict check)</span>
+  status       text <span class="k">NOT NULL DEFAULT</span> 'clean'
+                 <span class="k">CHECK</span> (status <span class="k">IN</span> ('clean','draft','staged','approved','pushed','conflict')),
+  updated_by   text,
+  updated_at   timestamptz <span class="k">NOT NULL DEFAULT</span> now()
+);
+<span class="k">CREATE INDEX</span> feature_geom_gix <span class="k">ON</span> <span class="t">feature</span> <span class="k">USING</span> gist (geom);
+<span class="k">CREATE INDEX</span> feature_osm_idx  <span class="k">ON</span> <span class="t">feature</span> (osm_type, osm_id);
+<span class="k">CREATE INDEX</span> feature_tags_gin <span class="k">ON</span> <span class="t">feature</span> <span class="k">USING</span> gin (tags);
+
+<span class="c">-- 2 · Multi-source observations  (the OKR [lat,lon,loại,giá trị,nguồn,ngày] row)</span>
+<span class="k">CREATE TABLE</span> <span class="t">observation</span> (
+  obs_id     bigserial <span class="k">PRIMARY KEY</span>,
+  geom       geometry(Point,4326) <span class="k">NOT NULL</span>,
+  attr       text <span class="k">NOT NULL</span>,                   <span class="c">-- 'maxspeed'|'maxheight'|'turn'|'lanes'…</span>
+  value      text <span class="k">NOT NULL</span>,
+  source     text <span class="k">NOT NULL</span>,                   <span class="c">-- 'osm'|'mapillary'|'gsv'|'satellite'|'legal_tt38'|'probe'</span>
+  confidence real,                            <span class="c">-- source-reported reliability 0..1</span>
+  observed_at date <span class="k">NOT NULL</span>,
+  image_ref  text,                            <span class="c">-- evidence URL (Mapillary/GSV/screenshot)</span>
+  raw        jsonb
+);
+<span class="k">CREATE INDEX</span> observation_geom_gix <span class="k">ON</span> <span class="t">observation</span> <span class="k">USING</span> gist (geom);
+<span class="k">CREATE INDEX</span> observation_attr_idx <span class="k">ON</span> <span class="t">observation</span> (attr);
+
+<span class="c">-- 3 · Engine output: per-feature suggestion (Bayesian posterior + decision-tree rule)</span>
+<span class="k">CREATE TABLE</span> <span class="t">suggestion</span> (
+  sug_id     bigserial <span class="k">PRIMARY KEY</span>,
+  feature_id bigint <span class="k">REFERENCES</span> <span class="t">feature</span> <span class="k">ON DELETE CASCADE</span>,
+  attr       text <span class="k">NOT NULL</span>,
+  value      text <span class="k">NOT NULL</span>,
+  posterior  real <span class="k">NOT NULL</span>,                   <span class="c">-- P(value | evidence)</span>
+  method     text <span class="k">NOT NULL CHECK</span> (method <span class="k">IN</span> ('bayes','rule_tt38','consensus')),
+  evidence   bigint[],                        <span class="c">-- observation ids that fed it</span>
+  rationale  jsonb,                           <span class="c">-- priors / rule path, shown to the editor</span>
+  created_at timestamptz <span class="k">NOT NULL DEFAULT</span> now()
+);
+<span class="k">CREATE INDEX</span> suggestion_feat_idx <span class="k">ON</span> <span class="t">suggestion</span> (feature_id, attr);
+
+<span class="c">-- 4 · Changeset: groups edits for review → approve → push (O3KR3)</span>
+<span class="k">CREATE TABLE</span> <span class="t">changeset</span> (
+  changeset_id     bigserial <span class="k">PRIMARY KEY</span>,
+  title            text,
+  comment          text,
+  opened_by        text <span class="k">NOT NULL</span>,
+  opened_at        timestamptz <span class="k">NOT NULL DEFAULT</span> now(),
+  status           text <span class="k">NOT NULL DEFAULT</span> 'open'
+                     <span class="k">CHECK</span> (status <span class="k">IN</span> ('open','review','approved','pushed','reverted')),
+  reviewed_by      text,
+  osm_changeset_id bigint,                    <span class="c">-- set after upload to live OSM</span>
+  closed_at        timestamptz
+);
+
+<span class="c">-- 5 · Temporal edit log: every staged change (geometry OR metadata) + provenance</span>
+<span class="k">CREATE TABLE</span> <span class="t">edit</span> (
+  edit_id      bigserial <span class="k">PRIMARY KEY</span>,
+  feature_id   bigint <span class="k">REFERENCES</span> <span class="t">feature</span> <span class="k">ON DELETE CASCADE</span>,
+  changeset_id bigint <span class="k">REFERENCES</span> <span class="t">changeset</span>,
+  track        text <span class="k">NOT NULL CHECK</span> (track <span class="k">IN</span> ('geometry','metadata')),
+  op           text <span class="k">NOT NULL CHECK</span> (op <span class="k">IN</span> ('create','modify','delete')),
+  before       jsonb,                          <span class="c">-- snapshot before (tags / geom)</span>
+  after        jsonb,                          <span class="c">-- snapshot after</span>
+  from_sug     bigint <span class="k">REFERENCES</span> <span class="t">suggestion</span>,   <span class="c">-- the suggestion accepted/overridden</span>
+  decision     text <span class="k">CHECK</span> (decision <span class="k">IN</span> ('accept','override','reject')),
+  evidence     jsonb,                          <span class="c">-- street-view link(s) — mandatory per SOP</span>
+  editor_id    text <span class="k">NOT NULL</span>,
+  created_at   timestamptz <span class="k">NOT NULL DEFAULT</span> now()
+);
+<span class="k">CREATE INDEX</span> edit_feat_idx <span class="k">ON</span> <span class="t">edit</span> (feature_id);
+
+<span class="c">-- 6 · Metadata presets (drive the table editor: maxspeed, maxheight, turn, lanes)</span>
+<span class="k">CREATE TABLE</span> <span class="t">preset</span> (
+  preset_id text <span class="k">PRIMARY KEY</span>,                  <span class="c">-- 'maxspeed'|'maxheight'|'turn'|'lanes'</span>
+  label     text <span class="k">NOT NULL</span>,
+  attr_keys text[] <span class="k">NOT NULL</span>,                  <span class="c">-- OSM tag keys this preset edits</span>
+  columns   jsonb <span class="k">NOT NULL</span>,                    <span class="c">-- column defs + allowed values (the sheet)</span>
+  rule_ref  text                              <span class="c">-- e.g. 'circular_38_2024' decision tree</span>
+);</pre>
+
+  <h2>Where it stands today</h2>
+  <table class="grid">
+    <tr><th>Piece</th><th>Status</th><th>Today</th></tr>
+    <tr><td>Metadata editor (table, maxspeed preset)</td><td><span class="pill p-done">built</span></td><td><code>traffic/lanes/</code> — completeness, freshness profile, evidence links; edits export as <code>way,maxspeed</code> CSV</td></tr>
+    <tr><td>Geometry &amp; QA + changeset review</td><td><span class="pill p-done">built</span></td><td>Quân's <b>RouteSense</b> (C1–C7 + OSMCha-style diff inspector), deployed; QL51 pilot → 100% maxspeed, ~19.5 km/h</td></tr>
+    <tr><td>Decision-tree suggestions (Circular 38)</td><td><span class="pill p-done">built</span></td><td>Legal U/R speed defaults in the editor presets</td></tr>
+    <tr><td>Sign/observation feed (Mapillary)</td><td><span class="pill p-wip">partial</span></td><td><code>traffic/signs/</code> emits the observation schema — speed-limit family only, to parquet</td></tr>
+    <tr><td>Bayesian fusion across sources</td><td><span class="pill p-todo">to build</span></td><td>Sources scored independently; no posterior yet</td></tr>
+    <tr><td>Editor DB (PostGIS) + .osc/XML export</td><td><span class="pill p-todo">to build</span></td><td>Everything is files today; no DB, no push/pull path</td></tr>
+    <tr><td>Push to live OSM / serve to production</td><td><span class="pill p-todo">to build</span></td><td>Edits applied by hand in iD/JOSM; production serving owned by O4</td></tr>
+  </table>
+
+  <h2>Decisions to lock</h2>
+  <div class="two">
+    <div class="ask"><b>1 · Adopt this as the O3 MapOps editor.</b> Make the two-node tool (metadata + geometry) the official editing front-end of the platform being stood up on FPT Cloud — not two personal tools.</div>
+    <div class="ask"><b>2 · Lock the PostGIS schema</b> above with Quân &amp; O4 — it is the shared contract between O3KR2.2 (Tuệ, OSM→Editor DB) and O3KR3.2 (Quân, write-back/approve). It currently blocks every write-back path.</div>
+    <div class="ask"><b>3 · Geometry surface:</b> JOSM now; decide whether to clone <b>GeoLibre</b> for browser geometry editing so both tracks live in one web app.</div>
+    <div class="ask"><b>4 · Source priority &amp; budget:</b> confirm the GSV branch budget and whether the nav-app GPS crawl feeds the same <code>observation</code> table — so fusion has all inputs.</div>
+  </div>
+
+  <footer>
+    MapOps Toolkit · system introduction &amp; how to use · linked to O3KR1.1 (maxspeed), O3KR2.2 (OSM→Editor DB), O3KR3 (review/approve).
+    Source files: <code>traffic/lanes/</code> (metadata editor) · RouteSense (geometry/QA) · <code>archive/docs/vision/enterprise-architecture.md</code> (target EA).
+  </footer>
+</div>
+</body>
+</html>

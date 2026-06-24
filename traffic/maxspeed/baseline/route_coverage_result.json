@@ -1,0 +1,6223 @@
+[
+  {
+    "ref": "QL.1",
+    "km": 4609.2,
+    "centerline_km": 2768.7,
+    "maxspeed_km": 1407.3,
+    "pct_maxspeed": 30.5,
+    "classes": "motorway,primary,trunk",
+    "n_ways": 5197,
+    "n_relations": 1,
+    "components": 189,
+    "name": "Quốc lộ 1",
+    "rel_ids": [
+      15683339
+    ]
+  },
+  {
+    "ref": "CT.01",
+    "km": 3913.8,
+    "centerline_km": 1956.9,
+    "maxspeed_km": 3891.0,
+    "pct_maxspeed": 99.4,
+    "classes": "motorway,trunk",
+    "n_ways": 3972,
+    "n_relations": 26,
+    "components": 16,
+    "name": "Hầm đường bộ Đèo Cả",
+    "rel_ids": [
+      7433843,
+      7433845,
+      7461973,
+      7461974,
+      12340803,
+      13685076,
+      14645897,
+      17347621,
+      17352640,
+      17352641,
+      17352776,
+      17352777,
+      17352778,
+      17354079,
+      17354096,
+      17365586,
+      17365957,
+      17365958,
+      17366184,
+      17376880,
+      17576164,
+      17576179,
+      17654799,
+      17688324,
+      17718817,
+      17722827
+    ]
+  },
+  {
+    "ref": "AH1",
+    "km": 3640.1,
+    "centerline_km": 1855.9,
+    "maxspeed_km": 3343.1,
+    "pct_maxspeed": 91.8,
+    "classes": "motorway,primary,trunk",
+    "n_ways": 3560,
+    "n_relations": 5,
+    "components": 61,
+    "name": "Asian Highway",
+    "rel_ids": [
+      152361,
+      3839665,
+      4460039,
+      5146572,
+      15716434
+    ]
+  },
+  {
+    "ref": "HCM",
+    "km": 2923.2,
+    "centerline_km": 2652.8,
+    "maxspeed_km": 783.2,
+    "pct_maxspeed": 26.8,
+    "classes": "motorway,primary,tertiary,trunk",
+    "n_ways": 1893,
+    "n_relations": 2,
+    "components": 64,
+    "name": "Đường Hồ Chí Minh",
+    "rel_ids": [
+      393937,
+      20687385
+    ]
+  },
+  {
+    "ref": "Vành đai 1 (Bao gồm quốc lộ 4, 4A, 4B, 4C, 4D, 4H)",
+    "km": 1404.0,
+    "centerline_km": 1343.7,
+    "maxspeed_km": 123.0,
+    "pct_maxspeed": 8.8,
+    "classes": "primary,trunk",
+    "n_ways": 627,
+    "n_relations": 1,
+    "components": 29,
+    "name": "Vành đai 1 (Bao gồm quốc lộ 4, 4A, 4B, 4C, 4D, 4H)",
+    "rel_ids": [
+      14484090
+    ]
+  },
+  {
+    "ref": "CT.02",
+    "km": 1144.6,
+    "centerline_km": 640.6,
+    "maxspeed_km": 1099.3,
+    "pct_maxspeed": 96.0,
+    "classes": "motorway,primary,trunk",
+    "n_ways": 1151,
+    "n_relations": 3,
+    "components": 21,
+    "name": "Đường cao tốc Bắc - Nam phía Tây",
+    "rel_ids": [
+      13706703,
+      14404808,
+      17366022
+    ]
+  },
+  {
+    "ref": "QL.14",
+    "km": 1123.9,
+    "centerline_km": 983.1,
+    "maxspeed_km": 115.9,
+    "pct_maxspeed": 10.3,
+    "classes": "primary,trunk",
+    "n_ways": 687,
+    "n_relations": 1,
+    "components": 26,
+    "name": "Quốc lộ 14",
+    "rel_ids": [
+      1079404
+    ]
+  },
+  {
+    "ref": "AH17",
+    "km": 1094.3,
+    "centerline_km": 882.9,
+    "maxspeed_km": 160.2,
+    "pct_maxspeed": 14.6,
+    "classes": "primary,trunk",
+    "n_ways": 986,
+    "n_relations": 2,
+    "components": 53,
+    "name": "Aisan Highway 17",
+    "rel_ids": [
+      13488072,
+      14541769
+    ]
+  },
+  {
+    "ref": "QL.279",
+    "km": 949.7,
+    "centerline_km": 937.1,
+    "maxspeed_km": 1.8,
+    "pct_maxspeed": 0.2,
+    "classes": "primary,trunk",
+    "n_ways": 545,
+    "n_relations": 1,
+    "components": 16,
+    "name": "Quốc lộ 279",
+    "rel_ids": [
+      13764931
+    ]
+  },
+  {
+    "ref": "AH14",
+    "km": 773.7,
+    "centerline_km": 387.3,
+    "maxspeed_km": 675.0,
+    "pct_maxspeed": 87.2,
+    "classes": "motorway,primary,trunk",
+    "n_ways": 930,
+    "n_relations": 2,
+    "components": 9,
+    "name": "Asian Highway AH14 (China Section)",
+    "rel_ids": [
+      5873170,
+      15690066
+    ]
+  },
+  {
+    "ref": "CT.01;CT.02",
+    "km": 730.9,
+    "centerline_km": 365.4,
+    "maxspeed_km": 730.9,
+    "pct_maxspeed": 100.0,
+    "classes": "motorway",
+    "n_ways": 733,
+    "n_relations": 7,
+    "components": 1,
+    "name": "Đường cao tốc Bãi Vọt – Hàm Nghi",
+    "rel_ids": [
+      17365645,
+      17366183,
+      17412421,
+      17755270,
+      17755271,
+      18493978,
+      19074921
+    ]
+  },
+  {
+    "ref": "TSĐ",
+    "km": 644.0,
+    "centerline_km": 640.8,
+    "maxspeed_km": 467.4,
+    "pct_maxspeed": 72.6,
+    "classes": "primary,secondary,tertiary,trunk",
+    "n_ways": 377,
+    "n_relations": 1,
+    "components": 8,
+    "name": "Đường Trường Sơn Đông",
+    "rel_ids": [
+      16623925
+    ]
+  },
+  {
+    "ref": "QL.37",
+    "km": 619.0,
+    "centerline_km": 571.8,
+    "maxspeed_km": 90.0,
+    "pct_maxspeed": 14.5,
+    "classes": "motorway,primary,trunk",
+    "n_ways": 503,
+    "n_relations": 1,
+    "components": 44,
+    "name": "Vành đai 3 (Quốc lộ 37)",
+    "rel_ids": [
+      14177175
+    ]
+  },
+  {
+    "ref": "QL.15",
+    "km": 602.3,
+    "centerline_km": 588.4,
+    "maxspeed_km": 187.8,
+    "pct_maxspeed": 31.2,
+    "classes": "primary,trunk",
+    "n_ways": 276,
+    "n_relations": 1,
+    "components": 6,
+    "name": "Quốc lộ 15",
+    "rel_ids": [
+      18172906
+    ]
+  },
+  {
+    "ref": "QL.6",
+    "km": 476.3,
+    "centerline_km": 467.1,
+    "maxspeed_km": 33.9,
+    "pct_maxspeed": 7.1,
+    "classes": "primary,trunk",
+    "n_ways": 244,
+    "n_relations": 1,
+    "components": 7,
+    "name": "Quốc lộ 6",
+    "rel_ids": [
+      10710868
+    ]
+  },
+  {
+    "ref": "QL.18",
+    "km": 468.9,
+    "centerline_km": 327.1,
+    "maxspeed_km": 175.2,
+    "pct_maxspeed": 37.4,
+    "classes": "motorway,secondary,tertiary,trunk",
+    "n_ways": 949,
+    "n_relations": 1,
+    "components": 20,
+    "name": "Quốc lộ 18",
+    "rel_ids": [
+      14484089
+    ]
+  },
+  {
+    "ref": "CT.05",
+    "km": 451.5,
+    "centerline_km": 225.8,
+    "maxspeed_km": 425.4,
+    "pct_maxspeed": 94.2,
+    "classes": "motorway,trunk",
+    "n_ways": 471,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường cao tốc Hà Nội - Lào Cai",
+    "rel_ids": [
+      7389636
+    ]
+  },
+  {
+    "ref": "G219",
+    "km": 444.8,
+    "centerline_km": 418.8,
+    "maxspeed_km": 57.2,
+    "pct_maxspeed": 12.9,
+    "classes": "primary,trunk",
+    "n_ways": 123,
+    "n_relations": 1,
+    "components": 15,
+    "name": "219国道 喀东线",
+    "rel_ids": [
+      208078
+    ]
+  },
+  {
+    "ref": "QL.14C",
+    "km": 420.2,
+    "centerline_km": 415.8,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,trunk",
+    "n_ways": 87,
+    "n_relations": 1,
+    "components": 9,
+    "name": "Quốc lộ 14C",
+    "rel_ids": [
+      13481337
+    ]
+  },
+  {
+    "ref": "QL.32",
+    "km": 407.3,
+    "centerline_km": 384.4,
+    "maxspeed_km": 1.7,
+    "pct_maxspeed": 0.4,
+    "classes": "secondary,trunk",
+    "n_ways": 317,
+    "n_relations": 1,
+    "components": 6,
+    "name": "Quốc lộ 32",
+    "rel_ids": [
+      18157093
+    ]
+  },
+  {
+    "ref": "QL.3",
+    "km": 369.1,
+    "centerline_km": 332.5,
+    "maxspeed_km": 9.6,
+    "pct_maxspeed": 2.6,
+    "classes": "trunk",
+    "n_ways": 240,
+    "n_relations": 1,
+    "components": 15,
+    "name": "Quốc lộ 3",
+    "rel_ids": [
+      18186261
+    ]
+  },
+  {
+    "ref": "QL.2",
+    "km": 366.1,
+    "centerline_km": 301.9,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary,trunk",
+    "n_ways": 324,
+    "n_relations": 2,
+    "components": 34,
+    "name": "Quốc lộ 2",
+    "rel_ids": [
+      14548977,
+      18177601
+    ]
+  },
+  {
+    "ref": "CT.06",
+    "km": 353.1,
+    "centerline_km": 176.6,
+    "maxspeed_km": 353.1,
+    "pct_maxspeed": 100.0,
+    "classes": "motorway",
+    "n_ways": 404,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường cao tốc Hải Phòng - Móng Cái",
+    "rel_ids": [
+      13718997
+    ]
+  },
+  {
+    "ref": "QL.4H",
+    "km": 346.4,
+    "centerline_km": 342.9,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,tertiary",
+    "n_ways": 154,
+    "n_relations": 1,
+    "components": 5,
+    "name": "Quốc lộ 4H",
+    "rel_ids": [
+      15698472
+    ]
+  },
+  {
+    "ref": "QL.4A",
+    "km": 344.1,
+    "centerline_km": 339.7,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 106,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Quốc lộ 4A",
+    "rel_ids": [
+      18208508
+    ]
+  },
+  {
+    "ref": "QL.55",
+    "km": 324.2,
+    "centerline_km": 307.8,
+    "maxspeed_km": 8.8,
+    "pct_maxspeed": 2.7,
+    "classes": "primary,trunk",
+    "n_ways": 236,
+    "n_relations": 1,
+    "components": 10,
+    "name": "Quốc lộ 55",
+    "rel_ids": [
+      17581991
+    ]
+  },
+  {
+    "ref": "QL.28",
+    "km": 310.9,
+    "centerline_km": 306.9,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "tertiary,trunk",
+    "n_ways": 110,
+    "n_relations": 1,
+    "components": 5,
+    "name": "Quốc lộ 28",
+    "rel_ids": [
+      6608102
+    ]
+  },
+  {
+    "ref": "QL.29",
+    "km": 304.8,
+    "centerline_km": 285.4,
+    "maxspeed_km": 282.5,
+    "pct_maxspeed": 92.7,
+    "classes": "trunk",
+    "n_ways": 103,
+    "n_relations": 1,
+    "components": 16,
+    "name": "Quốc lộ 29",
+    "rel_ids": [
+      17348488
+    ]
+  },
+  {
+    "ref": "QL.10",
+    "km": 303.0,
+    "centerline_km": 213.9,
+    "maxspeed_km": 7.0,
+    "pct_maxspeed": 2.3,
+    "classes": "trunk",
+    "n_ways": 375,
+    "n_relations": 1,
+    "components": 11,
+    "name": "Quốc lộ 10",
+    "rel_ids": [
+      16036560
+    ]
+  },
+  {
+    "ref": "QL.34",
+    "km": 287.4,
+    "centerline_km": 282.4,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 113,
+    "n_relations": 1,
+    "components": 7,
+    "name": "Quốc lộ 34",
+    "rel_ids": [
+      18186259
+    ]
+  },
+  {
+    "ref": "QL.20",
+    "km": 283.3,
+    "centerline_km": 278.2,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 154,
+    "n_relations": 1,
+    "components": 13,
+    "name": "Quốc lộ 20",
+    "rel_ids": [
+      1079222
+    ]
+  },
+  {
+    "ref": "QL.27",
+    "km": 280.3,
+    "centerline_km": 271.1,
+    "maxspeed_km": 222.7,
+    "pct_maxspeed": 79.5,
+    "classes": "primary,trunk",
+    "n_ways": 117,
+    "n_relations": 1,
+    "components": 5,
+    "name": "Quốc lộ 27",
+    "rel_ids": [
+      14456939
+    ]
+  },
+  {
+    "ref": "QL.19",
+    "km": 280.3,
+    "centerline_km": 236.9,
+    "maxspeed_km": 30.3,
+    "pct_maxspeed": 10.8,
+    "classes": "primary,trunk",
+    "n_ways": 197,
+    "n_relations": 1,
+    "components": 12,
+    "name": "Quốc lộ 19",
+    "rel_ids": [
+      16092615
+    ]
+  },
+  {
+    "ref": "QL.13",
+    "km": 274.6,
+    "centerline_km": 154.5,
+    "maxspeed_km": 3.4,
+    "pct_maxspeed": 1.3,
+    "classes": "primary,trunk",
+    "n_ways": 388,
+    "n_relations": 1,
+    "components": 17,
+    "name": "Quốc lộ 13",
+    "rel_ids": [
+      17358640
+    ]
+  },
+  {
+    "ref": "QL.3B",
+    "km": 269.4,
+    "centerline_km": 266.2,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "tertiary,trunk",
+    "n_ways": 114,
+    "n_relations": 1,
+    "components": 7,
+    "name": "Quốc lộ 3B",
+    "rel_ids": [
+      18211652
+    ]
+  },
+  {
+    "ref": "G676",
+    "km": 266.4,
+    "centerline_km": 253.6,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,trunk",
+    "n_ways": 47,
+    "n_relations": 1,
+    "components": 13,
+    "name": "676国道",
+    "rel_ids": [
+      17258606
+    ]
+  },
+  {
+    "ref": "QL.5",
+    "km": 257.1,
+    "centerline_km": 128.5,
+    "maxspeed_km": 58.5,
+    "pct_maxspeed": 22.7,
+    "classes": "trunk",
+    "n_ways": 309,
+    "n_relations": 1,
+    "components": 24,
+    "name": "Quốc lộ 5",
+    "rel_ids": [
+      14862136
+    ]
+  },
+  {
+    "ref": "AH21",
+    "km": 242.4,
+    "centerline_km": 225.9,
+    "maxspeed_km": 1.4,
+    "pct_maxspeed": 0.6,
+    "classes": "primary,trunk",
+    "n_ways": 122,
+    "n_relations": 3,
+    "components": 8,
+    "name": "Asian Highway AH21",
+    "rel_ids": [
+      15655350,
+      15685647,
+      15685649
+    ]
+  },
+  {
+    "ref": "AH123",
+    "km": 235.2,
+    "centerline_km": 227.0,
+    "maxspeed_km": 204.9,
+    "pct_maxspeed": 87.1,
+    "classes": "primary,trunk",
+    "n_ways": 308,
+    "n_relations": 1,
+    "components": 17,
+    "name": "Asian Highway AH123",
+    "rel_ids": [
+      919746
+    ]
+  },
+  {
+    "ref": "Đường Xuyên Á số 21",
+    "km": 225.5,
+    "centerline_km": 209.1,
+    "maxspeed_km": 9.7,
+    "pct_maxspeed": 4.3,
+    "classes": "primary,trunk",
+    "n_ways": 119,
+    "n_relations": 1,
+    "components": 8,
+    "name": "Đường Xuyên Á số 21",
+    "rel_ids": [
+      15685648
+    ]
+  },
+  {
+    "ref": "QL.21",
+    "km": 224.5,
+    "centerline_km": 209.6,
+    "maxspeed_km": 9.4,
+    "pct_maxspeed": 4.2,
+    "classes": "primary,secondary,trunk",
+    "n_ways": 184,
+    "n_relations": 1,
+    "components": 8,
+    "name": "Quốc lộ 21",
+    "rel_ids": [
+      17718084
+    ]
+  },
+  {
+    "ref": "QL.80",
+    "km": 215.6,
+    "centerline_km": 211.0,
+    "maxspeed_km": 105.2,
+    "pct_maxspeed": 48.8,
+    "classes": "trunk",
+    "n_ways": 357,
+    "n_relations": 1,
+    "components": 15,
+    "name": "Quốc lộ 80",
+    "rel_ids": [
+      2049387
+    ]
+  },
+  {
+    "ref": "4C",
+    "km": 214.2,
+    "centerline_km": 214.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "tertiary,trunk",
+    "n_ways": 69,
+    "n_relations": 1,
+    "components": 6,
+    "name": "Quốc lộ 4C",
+    "rel_ids": [
+      16088635
+    ]
+  },
+  {
+    "ref": "CT.04",
+    "km": 211.6,
+    "centerline_km": 105.8,
+    "maxspeed_km": 207.1,
+    "pct_maxspeed": 97.9,
+    "classes": "motorway",
+    "n_ways": 192,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường cao tốc Hà Nội – Hải Phòng",
+    "rel_ids": [
+      7388559
+    ]
+  },
+  {
+    "ref": "QL.40B",
+    "km": 207.6,
+    "centerline_km": 201.5,
+    "maxspeed_km": 206.1,
+    "pct_maxspeed": 99.2,
+    "classes": "primary,trunk",
+    "n_ways": 225,
+    "n_relations": 1,
+    "components": 4,
+    "name": "Quốc lộ 40B",
+    "rel_ids": [
+      14562663
+    ]
+  },
+  {
+    "ref": "QL.70",
+    "km": 206.6,
+    "centerline_km": 198.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 90,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Quốc lộ 70",
+    "rel_ids": [
+      18177600
+    ]
+  },
+  {
+    "ref": "QL.4D",
+    "km": 198.2,
+    "centerline_km": 180.5,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,trunk",
+    "n_ways": 118,
+    "n_relations": 1,
+    "components": 9,
+    "name": "Quốc lộ 4D",
+    "rel_ids": [
+      18177599
+    ]
+  },
+  {
+    "ref": "QL.91",
+    "km": 194.9,
+    "centerline_km": 160.0,
+    "maxspeed_km": 31.6,
+    "pct_maxspeed": 16.2,
+    "classes": "primary,secondary,tertiary,trunk",
+    "n_ways": 392,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Quốc lộ 91",
+    "rel_ids": [
+      4216804
+    ]
+  },
+  {
+    "ref": "QL.217",
+    "km": 193.8,
+    "centerline_km": 193.3,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 69,
+    "n_relations": 1,
+    "components": 7,
+    "name": "Quốc lộ 217",
+    "rel_ids": [
+      18208509
+    ]
+  },
+  {
+    "ref": "QL.3C",
+    "km": 190.9,
+    "centerline_km": 190.9,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 54,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Quốc lộ 3C",
+    "rel_ids": [
+      18211651
+    ]
+  },
+  {
+    "ref": "QL.7",
+    "km": 187.8,
+    "centerline_km": 184.7,
+    "maxspeed_km": 30.1,
+    "pct_maxspeed": 16.0,
+    "classes": "trunk",
+    "n_ways": 61,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Quốc lộ 7",
+    "rel_ids": [
+      453776
+    ]
+  },
+  {
+    "ref": "Đường Vành đai 2 Thành phố Hồ Chí Minh",
+    "km": 186.3,
+    "centerline_km": 95.4,
+    "maxspeed_km": 116.4,
+    "pct_maxspeed": 62.5,
+    "classes": "primary,secondary,tertiary,trunk",
+    "n_ways": 676,
+    "n_relations": 1,
+    "components": 21,
+    "name": "Đường Vành đai 2 Thành phố Hồ Chí Minh",
+    "rel_ids": [
+      13517488
+    ]
+  },
+  {
+    "ref": "QL.25",
+    "km": 184.2,
+    "centerline_km": 177.9,
+    "maxspeed_km": 183.2,
+    "pct_maxspeed": 99.5,
+    "classes": "primary,trunk",
+    "n_ways": 117,
+    "n_relations": 1,
+    "components": 7,
+    "name": "Quốc lộ 25",
+    "rel_ids": [
+      17348489
+    ]
+  },
+  {
+    "ref": "QL.24",
+    "km": 183.4,
+    "centerline_km": 166.1,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary,trunk",
+    "n_ways": 110,
+    "n_relations": 1,
+    "components": 9,
+    "name": "Quốc lộ 24",
+    "rel_ids": [
+      13487255
+    ]
+  },
+  {
+    "ref": "QL.16",
+    "km": 182.9,
+    "centerline_km": 182.9,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 70,
+    "n_relations": 2,
+    "components": 5,
+    "name": "Quốc lộ 16",
+    "rel_ids": [
+      18231894,
+      19533875
+    ]
+  },
+  {
+    "ref": "CT.07",
+    "km": 176.3,
+    "centerline_km": 107.3,
+    "maxspeed_km": 176.3,
+    "pct_maxspeed": 100.0,
+    "classes": "motorway,trunk",
+    "n_ways": 143,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Đường cao tốc Hà Nội – Thái Nguyên – Bắc Kạn – Cao Bằng",
+    "rel_ids": [
+      13697891
+    ]
+  },
+  {
+    "ref": "QL.91B",
+    "km": 176.1,
+    "centerline_km": 163.0,
+    "maxspeed_km": 15.1,
+    "pct_maxspeed": 8.6,
+    "classes": "trunk",
+    "n_ways": 250,
+    "n_relations": 1,
+    "components": 12,
+    "name": "Quốc lộ 91B",
+    "rel_ids": [
+      9332363
+    ]
+  },
+  {
+    "ref": "QL.12",
+    "km": 172.8,
+    "centerline_km": 167.8,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,trunk",
+    "n_ways": 117,
+    "n_relations": 2,
+    "components": 3,
+    "name": "Quốc lộ 12",
+    "rel_ids": [
+      394237,
+      18177598
+    ]
+  },
+  {
+    "ref": "QL.17",
+    "km": 167.6,
+    "centerline_km": 141.6,
+    "maxspeed_km": 32.8,
+    "pct_maxspeed": 19.6,
+    "classes": "primary,secondary,trunk",
+    "n_ways": 172,
+    "n_relations": 1,
+    "components": 9,
+    "name": "Quốc lộ 17",
+    "rel_ids": [
+      18193629
+    ]
+  },
+  {
+    "ref": "QL.26",
+    "km": 164.5,
+    "centerline_km": 153.6,
+    "maxspeed_km": 124.5,
+    "pct_maxspeed": 75.7,
+    "classes": "primary,trunk",
+    "n_ways": 89,
+    "n_relations": 1,
+    "components": 9,
+    "name": "Quốc lộ 26",
+    "rel_ids": [
+      14456938
+    ]
+  },
+  {
+    "ref": "QL.53",
+    "km": 163.8,
+    "centerline_km": 153.1,
+    "maxspeed_km": 8.8,
+    "pct_maxspeed": 5.4,
+    "classes": "trunk",
+    "n_ways": 204,
+    "n_relations": 1,
+    "components": 10,
+    "name": "Quốc lộ 53",
+    "rel_ids": [
+      13844057
+    ]
+  },
+  {
+    "ref": "CT.37",
+    "km": 162.3,
+    "centerline_km": 82.7,
+    "maxspeed_km": 114.8,
+    "pct_maxspeed": 70.7,
+    "classes": "motorway,primary,trunk",
+    "n_ways": 458,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường vành đai 3 Thành phố Hà Nội",
+    "rel_ids": [
+      7385141
+    ]
+  },
+  {
+    "ref": "QL.8",
+    "km": 160.8,
+    "centerline_km": 115.3,
+    "maxspeed_km": 135.1,
+    "pct_maxspeed": 84.0,
+    "classes": "secondary,tertiary,trunk",
+    "n_ways": 126,
+    "n_relations": 1,
+    "components": 13,
+    "name": "Quốc lộ 8",
+    "rel_ids": [
+      16926979
+    ]
+  },
+  {
+    "ref": "QL.48E",
+    "km": 159.7,
+    "centerline_km": 159.7,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,trunk",
+    "n_ways": 48,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Quốc lộ 48E",
+    "rel_ids": [
+      18167840
+    ]
+  },
+  {
+    "ref": "VHE",
+    "km": 158.4,
+    "centerline_km": 79.2,
+    "maxspeed_km": 158.4,
+    "pct_maxspeed": 100.0,
+    "classes": "motorway",
+    "n_ways": 131,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường cao tốc Hà Nội - Viêng Chăn",
+    "rel_ids": [
+      17992336
+    ]
+  },
+  {
+    "ref": "QL.48",
+    "km": 158.4,
+    "centerline_km": 158.1,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 51,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Quốc lộ 48",
+    "rel_ids": [
+      18172902
+    ]
+  },
+  {
+    "ref": "QL.51",
+    "km": 155.5,
+    "centerline_km": 80.2,
+    "maxspeed_km": 121.4,
+    "pct_maxspeed": 78.1,
+    "classes": "primary,trunk",
+    "n_ways": 317,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Quốc lộ 51",
+    "rel_ids": [
+      10598315
+    ]
+  },
+  {
+    "ref": "QL.37B",
+    "km": 154.2,
+    "centerline_km": 144.6,
+    "maxspeed_km": 64.5,
+    "pct_maxspeed": 41.8,
+    "classes": "primary,trunk",
+    "n_ways": 139,
+    "n_relations": 1,
+    "components": 8,
+    "name": "Quốc lộ 37B",
+    "rel_ids": [
+      14571666
+    ]
+  },
+  {
+    "ref": "QL.54",
+    "km": 149.9,
+    "centerline_km": 149.1,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 169,
+    "n_relations": 1,
+    "components": 12,
+    "name": "Quốc lộ 54",
+    "rel_ids": [
+      17581990
+    ]
+  },
+  {
+    "ref": "QL.15C",
+    "km": 149.3,
+    "centerline_km": 149.3,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 41,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Quốc Lộ 15C",
+    "rel_ids": [
+      19533874
+    ]
+  },
+  {
+    "ref": "CT.38",
+    "km": 147.1,
+    "centerline_km": 82.3,
+    "maxspeed_km": 146.6,
+    "pct_maxspeed": 99.7,
+    "classes": "motorway,primary",
+    "n_ways": 156,
+    "n_relations": 1,
+    "components": 31,
+    "name": "Đường vành đai 4 (Hà Nội)",
+    "rel_ids": [
+      14166302
+    ]
+  },
+  {
+    "ref": "QL.1B",
+    "km": 146.9,
+    "centerline_km": 144.5,
+    "maxspeed_km": 5.3,
+    "pct_maxspeed": 3.6,
+    "classes": "trunk",
+    "n_ways": 81,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Quốc lộ 1B",
+    "rel_ids": [
+      18208507
+    ]
+  },
+  {
+    "ref": "QL.47",
+    "km": 146.4,
+    "centerline_km": 133.9,
+    "maxspeed_km": 0.3,
+    "pct_maxspeed": 0.2,
+    "classes": "primary,secondary,trunk",
+    "n_ways": 100,
+    "n_relations": 1,
+    "components": 9,
+    "name": "Quốc lộ 47",
+    "rel_ids": [
+      18212487
+    ]
+  },
+  {
+    "ref": "QL.12A",
+    "km": 145.2,
+    "centerline_km": 141.5,
+    "maxspeed_km": 143.2,
+    "pct_maxspeed": 98.6,
+    "classes": "trunk",
+    "n_ways": 92,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Quốc lộ 12A",
+    "rel_ids": [
+      13472152
+    ]
+  },
+  {
+    "ref": "QL.8C",
+    "km": 144.3,
+    "centerline_km": 134.5,
+    "maxspeed_km": 41.6,
+    "pct_maxspeed": 28.8,
+    "classes": "primary,trunk",
+    "n_ways": 121,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Quốc lộ 8C",
+    "rel_ids": [
+      15511007
+    ]
+  },
+  {
+    "ref": "CT.03",
+    "km": 144.2,
+    "centerline_km": 85.7,
+    "maxspeed_km": 79.1,
+    "pct_maxspeed": 54.9,
+    "classes": "motorway,primary,trunk",
+    "n_ways": 336,
+    "n_relations": 3,
+    "components": 8,
+    "name": "Đại lộ Thăng Long",
+    "rel_ids": [
+      7433842,
+      14313453,
+      14549056
+    ]
+  },
+  {
+    "ref": "AH131",
+    "km": 143.4,
+    "centerline_km": 142.5,
+    "maxspeed_km": 117.9,
+    "pct_maxspeed": 82.2,
+    "classes": "trunk",
+    "n_ways": 89,
+    "n_relations": 1,
+    "components": 5,
+    "name": "Đường Xuyên Á số 131",
+    "rel_ids": [
+      18777575
+    ]
+  },
+  {
+    "ref": "QL.60",
+    "km": 139.4,
+    "centerline_km": 117.8,
+    "maxspeed_km": 0.3,
+    "pct_maxspeed": 0.2,
+    "classes": "trunk",
+    "n_ways": 237,
+    "n_relations": 1,
+    "components": 19,
+    "name": "Quốc lộ 60",
+    "rel_ids": [
+      11740301
+    ]
+  },
+  {
+    "ref": "QL.45",
+    "km": 135.3,
+    "centerline_km": 129.5,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 110,
+    "n_relations": 1,
+    "components": 7,
+    "name": "Quốc lộ 45",
+    "rel_ids": [
+      18208510
+    ]
+  },
+  {
+    "ref": "ĐT.547",
+    "km": 133.8,
+    "centerline_km": 125.6,
+    "maxspeed_km": 79.9,
+    "pct_maxspeed": 59.7,
+    "classes": "primary,secondary,tertiary",
+    "n_ways": 69,
+    "n_relations": 2,
+    "components": 12,
+    "name": "Đường tỉnh 547",
+    "rel_ids": [
+      18167839,
+      18168705
+    ]
+  },
+  {
+    "ref": "AH15",
+    "km": 130.1,
+    "centerline_km": 100.3,
+    "maxspeed_km": 96.7,
+    "pct_maxspeed": 74.3,
+    "classes": "tertiary,trunk",
+    "n_ways": 129,
+    "n_relations": 3,
+    "components": 10,
+    "name": "Đường Xuyên Á số 15",
+    "rel_ids": [
+      15659836,
+      15681576,
+      16926978
+    ]
+  },
+  {
+    "ref": "QL.39",
+    "km": 128.1,
+    "centerline_km": 105.4,
+    "maxspeed_km": 9.6,
+    "pct_maxspeed": 7.5,
+    "classes": "primary,trunk",
+    "n_ways": 177,
+    "n_relations": 1,
+    "components": 9,
+    "name": "Quốc lộ 39",
+    "rel_ids": [
+      19999780
+    ]
+  },
+  {
+    "ref": "QL.48C",
+    "km": 126.4,
+    "centerline_km": 126.4,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 69,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Quốc lộ 48C",
+    "rel_ids": [
+      18175940
+    ]
+  },
+  {
+    "ref": "QL.21B",
+    "km": 126.1,
+    "centerline_km": 85.3,
+    "maxspeed_km": 31.5,
+    "pct_maxspeed": 24.9,
+    "classes": "primary,trunk",
+    "n_ways": 137,
+    "n_relations": 1,
+    "components": 5,
+    "name": "Quốc lộ 21B",
+    "rel_ids": [
+      19714534
+    ]
+  },
+  {
+    "ref": "CT.24",
+    "km": 126.0,
+    "centerline_km": 63.0,
+    "maxspeed_km": 126.0,
+    "pct_maxspeed": 100.0,
+    "classes": "motorway",
+    "n_ways": 105,
+    "n_relations": 1,
+    "components": 8,
+    "name": "Đường cao tốc Khánh Hòa - Buôn Ma Thuột",
+    "rel_ids": [
+      15899800
+    ]
+  },
+  {
+    "ref": "QL.30",
+    "km": 124.3,
+    "centerline_km": 120.7,
+    "maxspeed_km": 6.7,
+    "pct_maxspeed": 5.4,
+    "classes": "primary,trunk",
+    "n_ways": 142,
+    "n_relations": 1,
+    "components": 8,
+    "name": "Quốc lộ 30",
+    "rel_ids": [
+      9332362
+    ]
+  },
+  {
+    "ref": "VĐ2",
+    "km": 123.8,
+    "centerline_km": 61.9,
+    "maxspeed_km": 60.0,
+    "pct_maxspeed": 48.4,
+    "classes": "primary,secondary,trunk",
+    "n_ways": 495,
+    "n_relations": 1,
+    "components": 24,
+    "name": "Đường vành đai 2 Thành phố Hà Nội",
+    "rel_ids": [
+      9803653
+    ]
+  },
+  {
+    "ref": "QL.38",
+    "km": 123.7,
+    "centerline_km": 95.5,
+    "maxspeed_km": 4.9,
+    "pct_maxspeed": 3.9,
+    "classes": "trunk",
+    "n_ways": 190,
+    "n_relations": 1,
+    "components": 18,
+    "name": "Quốc lộ 38",
+    "rel_ids": [
+      18359252
+    ]
+  },
+  {
+    "ref": "QL.63",
+    "km": 119.9,
+    "centerline_km": 115.3,
+    "maxspeed_km": 116.3,
+    "pct_maxspeed": 97.0,
+    "classes": "trunk",
+    "n_ways": 173,
+    "n_relations": 1,
+    "components": 8,
+    "name": "Quốc lộ 63",
+    "rel_ids": [
+      14972523
+    ]
+  },
+  {
+    "ref": "Quốc lộ 18C",
+    "km": 117.9,
+    "centerline_km": 117.9,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 44,
+    "n_relations": 1,
+    "components": 4,
+    "name": "Quốc lộ 18C",
+    "rel_ids": [
+      18370568
+    ]
+  },
+  {
+    "ref": "QL.22",
+    "km": 117.7,
+    "centerline_km": 59.0,
+    "maxspeed_km": 22.9,
+    "pct_maxspeed": 19.5,
+    "classes": "primary,trunk",
+    "n_ways": 143,
+    "n_relations": 1,
+    "components": 11,
+    "name": "Quốc lộ 22",
+    "rel_ids": [
+      14460366
+    ]
+  },
+  {
+    "ref": "Đường Quản Lộ – Phụng Hiệp",
+    "km": 111.0,
+    "centerline_km": 106.7,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,trunk",
+    "n_ways": 175,
+    "n_relations": 1,
+    "components": 8,
+    "name": "Đường Quản Lộ – Phụng Hiệp",
+    "rel_ids": [
+      16381080
+    ]
+  },
+  {
+    "ref": "QL.281",
+    "km": 110.7,
+    "centerline_km": 106.6,
+    "maxspeed_km": 2.8,
+    "pct_maxspeed": 2.5,
+    "classes": "primary,trunk",
+    "n_ways": 61,
+    "n_relations": 1,
+    "components": 8,
+    "name": "Quốc lộ 281",
+    "rel_ids": [
+      18112318
+    ]
+  },
+  {
+    "ref": "Quốc lộ 43",
+    "km": 110.5,
+    "centerline_km": 110.4,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,trunk",
+    "n_ways": 36,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Quốc lộ 43",
+    "rel_ids": [
+      18485044
+    ]
+  },
+  {
+    "ref": "QL.N2",
+    "km": 110.4,
+    "centerline_km": 110.2,
+    "maxspeed_km": 8.1,
+    "pct_maxspeed": 7.4,
+    "classes": "trunk",
+    "n_ways": 196,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Quốc lộ N2",
+    "rel_ids": [
+      18823165
+    ]
+  },
+  {
+    "ref": "QL.32C",
+    "km": 110.3,
+    "centerline_km": 92.3,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,trunk",
+    "n_ways": 63,
+    "n_relations": 1,
+    "components": 11,
+    "name": "Quốc lộ 32C",
+    "rel_ids": [
+      20399366
+    ]
+  },
+  {
+    "ref": "CT.29",
+    "km": 109.0,
+    "centerline_km": 54.5,
+    "maxspeed_km": 104.8,
+    "pct_maxspeed": 96.1,
+    "classes": "motorway",
+    "n_ways": 127,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường cao tốc Thành phố Hồ Chí Minh – Long Thành – Dầu Giây",
+    "rel_ids": [
+      12340802
+    ]
+  },
+  {
+    "ref": "QL.22B",
+    "km": 109.0,
+    "centerline_km": 79.6,
+    "maxspeed_km": 93.5,
+    "pct_maxspeed": 85.7,
+    "classes": "trunk",
+    "n_ways": 73,
+    "n_relations": 1,
+    "components": 5,
+    "name": "Quốc lộ 22B",
+    "rel_ids": [
+      14460282
+    ]
+  },
+  {
+    "ref": "QL.57",
+    "km": 109.0,
+    "centerline_km": 104.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 134,
+    "n_relations": 1,
+    "components": 4,
+    "name": "Quốc lộ 57",
+    "rel_ids": [
+      17581989
+    ]
+  },
+  {
+    "ref": "CT.40",
+    "km": 108.4,
+    "centerline_km": 54.2,
+    "maxspeed_km": 99.6,
+    "pct_maxspeed": 91.9,
+    "classes": "motorway,primary",
+    "n_ways": 83,
+    "n_relations": 1,
+    "components": 18,
+    "name": "Đường vành đai 3 Thành phố Hồ Chí Minh",
+    "rel_ids": [
+      14320206
+    ]
+  },
+  {
+    "ref": "QL.24B",
+    "km": 107.0,
+    "centerline_km": 105.9,
+    "maxspeed_km": 104.7,
+    "pct_maxspeed": 97.8,
+    "classes": "primary,tertiary",
+    "n_ways": 82,
+    "n_relations": 1,
+    "components": 9,
+    "name": "Quốc lộ 24B",
+    "rel_ids": [
+      16761115
+    ]
+  },
+  {
+    "ref": "CT.28",
+    "km": 106.9,
+    "centerline_km": 53.5,
+    "maxspeed_km": 106.9,
+    "pct_maxspeed": 100.0,
+    "classes": "motorway",
+    "n_ways": 85,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường cao tốc Biên Hoà - Vũng Tàu",
+    "rel_ids": [
+      12830274
+    ]
+  },
+  {
+    "ref": "QL.N1",
+    "km": 105.4,
+    "centerline_km": 98.1,
+    "maxspeed_km": 0.3,
+    "pct_maxspeed": 0.3,
+    "classes": "trunk",
+    "n_ways": 77,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Quốc lộ N1",
+    "rel_ids": [
+      20377527
+    ]
+  },
+  {
+    "ref": "QL.279D",
+    "km": 104.8,
+    "centerline_km": 104.8,
+    "maxspeed_km": 93.1,
+    "pct_maxspeed": 88.8,
+    "classes": "primary",
+    "n_ways": 59,
+    "n_relations": 1,
+    "components": 6,
+    "name": "Quốc lộ 279D",
+    "rel_ids": [
+      14574867
+    ]
+  },
+  {
+    "ref": "QL.12C",
+    "km": 100.0,
+    "centerline_km": 99.1,
+    "maxspeed_km": 74.6,
+    "pct_maxspeed": 74.6,
+    "classes": "trunk",
+    "n_ways": 69,
+    "n_relations": 1,
+    "components": 5,
+    "name": "Quốc lộ 12C",
+    "rel_ids": [
+      13478662
+    ]
+  },
+  {
+    "ref": "QL.46",
+    "km": 99.8,
+    "centerline_km": 90.7,
+    "maxspeed_km": 4.6,
+    "pct_maxspeed": 4.6,
+    "classes": "trunk",
+    "n_ways": 90,
+    "n_relations": 1,
+    "components": 7,
+    "name": "Quốc lộ 46",
+    "rel_ids": [
+      18167842
+    ]
+  },
+  {
+    "ref": "QL.9",
+    "km": 98.6,
+    "centerline_km": 92.4,
+    "maxspeed_km": 88.8,
+    "pct_maxspeed": 90.1,
+    "classes": "primary,trunk",
+    "n_ways": 93,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Quốc lộ 9",
+    "rel_ids": [
+      15508487
+    ]
+  },
+  {
+    "ref": "QL.14B",
+    "km": 97.7,
+    "centerline_km": 73.6,
+    "maxspeed_km": 11.9,
+    "pct_maxspeed": 12.2,
+    "classes": "trunk",
+    "n_ways": 212,
+    "n_relations": 1,
+    "components": 5,
+    "name": "Quốc lộ 14B",
+    "rel_ids": [
+      13481176
+    ]
+  },
+  {
+    "ref": "CT.39",
+    "km": 96.3,
+    "centerline_km": 56.6,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary,tertiary,trunk",
+    "n_ways": 101,
+    "n_relations": 1,
+    "components": 15,
+    "name": "Đường Vành đai 5 Hà Nội",
+    "rel_ids": [
+      16422171
+    ]
+  },
+  {
+    "ref": "QL.61",
+    "km": 95.3,
+    "centerline_km": 94.0,
+    "maxspeed_km": 40.0,
+    "pct_maxspeed": 41.9,
+    "classes": "primary,secondary,trunk",
+    "n_ways": 118,
+    "n_relations": 1,
+    "components": 8,
+    "name": "Quốc lộ 61",
+    "rel_ids": [
+      14972524
+    ]
+  },
+  {
+    "ref": "QL.12B",
+    "km": 93.8,
+    "centerline_km": 93.7,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 36,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Quốc lộ 12B",
+    "rel_ids": [
+      18177716
+    ]
+  },
+  {
+    "ref": "Đê Hữu Sông Cầu",
+    "km": 93.7,
+    "centerline_km": 93.6,
+    "maxspeed_km": 6.5,
+    "pct_maxspeed": 7.0,
+    "classes": "primary,secondary",
+    "n_ways": 34,
+    "n_relations": 1,
+    "components": 4,
+    "name": "Đê Hữu Sông Cầu",
+    "rel_ids": [
+      19691744
+    ]
+  },
+  {
+    "ref": "Đường nối cao tốc Hà Nội - Hải Phòng với cao tốc Cầu Giẽ - Ninh Bình",
+    "km": 93.4,
+    "centerline_km": 46.7,
+    "maxspeed_km": 88.6,
+    "pct_maxspeed": 94.9,
+    "classes": "trunk",
+    "n_ways": 68,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Đường nối cao tốc Hà Nội - Hải Phòng với cao tốc Cầu Giẽ - Ninh Bình",
+    "rel_ids": [
+      20786753
+    ]
+  },
+  {
+    "ref": "ĐT.554",
+    "km": 91.0,
+    "centerline_km": 91.0,
+    "maxspeed_km": 5.4,
+    "pct_maxspeed": 6.0,
+    "classes": "primary,secondary",
+    "n_ways": 38,
+    "n_relations": 1,
+    "components": 4,
+    "name": "Đường tỉnh 554",
+    "rel_ids": [
+      18168702
+    ]
+  },
+  {
+    "ref": "QL.4E",
+    "km": 90.4,
+    "centerline_km": 80.6,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,trunk",
+    "n_ways": 68,
+    "n_relations": 1,
+    "components": 13,
+    "name": "Quốc lộ 4E",
+    "rel_ids": [
+      20420687
+    ]
+  },
+  {
+    "ref": "AH16",
+    "km": 90.2,
+    "centerline_km": 84.1,
+    "maxspeed_km": 75.4,
+    "pct_maxspeed": 83.6,
+    "classes": "primary,trunk",
+    "n_ways": 85,
+    "n_relations": 4,
+    "components": 2,
+    "name": "Asian Highway AH16",
+    "rel_ids": [
+      15444685,
+      15657431,
+      15667249,
+      15683272
+    ]
+  },
+  {
+    "ref": "QL.50",
+    "km": 89.1,
+    "centerline_km": 84.0,
+    "maxspeed_km": 9.3,
+    "pct_maxspeed": 10.5,
+    "classes": "trunk",
+    "n_ways": 122,
+    "n_relations": 1,
+    "components": 5,
+    "name": "Quốc lộ 50",
+    "rel_ids": [
+      10598316
+    ]
+  },
+  {
+    "ref": "6",
+    "km": 88.6,
+    "centerline_km": 88.6,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 18,
+    "n_relations": 1,
+    "components": 3,
+    "name": "National Highway 6",
+    "rel_ids": [
+      393920
+    ]
+  },
+  {
+    "ref": "QL.46C",
+    "km": 88.1,
+    "centerline_km": 84.8,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 50,
+    "n_relations": 1,
+    "components": 5,
+    "name": "Quốc lộ 46C",
+    "rel_ids": [
+      18168720
+    ]
+  },
+  {
+    "ref": "ĐT.697",
+    "km": 88.0,
+    "centerline_km": 88.0,
+    "maxspeed_km": 0.5,
+    "pct_maxspeed": 0.5,
+    "classes": "primary,secondary,trunk",
+    "n_ways": 37,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 697",
+    "rel_ids": [
+      18589858
+    ]
+  },
+  {
+    "ref": "Đê Tả Sông Hồng",
+    "km": 84.6,
+    "centerline_km": 70.6,
+    "maxspeed_km": 31.5,
+    "pct_maxspeed": 37.3,
+    "classes": "primary",
+    "n_ways": 44,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Đê Tả Sông Hồng",
+    "rel_ids": [
+      18209631
+    ]
+  },
+  {
+    "ref": "ĐT.295",
+    "km": 84.0,
+    "centerline_km": 82.7,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary,trunk",
+    "n_ways": 64,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 295",
+    "rel_ids": [
+      18803443
+    ]
+  },
+  {
+    "ref": "QL.62",
+    "km": 79.7,
+    "centerline_km": 75.9,
+    "maxspeed_km": 56.4,
+    "pct_maxspeed": 70.8,
+    "classes": "primary,trunk",
+    "n_ways": 115,
+    "n_relations": 1,
+    "components": 7,
+    "name": "Quốc lộ 62",
+    "rel_ids": [
+      14567255
+    ]
+  },
+  {
+    "ref": "QL.9B",
+    "km": 79.7,
+    "centerline_km": 78.4,
+    "maxspeed_km": 79.7,
+    "pct_maxspeed": 100.0,
+    "classes": "primary",
+    "n_ways": 46,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Quốc lộ 9B",
+    "rel_ids": [
+      14574866
+    ]
+  },
+  {
+    "ref": "QL.14E",
+    "km": 79.2,
+    "centerline_km": 79.1,
+    "maxspeed_km": 2.3,
+    "pct_maxspeed": 2.9,
+    "classes": "primary",
+    "n_ways": 45,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Quốc lộ 14E",
+    "rel_ids": [
+      13481335
+    ]
+  },
+  {
+    "ref": "QL.49",
+    "km": 77.9,
+    "centerline_km": 77.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,trunk",
+    "n_ways": 95,
+    "n_relations": 1,
+    "components": 5,
+    "name": "Quốc lộ 49",
+    "rel_ids": [
+      13479076
+    ]
+  },
+  {
+    "ref": "QL.56",
+    "km": 76.6,
+    "centerline_km": 57.3,
+    "maxspeed_km": 0.5,
+    "pct_maxspeed": 0.6,
+    "classes": "trunk",
+    "n_ways": 65,
+    "n_relations": 1,
+    "components": 7,
+    "name": "Quốc lộ 56",
+    "rel_ids": [
+      15601773
+    ]
+  },
+  {
+    "ref": "QL.7C",
+    "km": 76.1,
+    "centerline_km": 64.0,
+    "maxspeed_km": 21.6,
+    "pct_maxspeed": 28.4,
+    "classes": "primary",
+    "n_ways": 50,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Quốc lộ 7C",
+    "rel_ids": [
+      18167841
+    ]
+  },
+  {
+    "ref": "Đường vành đai 4 Vĩnh Phúc",
+    "km": 75.8,
+    "centerline_km": 45.7,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary,tertiary",
+    "n_ways": 58,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Đường vành đai 4 Vĩnh Phúc",
+    "rel_ids": [
+      16452541
+    ]
+  },
+  {
+    "ref": "CT.34",
+    "km": 74.5,
+    "centerline_km": 37.3,
+    "maxspeed_km": 74.5,
+    "pct_maxspeed": 100.0,
+    "classes": "motorway",
+    "n_ways": 89,
+    "n_relations": 1,
+    "components": 10,
+    "name": "Đường cao tốc Châu Đốc - Cần Thơ - Sóc Trăng",
+    "rel_ids": [
+      15907968
+    ]
+  },
+  {
+    "ref": "Xuyên Á",
+    "km": 72.4,
+    "centerline_km": 36.2,
+    "maxspeed_km": 36.1,
+    "pct_maxspeed": 49.8,
+    "classes": "trunk",
+    "n_ways": 64,
+    "n_relations": 3,
+    "components": 5,
+    "name": "Xuyên Á",
+    "rel_ids": [
+      13501428,
+      13535649,
+      13644201
+    ]
+  },
+  {
+    "ref": "QL.47B;ĐT.506",
+    "km": 70.6,
+    "centerline_km": 65.3,
+    "maxspeed_km": 70.5,
+    "pct_maxspeed": 99.9,
+    "classes": "primary",
+    "n_ways": 46,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Đường Nghi Sơn – Thọ Xuân",
+    "rel_ids": [
+      14566936
+    ]
+  },
+  {
+    "ref": "QL.47B",
+    "km": 70.5,
+    "centerline_km": 65.3,
+    "maxspeed_km": 70.5,
+    "pct_maxspeed": 100.0,
+    "classes": "primary",
+    "n_ways": 45,
+    "n_relations": 1,
+    "components": 4,
+    "name": "Quốc lộ 47B",
+    "rel_ids": [
+      18212485
+    ]
+  },
+  {
+    "ref": "ĐT.506",
+    "km": 70.5,
+    "centerline_km": 65.3,
+    "maxspeed_km": 70.5,
+    "pct_maxspeed": 100.0,
+    "classes": "primary",
+    "n_ways": 45,
+    "n_relations": 1,
+    "components": 4,
+    "name": "Đường tỉnh 506",
+    "rel_ids": [
+      18212486
+    ]
+  },
+  {
+    "ref": "ĐT.132",
+    "km": 68.5,
+    "centerline_km": 68.5,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 14,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 132",
+    "rel_ids": [
+      9959046
+    ]
+  },
+  {
+    "ref": "QL28B",
+    "km": 67.5,
+    "centerline_km": 67.5,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 33,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Quốc lộ 28B",
+    "rel_ids": [
+      13932745
+    ]
+  },
+  {
+    "ref": "Đê Tả Sông Cầu",
+    "km": 67.4,
+    "centerline_km": 67.4,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary,tertiary",
+    "n_ways": 23,
+    "n_relations": 1,
+    "components": 7,
+    "name": "Đê Tả Sông Cầu",
+    "rel_ids": [
+      19730290
+    ]
+  },
+  {
+    "ref": "CT.09",
+    "km": 65.5,
+    "centerline_km": 32.8,
+    "maxspeed_km": 65.1,
+    "pct_maxspeed": 99.3,
+    "classes": "motorway",
+    "n_ways": 102,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường cao tốc Nội Bài - Bắc Ninh - Hạ Long",
+    "rel_ids": [
+      13884477
+    ]
+  },
+  {
+    "ref": "CT.11",
+    "km": 65.5,
+    "centerline_km": 32.7,
+    "maxspeed_km": 65.3,
+    "pct_maxspeed": 99.7,
+    "classes": "primary,trunk",
+    "n_ways": 77,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường cao tốc Phủ Lý - Nam Định",
+    "rel_ids": [
+      17778641
+    ]
+  },
+  {
+    "ref": "QL.34B",
+    "km": 65.4,
+    "centerline_km": 63.9,
+    "maxspeed_km": 1.6,
+    "pct_maxspeed": 2.4,
+    "classes": "trunk",
+    "n_ways": 32,
+    "n_relations": 1,
+    "components": 4,
+    "name": "Quốc lộ 34B",
+    "rel_ids": [
+      20257386
+    ]
+  },
+  {
+    "ref": "QL.48D",
+    "km": 64.8,
+    "centerline_km": 64.8,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 21,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Quốc lộ 48D",
+    "rel_ids": [
+      18212484
+    ]
+  },
+  {
+    "ref": "Vành đai Thành phố Thái Bình",
+    "km": 64.1,
+    "centerline_km": 32.5,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,trunk",
+    "n_ways": 54,
+    "n_relations": 1,
+    "components": 9,
+    "name": "Vành đai Thành phố Thái Bình",
+    "rel_ids": [
+      19745106
+    ]
+  },
+  {
+    "ref": "QL14G",
+    "km": 64.0,
+    "centerline_km": 64.0,
+    "maxspeed_km": 19.3,
+    "pct_maxspeed": 30.2,
+    "classes": "primary",
+    "n_ways": 56,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Quốc lộ 14G",
+    "rel_ids": [
+      13479077
+    ]
+  },
+  {
+    "ref": "Đê Hữu Sông Đuống",
+    "km": 63.3,
+    "centerline_km": 63.3,
+    "maxspeed_km": 12.9,
+    "pct_maxspeed": 20.4,
+    "classes": "primary,secondary,tertiary",
+    "n_ways": 45,
+    "n_relations": 1,
+    "components": 5,
+    "name": "Đê Hữu Sông Đuống",
+    "rel_ids": [
+      19691745
+    ]
+  },
+  {
+    "ref": "Đường Võ Nguyên Giáp",
+    "km": 62.9,
+    "centerline_km": 40.8,
+    "maxspeed_km": 49.4,
+    "pct_maxspeed": 78.4,
+    "classes": "motorway,secondary,trunk",
+    "n_ways": 168,
+    "n_relations": 1,
+    "components": 7,
+    "name": "Đường Võ Nguyên Giáp",
+    "rel_ids": [
+      19124494
+    ]
+  },
+  {
+    "ref": "ĐT.295B",
+    "km": 62.4,
+    "centerline_km": 47.7,
+    "maxspeed_km": 4.3,
+    "pct_maxspeed": 6.9,
+    "classes": "primary,secondary",
+    "n_ways": 127,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Đường tỉnh 295B",
+    "rel_ids": [
+      18818095
+    ]
+  },
+  {
+    "ref": "ĐT.114",
+    "km": 62.4,
+    "centerline_km": 62.4,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 15,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 114",
+    "rel_ids": [
+      20312105
+    ]
+  },
+  {
+    "ref": "G326",
+    "km": 62.2,
+    "centerline_km": 47.8,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 15,
+    "n_relations": 1,
+    "components": 4,
+    "name": "326国道 秀河线（云南段）",
+    "rel_ids": [
+      20295442
+    ]
+  },
+  {
+    "ref": "CT.16",
+    "km": 57.4,
+    "centerline_km": 28.7,
+    "maxspeed_km": 53.2,
+    "pct_maxspeed": 92.7,
+    "classes": "trunk",
+    "n_ways": 44,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường cao tốc Hưng Yên - Thái Bình",
+    "rel_ids": [
+      17220763
+    ]
+  },
+  {
+    "ref": "QL.15B",
+    "km": 55.7,
+    "centerline_km": 50.1,
+    "maxspeed_km": 22.3,
+    "pct_maxspeed": 40.0,
+    "classes": "primary,trunk",
+    "n_ways": 36,
+    "n_relations": 1,
+    "components": 7,
+    "name": "Quốc lộ 15B",
+    "rel_ids": [
+      18112189
+    ]
+  },
+  {
+    "ref": "ĐT.484",
+    "km": 55.1,
+    "centerline_km": 27.5,
+    "maxspeed_km": 55.0,
+    "pct_maxspeed": 99.8,
+    "classes": "trunk",
+    "n_ways": 53,
+    "n_relations": 1,
+    "components": 8,
+    "name": "Đường tỉnh 484 (Ninh Bình)",
+    "rel_ids": [
+      20774774
+    ]
+  },
+  {
+    "ref": "QL.9D",
+    "km": 55.0,
+    "centerline_km": 50.5,
+    "maxspeed_km": 12.9,
+    "pct_maxspeed": 23.5,
+    "classes": "primary,trunk",
+    "n_ways": 35,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Quốc lộ 9D",
+    "rel_ids": [
+      15508486
+    ]
+  },
+  {
+    "ref": "ĐT.315D",
+    "km": 53.8,
+    "centerline_km": 53.8,
+    "maxspeed_km": 49.0,
+    "pct_maxspeed": 91.1,
+    "classes": "primary",
+    "n_ways": 23,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường liên vùng HCM, QL70B, QL32C (Phú Thọ)",
+    "rel_ids": [
+      16623487
+    ]
+  },
+  {
+    "ref": "Đê Tả Sông Đuống",
+    "km": 53.1,
+    "centerline_km": 53.1,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary,tertiary,trunk",
+    "n_ways": 29,
+    "n_relations": 1,
+    "components": 7,
+    "name": "Đê Tả Sông Đuống",
+    "rel_ids": [
+      19691743
+    ]
+  },
+  {
+    "ref": "QL.27B",
+    "km": 52.1,
+    "centerline_km": 52.1,
+    "maxspeed_km": 52.1,
+    "pct_maxspeed": 100.0,
+    "classes": "primary",
+    "n_ways": 29,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Quốc lộ 27B",
+    "rel_ids": [
+      14751316
+    ]
+  },
+  {
+    "ref": "6A",
+    "km": 51.2,
+    "centerline_km": 51.2,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 7,
+    "n_relations": 1,
+    "components": 2,
+    "name": "National Highway 6 Branch A",
+    "rel_ids": [
+      18773422
+    ]
+  },
+  {
+    "ref": "Đường gom Đường cao tốc Hà Nội - Bắc Giang",
+    "km": 50.5,
+    "centerline_km": 49.9,
+    "maxspeed_km": 0.2,
+    "pct_maxspeed": 0.3,
+    "classes": "secondary,tertiary,trunk",
+    "n_ways": 56,
+    "n_relations": 1,
+    "components": 11,
+    "name": "Đường gom Đường cao tốc Hà Nội - Bắc Giang",
+    "rel_ids": [
+      20340787
+    ]
+  },
+  {
+    "ref": "Đường vành đai 5 Vĩnh Phúc",
+    "km": 49.8,
+    "centerline_km": 34.8,
+    "maxspeed_km": 28.5,
+    "pct_maxspeed": 57.3,
+    "classes": "primary,secondary",
+    "n_ways": 34,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Đường vành đai 5 Vĩnh Phúc",
+    "rel_ids": [
+      16452542
+    ]
+  },
+  {
+    "ref": "AH132",
+    "km": 49.6,
+    "centerline_km": 41.5,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 39,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường Xuyên Á 132",
+    "rel_ids": [
+      18704394
+    ]
+  },
+  {
+    "ref": "ĐT.973",
+    "km": 49.5,
+    "centerline_km": 25.7,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 65,
+    "n_relations": 1,
+    "components": 4,
+    "name": "Đường tỉnh 973",
+    "rel_ids": [
+      18850506
+    ]
+  },
+  {
+    "ref": "QL57B",
+    "km": 49.1,
+    "centerline_km": 45.2,
+    "maxspeed_km": 6.2,
+    "pct_maxspeed": 12.7,
+    "classes": "primary,tertiary,trunk",
+    "n_ways": 49,
+    "n_relations": 1,
+    "components": 5,
+    "name": "Quốc lộ 57B",
+    "rel_ids": [
+      13981934
+    ]
+  },
+  {
+    "ref": "ĐT.112",
+    "km": 46.9,
+    "centerline_km": 46.9,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 9,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 112 (Sơn La)",
+    "rel_ids": [
+      20306679
+    ]
+  },
+  {
+    "ref": "VĐ1",
+    "km": 46.8,
+    "centerline_km": 24.7,
+    "maxspeed_km": 7.4,
+    "pct_maxspeed": 15.9,
+    "classes": "primary,secondary,tertiary,trunk",
+    "n_ways": 306,
+    "n_relations": 1,
+    "components": 10,
+    "name": "Đường Vành đai 1 Thành phố Hà Nội",
+    "rel_ids": [
+      7385001
+    ]
+  },
+  {
+    "ref": "32 - TT",
+    "km": 46.7,
+    "centerline_km": 46.7,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "tertiary",
+    "n_ways": 11,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường nối Quốc lộ 32 - Trạm Tấu",
+    "rel_ids": [
+      20314134
+    ]
+  },
+  {
+    "ref": "ĐT.184",
+    "km": 46.2,
+    "centerline_km": 46.2,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 11,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 184",
+    "rel_ids": [
+      20779234
+    ]
+  },
+  {
+    "ref": "ĐT.692",
+    "km": 45.7,
+    "centerline_km": 45.5,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary",
+    "n_ways": 14,
+    "n_relations": 1,
+    "components": 4,
+    "name": "Đường tỉnh 692",
+    "rel_ids": [
+      18589854
+    ]
+  },
+  {
+    "ref": "ĐT.203",
+    "km": 45.2,
+    "centerline_km": 45.2,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,trunk",
+    "n_ways": 20,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường tỉnh 203",
+    "rel_ids": [
+      18186260
+    ]
+  },
+  {
+    "ref": "QL.9E",
+    "km": 45.1,
+    "centerline_km": 41.4,
+    "maxspeed_km": 0.8,
+    "pct_maxspeed": 1.7,
+    "classes": "primary,trunk",
+    "n_ways": 77,
+    "n_relations": 1,
+    "components": 13,
+    "name": "Quốc Lộ 9E",
+    "rel_ids": [
+      13006619
+    ]
+  },
+  {
+    "ref": "ĐT.284",
+    "km": 44.7,
+    "centerline_km": 44.7,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary",
+    "n_ways": 22,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường tỉnh 284",
+    "rel_ids": [
+      18735259
+    ]
+  },
+  {
+    "ref": "ĐT.688",
+    "km": 44.6,
+    "centerline_km": 43.2,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary",
+    "n_ways": 17,
+    "n_relations": 1,
+    "components": 4,
+    "name": "Đường tỉnh 688",
+    "rel_ids": [
+      18589861
+    ]
+  },
+  {
+    "ref": "QL.1D",
+    "km": 44.5,
+    "centerline_km": 35.0,
+    "maxspeed_km": 5.8,
+    "pct_maxspeed": 12.9,
+    "classes": "primary,trunk",
+    "n_ways": 34,
+    "n_relations": 1,
+    "components": 7,
+    "name": "Quốc lộ 1D",
+    "rel_ids": [
+      452677
+    ]
+  },
+  {
+    "ref": "ĐT.334",
+    "km": 44.5,
+    "centerline_km": 34.6,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary",
+    "n_ways": 68,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 334",
+    "rel_ids": [
+      20202672
+    ]
+  },
+  {
+    "ref": "ĐT.551",
+    "km": 44.2,
+    "centerline_km": 44.2,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 19,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Đường tỉnh 551",
+    "rel_ids": [
+      18177595
+    ]
+  },
+  {
+    "ref": "QL.14H",
+    "km": 43.9,
+    "centerline_km": 43.7,
+    "maxspeed_km": 27.4,
+    "pct_maxspeed": 62.3,
+    "classes": "primary,secondary,tertiary,trunk",
+    "n_ways": 53,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Quốc lộ 14H",
+    "rel_ids": [
+      16763312
+    ]
+  },
+  {
+    "ref": "Đường vành đai 3.5 Thành phố Hà Nội",
+    "km": 43.4,
+    "centerline_km": 21.7,
+    "maxspeed_km": 18.0,
+    "pct_maxspeed": 41.4,
+    "classes": "primary,secondary",
+    "n_ways": 99,
+    "n_relations": 1,
+    "components": 15,
+    "name": "Đường vành đai 3.5 Thành phố Hà Nội",
+    "rel_ids": [
+      14925050
+    ]
+  },
+  {
+    "ref": "Đường Tân Sơn Nhất - Bình Lợi - Vành đai Ngoài",
+    "km": 43.3,
+    "centerline_km": 21.7,
+    "maxspeed_km": 33.6,
+    "pct_maxspeed": 77.4,
+    "classes": "primary,trunk",
+    "n_ways": 164,
+    "n_relations": 1,
+    "components": 5,
+    "name": "Đường Tân Sơn Nhất - Bình Lợi - Vành đai Ngoài",
+    "rel_ids": [
+      17960816
+    ]
+  },
+  {
+    "ref": "ĐT.697B",
+    "km": 43.2,
+    "centerline_km": 43.2,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 11,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 697B",
+    "rel_ids": [
+      18589859
+    ]
+  },
+  {
+    "ref": "AH11",
+    "km": 42.9,
+    "centerline_km": 42.9,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 3,
+    "n_relations": 2,
+    "components": 1,
+    "name": "Asian Highway AH11",
+    "rel_ids": [
+      4757596,
+      15662367
+    ]
+  },
+  {
+    "ref": "QL.48B",
+    "km": 42.6,
+    "centerline_km": 42.5,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 16,
+    "n_relations": 2,
+    "components": 2,
+    "name": "Quốc lộ 46B",
+    "rel_ids": [
+      18172903,
+      18172905
+    ]
+  },
+  {
+    "ref": "ĐT.984",
+    "km": 41.7,
+    "centerline_km": 41.6,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 32,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 984",
+    "rel_ids": [
+      15982512
+    ]
+  },
+  {
+    "ref": "QL.9C",
+    "km": 41.6,
+    "centerline_km": 40.2,
+    "maxspeed_km": 25.0,
+    "pct_maxspeed": 60.1,
+    "classes": "primary",
+    "n_ways": 46,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Quốc lộ 9C",
+    "rel_ids": [
+      13472151
+    ]
+  },
+  {
+    "ref": "Đường vành đai 3 Vĩnh Phúc",
+    "km": 41.6,
+    "centerline_km": 30.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary,tertiary,trunk",
+    "n_ways": 29,
+    "n_relations": 1,
+    "components": 5,
+    "name": "Đường vành đai 3 Vĩnh Phúc",
+    "rel_ids": [
+      16452540
+    ]
+  },
+  {
+    "ref": "QL.7B",
+    "km": 41.6,
+    "centerline_km": 41.6,
+    "maxspeed_km": 22.9,
+    "pct_maxspeed": 55.1,
+    "classes": "primary",
+    "n_ways": 14,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Quốc lộ 7B",
+    "rel_ids": [
+      18172904
+    ]
+  },
+  {
+    "ref": "ĐT.287",
+    "km": 41.5,
+    "centerline_km": 29.4,
+    "maxspeed_km": 11.1,
+    "pct_maxspeed": 26.8,
+    "classes": "primary,trunk",
+    "n_ways": 89,
+    "n_relations": 1,
+    "components": 5,
+    "name": "Đường tỉnh 287",
+    "rel_ids": [
+      18330306
+    ]
+  },
+  {
+    "ref": "Đường tránh Buôn Ma Thuột",
+    "km": 40.9,
+    "centerline_km": 39.0,
+    "maxspeed_km": 40.9,
+    "pct_maxspeed": 100.0,
+    "classes": "trunk",
+    "n_ways": 22,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Đường tránh Buôn Ma Thuột",
+    "rel_ids": [
+      14760292
+    ]
+  },
+  {
+    "ref": "NT-NB",
+    "km": 40.8,
+    "centerline_km": 20.4,
+    "maxspeed_km": 21.1,
+    "pct_maxspeed": 51.8,
+    "classes": "motorway,trunk",
+    "n_ways": 102,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Đường cao tốc Nhật Tân - Nội Bài",
+    "rel_ids": [
+      14738812
+    ]
+  },
+  {
+    "ref": "12",
+    "km": 40.7,
+    "centerline_km": 40.6,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 4,
+    "n_relations": 1,
+    "components": 1,
+    "name": "National Highway 12",
+    "rel_ids": [
+      19440132
+    ]
+  },
+  {
+    "ref": "1",
+    "km": 40.1,
+    "centerline_km": 31.8,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 14,
+    "n_relations": 5,
+    "components": 1,
+    "name": "3 tháng 2",
+    "rel_ids": [
+      14381434,
+      14381704,
+      14388426,
+      14388431,
+      19640648
+    ]
+  },
+  {
+    "ref": "Vành đai 2 - Thành phố Hải Phòng",
+    "km": 40.1,
+    "centerline_km": 22.5,
+    "maxspeed_km": 15.0,
+    "pct_maxspeed": 37.4,
+    "classes": "primary,secondary,tertiary",
+    "n_ways": 62,
+    "n_relations": 1,
+    "components": 16,
+    "name": "Vành đai 2 - Thành phố Hải Phòng",
+    "rel_ids": [
+      14696801
+    ]
+  },
+  {
+    "ref": "Vành đai 1 - Thành phố Hải Phòng",
+    "km": 39.9,
+    "centerline_km": 23.4,
+    "maxspeed_km": 8.1,
+    "pct_maxspeed": 20.2,
+    "classes": "primary,secondary,trunk",
+    "n_ways": 150,
+    "n_relations": 1,
+    "components": 4,
+    "name": "Vành đai 1 - Thành phố Hải Phòng",
+    "rel_ids": [
+      14696800
+    ]
+  },
+  {
+    "ref": "ĐT.693",
+    "km": 39.6,
+    "centerline_km": 39.6,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 11,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường tỉnh 693",
+    "rel_ids": [
+      18589856
+    ]
+  },
+  {
+    "ref": "ĐT.516",
+    "km": 39.0,
+    "centerline_km": 39.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary,trunk",
+    "n_ways": 22,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Vĩnh Hùng – Kim Tân – Thạch Quảng",
+    "rel_ids": [
+      16666780
+    ]
+  },
+  {
+    "ref": "ĐT675",
+    "km": 38.5,
+    "centerline_km": 38.5,
+    "maxspeed_km": 38.5,
+    "pct_maxspeed": 100.0,
+    "classes": "secondary",
+    "n_ways": 25,
+    "n_relations": 1,
+    "components": 1,
+    "name": "",
+    "rel_ids": [
+      18730040
+    ]
+  },
+  {
+    "ref": "QL.5C",
+    "km": 38.3,
+    "centerline_km": 19.1,
+    "maxspeed_km": 8.7,
+    "pct_maxspeed": 22.7,
+    "classes": "secondary,trunk",
+    "n_ways": 21,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Quốc lộ 5C",
+    "rel_ids": [
+      14571882
+    ]
+  },
+  {
+    "ref": "G8011",
+    "km": 37.5,
+    "centerline_km": 18.7,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "motorway",
+    "n_ways": 47,
+    "n_relations": 1,
+    "components": 2,
+    "name": "开河高速",
+    "rel_ids": [
+      8257712
+    ]
+  },
+  {
+    "ref": "ĐT.550",
+    "km": 37.5,
+    "centerline_km": 27.8,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary",
+    "n_ways": 26,
+    "n_relations": 1,
+    "components": 5,
+    "name": "Đường tỉnh 550",
+    "rel_ids": [
+      18177594
+    ]
+  },
+  {
+    "ref": "ĐT.975C",
+    "km": 37.4,
+    "centerline_km": 37.4,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary,tertiary",
+    "n_ways": 38,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường tỉnh 975C",
+    "rel_ids": [
+      18850505
+    ]
+  },
+  {
+    "ref": "ĐT.516B",
+    "km": 37.0,
+    "centerline_km": 36.2,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary,trunk",
+    "n_ways": 15,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Thị trấn Quán Lào – Nông trường Thống Nhất – Phố Châu",
+    "rel_ids": [
+      16666781
+    ]
+  },
+  {
+    "ref": "ĐT.46",
+    "km": 37.0,
+    "centerline_km": 18.6,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 50,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Đường tỉnh 46",
+    "rel_ids": [
+      18212489
+    ]
+  },
+  {
+    "ref": "ĐT.530B",
+    "km": 36.5,
+    "centerline_km": 36.5,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 11,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Thị trấn Lang Chánh – Trung Hạ",
+    "rel_ids": [
+      15686597
+    ]
+  },
+  {
+    "ref": "ĐT.975",
+    "km": 34.3,
+    "centerline_km": 19.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 78,
+    "n_relations": 1,
+    "components": 9,
+    "name": "Đường tỉnh 975",
+    "rel_ids": [
+      18850508
+    ]
+  },
+  {
+    "ref": "ĐT.172 (Lào Cai)",
+    "km": 34.0,
+    "centerline_km": 34.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary",
+    "n_ways": 10,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 172",
+    "rel_ids": [
+      20309471
+    ]
+  },
+  {
+    "ref": "Đê Tả Lam",
+    "km": 33.6,
+    "centerline_km": 33.3,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 9,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Đê Tả Lam",
+    "rel_ids": [
+      18168704
+    ]
+  },
+  {
+    "ref": "ĐT.419",
+    "km": 33.4,
+    "centerline_km": 29.7,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 41,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Đường tỉnh 419",
+    "rel_ids": [
+      18209634
+    ]
+  },
+  {
+    "ref": "ĐT.277",
+    "km": 33.0,
+    "centerline_km": 23.4,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 84,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Đường tỉnh 277",
+    "rel_ids": [
+      18803442
+    ]
+  },
+  {
+    "ref": "Đường vành đai 2.5",
+    "km": 32.8,
+    "centerline_km": 17.5,
+    "maxspeed_km": 4.3,
+    "pct_maxspeed": 13.2,
+    "classes": "primary,secondary,tertiary",
+    "n_ways": 221,
+    "n_relations": 1,
+    "components": 18,
+    "name": "Đường vành đai 2.5",
+    "rel_ids": [
+      17676285
+    ]
+  },
+  {
+    "ref": "QL.91C",
+    "km": 32.7,
+    "centerline_km": 32.4,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 14,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Quốc lộ 91C",
+    "rel_ids": [
+      16092486
+    ]
+  },
+  {
+    "ref": "ĐT.174",
+    "km": 32.1,
+    "centerline_km": 32.1,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 22,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 174 (Lào Cai)",
+    "rel_ids": [
+      20306033
+    ]
+  },
+  {
+    "ref": "ĐT.276",
+    "km": 31.9,
+    "centerline_km": 27.8,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 49,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường tỉnh 276",
+    "rel_ids": [
+      18803440
+    ]
+  },
+  {
+    "ref": "NS-BT",
+    "km": 31.5,
+    "centerline_km": 19.1,
+    "maxspeed_km": 30.0,
+    "pct_maxspeed": 95.2,
+    "classes": "primary,secondary",
+    "n_ways": 23,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Đường Nghi Sơn - Bãi Trành",
+    "rel_ids": [
+      16761255
+    ]
+  },
+  {
+    "ref": "G212",
+    "km": 31.1,
+    "centerline_km": 31.1,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 3,
+    "n_relations": 1,
+    "components": 1,
+    "name": "212国道 兰龙线（广西段）",
+    "rel_ids": [
+      20294258
+    ]
+  },
+  {
+    "ref": "ĐT.131",
+    "km": 30.9,
+    "centerline_km": 30.9,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 20,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 131",
+    "rel_ids": [
+      18211646
+    ]
+  },
+  {
+    "ref": "ĐT.552",
+    "km": 29.2,
+    "centerline_km": 26.9,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary",
+    "n_ways": 34,
+    "n_relations": 1,
+    "components": 5,
+    "name": "Đường tỉnh 552",
+    "rel_ids": [
+      18168701
+    ]
+  },
+  {
+    "ref": "ĐT.985C",
+    "km": 29.1,
+    "centerline_km": 29.1,
+    "maxspeed_km": 1.5,
+    "pct_maxspeed": 5.2,
+    "classes": "secondary",
+    "n_ways": 31,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 985C",
+    "rel_ids": [
+      15982511
+    ]
+  },
+  {
+    "ref": "Quốc lộ 20B",
+    "km": 29.0,
+    "centerline_km": 14.5,
+    "maxspeed_km": 20.9,
+    "pct_maxspeed": 72.3,
+    "classes": "primary",
+    "n_ways": 16,
+    "n_relations": 1,
+    "components": 6,
+    "name": "Quốc lộ 20B",
+    "rel_ids": [
+      19547837
+    ]
+  },
+  {
+    "ref": "ĐT.70",
+    "km": 28.5,
+    "centerline_km": 23.4,
+    "maxspeed_km": 1.5,
+    "pct_maxspeed": 5.3,
+    "classes": "primary,trunk",
+    "n_ways": 126,
+    "n_relations": 1,
+    "components": 6,
+    "name": "Đường tỉnh 70",
+    "rel_ids": [
+      18209632
+    ]
+  },
+  {
+    "ref": "ĐT.264",
+    "km": 28.4,
+    "centerline_km": 28.4,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 1,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 264",
+    "rel_ids": [
+      18211650
+    ]
+  },
+  {
+    "ref": "Đường vành đai 2 Vĩnh Phúc",
+    "km": 27.8,
+    "centerline_km": 21.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary,tertiary,trunk",
+    "n_ways": 32,
+    "n_relations": 1,
+    "components": 11,
+    "name": "Đường vành đai 2 Vĩnh Phúc",
+    "rel_ids": [
+      16452539
+    ]
+  },
+  {
+    "ref": "ĐT.686",
+    "km": 27.6,
+    "centerline_km": 27.6,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 2,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường tỉnh 686",
+    "rel_ids": [
+      18589860
+    ]
+  },
+  {
+    "ref": "ĐT.263",
+    "km": 27.5,
+    "centerline_km": 27.5,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 20,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 263",
+    "rel_ids": [
+      18211649
+    ]
+  },
+  {
+    "ref": "ĐT.281",
+    "km": 27.3,
+    "centerline_km": 26.5,
+    "maxspeed_km": 1.6,
+    "pct_maxspeed": 6.0,
+    "classes": "primary,secondary,trunk",
+    "n_ways": 31,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 281",
+    "rel_ids": [
+      18735258
+    ]
+  },
+  {
+    "ref": "G69",
+    "km": 27.1,
+    "centerline_km": 13.5,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "motorway",
+    "n_ways": 22,
+    "n_relations": 2,
+    "components": 1,
+    "name": "银百高速（百色方向）",
+    "rel_ids": [
+      15681204,
+      15681205
+    ]
+  },
+  {
+    "ref": "ĐT.689",
+    "km": 27.0,
+    "centerline_km": 27.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 11,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 689",
+    "rel_ids": [
+      18589855
+    ]
+  },
+  {
+    "ref": "2",
+    "km": 26.9,
+    "centerline_km": 26.8,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 8,
+    "n_relations": 2,
+    "components": 2,
+    "name": "National Highway 2",
+    "rel_ids": [
+      18773434,
+      19640647
+    ]
+  },
+  {
+    "ref": "CT.27",
+    "km": 26.7,
+    "centerline_km": 13.4,
+    "maxspeed_km": 5.0,
+    "pct_maxspeed": 18.6,
+    "classes": "motorway",
+    "n_ways": 21,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường cao tốc Dầu Giây – Liên Khương",
+    "rel_ids": [
+      12825974
+    ]
+  },
+  {
+    "ref": "Đường Tránh Buôn Hồ",
+    "km": 26.1,
+    "centerline_km": 26.1,
+    "maxspeed_km": 26.1,
+    "pct_maxspeed": 100.0,
+    "classes": "trunk",
+    "n_ways": 14,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường Tránh Buôn Hồ",
+    "rel_ids": [
+      14711242
+    ]
+  },
+  {
+    "ref": "Đường trục Bắc - Nam phía Đông",
+    "km": 26.1,
+    "centerline_km": 13.6,
+    "maxspeed_km": 10.2,
+    "pct_maxspeed": 39.2,
+    "classes": "primary,trunk",
+    "n_ways": 50,
+    "n_relations": 1,
+    "components": 9,
+    "name": "Đường trục Bắc - Nam phía Đông",
+    "rel_ids": [
+      19699376
+    ]
+  },
+  {
+    "ref": "QL.15D",
+    "km": 26.0,
+    "centerline_km": 25.8,
+    "maxspeed_km": 26.0,
+    "pct_maxspeed": 100.0,
+    "classes": "trunk",
+    "n_ways": 27,
+    "n_relations": 2,
+    "components": 2,
+    "name": "Quốc lộ 15D",
+    "rel_ids": [
+      16093915,
+      17639727
+    ]
+  },
+  {
+    "ref": "ĐT.279",
+    "km": 25.9,
+    "centerline_km": 25.9,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 15,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 279",
+    "rel_ids": [
+      18330305
+    ]
+  },
+  {
+    "ref": "Đường Vành đai 1 Vĩnh Phúc",
+    "km": 25.7,
+    "centerline_km": 14.4,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary",
+    "n_ways": 39,
+    "n_relations": 1,
+    "components": 10,
+    "name": "Đường Vành đai 1 Vĩnh Phúc",
+    "rel_ids": [
+      16452538
+    ]
+  },
+  {
+    "ref": "Đường tránh Thành phố Kon Tum",
+    "km": 24.9,
+    "centerline_km": 24.9,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 19,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tránh Thành phố Kon Tum",
+    "rel_ids": [
+      14404807
+    ]
+  },
+  {
+    "ref": "ĐT.280",
+    "km": 24.9,
+    "centerline_km": 21.1,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary",
+    "n_ways": 33,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 280",
+    "rel_ids": [
+      18982619
+    ]
+  },
+  {
+    "ref": "Đường Trần Hưng Đạo",
+    "km": 24.6,
+    "centerline_km": 20.6,
+    "maxspeed_km": 11.8,
+    "pct_maxspeed": 48.1,
+    "classes": "primary,secondary,trunk",
+    "n_ways": 52,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường Trần Hưng Đạo",
+    "rel_ids": [
+      18694612
+    ]
+  },
+  {
+    "ref": "X787",
+    "km": 24.5,
+    "centerline_km": 24.5,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 9,
+    "n_relations": 1,
+    "components": 1,
+    "name": "787县道:下荣-水弄公路",
+    "rel_ids": [
+      18655477
+    ]
+  },
+  {
+    "ref": "481B",
+    "km": 24.1,
+    "centerline_km": 24.1,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 16,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Tỉnh lộ 481B",
+    "rel_ids": [
+      2164925
+    ]
+  },
+  {
+    "ref": "ĐT.558B",
+    "km": 24.1,
+    "centerline_km": 24.1,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 18,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 558B",
+    "rel_ids": [
+      18177597
+    ]
+  },
+  {
+    "ref": "ĐT.699",
+    "km": 24.0,
+    "centerline_km": 23.9,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 2,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường tỉnh 699",
+    "rel_ids": [
+      18589857
+    ]
+  },
+  {
+    "ref": "ĐT.542E",
+    "km": 23.7,
+    "centerline_km": 23.7,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 17,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 542E",
+    "rel_ids": [
+      18167866
+    ]
+  },
+  {
+    "ref": "ĐT.45",
+    "km": 23.4,
+    "centerline_km": 23.3,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 16,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường Tỉnh 45",
+    "rel_ids": [
+      18850504
+    ]
+  },
+  {
+    "ref": "QL.49C",
+    "km": 23.3,
+    "centerline_km": 23.3,
+    "maxspeed_km": 12.5,
+    "pct_maxspeed": 53.9,
+    "classes": "primary,trunk",
+    "n_ways": 19,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Quốc lộ 49C",
+    "rel_ids": [
+      16093944
+    ]
+  },
+  {
+    "ref": "Đường Tránh Ea Hleo",
+    "km": 23.2,
+    "centerline_km": 23.0,
+    "maxspeed_km": 23.2,
+    "pct_maxspeed": 100.0,
+    "classes": "trunk",
+    "n_ways": 14,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường Tránh Ea Hleo",
+    "rel_ids": [
+      14711186
+    ]
+  },
+  {
+    "ref": "ĐT.296",
+    "km": 23.2,
+    "centerline_km": 22.3,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary",
+    "n_ways": 24,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Đường tỉnh 296",
+    "rel_ids": [
+      18211647
+    ]
+  },
+  {
+    "ref": "ĐT.546",
+    "km": 22.7,
+    "centerline_km": 22.5,
+    "maxspeed_km": 8.8,
+    "pct_maxspeed": 38.7,
+    "classes": "secondary,trunk",
+    "n_ways": 11,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Đường tỉnh 546",
+    "rel_ids": [
+      16034407
+    ]
+  },
+  {
+    "ref": "Quốc lộ 23 Historic",
+    "km": 22.6,
+    "centerline_km": 17.5,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 45,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Quốc lộ 23 Historic",
+    "rel_ids": [
+      18209627
+    ]
+  },
+  {
+    "ref": "ĐT.555",
+    "km": 22.4,
+    "centerline_km": 22.4,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 9,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường tỉnh 555",
+    "rel_ids": [
+      18177596
+    ]
+  },
+  {
+    "ref": "ĐT.537B",
+    "km": 22.0,
+    "centerline_km": 22.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 7,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 537B",
+    "rel_ids": [
+      16034409
+    ]
+  },
+  {
+    "ref": "ĐT.535B",
+    "km": 22.0,
+    "centerline_km": 11.0,
+    "maxspeed_km": 18.1,
+    "pct_maxspeed": 82.2,
+    "classes": "primary",
+    "n_ways": 12,
+    "n_relations": 1,
+    "components": 4,
+    "name": "Đường tỉnh 535B",
+    "rel_ids": [
+      19617489
+    ]
+  },
+  {
+    "ref": "ĐT.385",
+    "km": 21.6,
+    "centerline_km": 17.5,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 20,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 385",
+    "rel_ids": [
+      18735261
+    ]
+  },
+  {
+    "ref": "ĐT.490",
+    "km": 21.3,
+    "centerline_km": 11.2,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 19,
+    "n_relations": 1,
+    "components": 4,
+    "name": "Đường tỉnh 490",
+    "rel_ids": [
+      18177717
+    ]
+  },
+  {
+    "ref": "Đ.23B",
+    "km": 21.3,
+    "centerline_km": 20.6,
+    "maxspeed_km": 1.8,
+    "pct_maxspeed": 8.3,
+    "classes": "primary",
+    "n_ways": 35,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường 23B (Hà Nội)",
+    "rel_ids": [
+      20729843
+    ]
+  },
+  {
+    "ref": "QL.40",
+    "km": 20.5,
+    "centerline_km": 19.3,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 18,
+    "n_relations": 1,
+    "components": 5,
+    "name": "Quốc lộ 40",
+    "rel_ids": [
+      13481336
+    ]
+  },
+  {
+    "ref": "CT.36",
+    "km": 20.5,
+    "centerline_km": 10.2,
+    "maxspeed_km": 20.4,
+    "pct_maxspeed": 99.8,
+    "classes": "motorway",
+    "n_ways": 42,
+    "n_relations": 2,
+    "components": 2,
+    "name": "Đường cao tốc Cao Lãnh - An Hữu",
+    "rel_ids": [
+      16023019,
+      16023020
+    ]
+  },
+  {
+    "ref": "ĐT.537",
+    "km": 20.4,
+    "centerline_km": 20.4,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 5,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 537",
+    "rel_ids": [
+      18175939
+    ]
+  },
+  {
+    "ref": "Đường Vân Đồn",
+    "km": 20.2,
+    "centerline_km": 10.2,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 27,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường Vân Đồn",
+    "rel_ids": [
+      19404097
+    ]
+  },
+  {
+    "ref": "CT.41",
+    "km": 19.5,
+    "centerline_km": 11.3,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary,trunk",
+    "n_ways": 34,
+    "n_relations": 1,
+    "components": 10,
+    "name": "Đường vành đai 4 Thành phố Hồ Chí Minh",
+    "rel_ids": [
+      13584503
+    ]
+  },
+  {
+    "ref": "ĐT.548",
+    "km": 19.5,
+    "centerline_km": 19.5,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 6,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường tỉnh 548",
+    "rel_ids": [
+      18177593
+    ]
+  },
+  {
+    "ref": "QL.100",
+    "km": 19.2,
+    "centerline_km": 19.2,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 10,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Quốc lộ 100",
+    "rel_ids": [
+      16093829
+    ]
+  },
+  {
+    "ref": "QL.32B",
+    "km": 19.2,
+    "centerline_km": 19.2,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 9,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Quốc lộ 32B",
+    "rel_ids": [
+      20312106
+    ]
+  },
+  {
+    "ref": "Đê La Giang",
+    "km": 18.9,
+    "centerline_km": 18.9,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 13,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đê La Giang",
+    "rel_ids": [
+      18168703
+    ]
+  },
+  {
+    "ref": "ĐT.983B",
+    "km": 18.8,
+    "centerline_km": 18.8,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 11,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 983B",
+    "rel_ids": [
+      15982513
+    ]
+  },
+  {
+    "ref": "ĐT.974",
+    "km": 18.6,
+    "centerline_km": 18.6,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 7,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 974",
+    "rel_ids": [
+      18850507
+    ]
+  },
+  {
+    "ref": "Đại lộ Vinh - Cửa Lò",
+    "km": 18.4,
+    "centerline_km": 9.2,
+    "maxspeed_km": 18.1,
+    "pct_maxspeed": 98.8,
+    "classes": "primary",
+    "n_ways": 4,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đại lộ Vinh - Cửa Lò",
+    "rel_ids": [
+      16002146
+    ]
+  },
+  {
+    "ref": "ĐT.285",
+    "km": 18.0,
+    "centerline_km": 18.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary,trunk",
+    "n_ways": 14,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường tỉnh 285",
+    "rel_ids": [
+      18465445
+    ]
+  },
+  {
+    "ref": "ĐT.286",
+    "km": 17.8,
+    "centerline_km": 17.7,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary",
+    "n_ways": 30,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 286",
+    "rel_ids": [
+      18193626
+    ]
+  },
+  {
+    "ref": "AH13",
+    "km": 17.7,
+    "centerline_km": 17.7,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 3,
+    "n_relations": 2,
+    "components": 1,
+    "name": "",
+    "rel_ids": [
+      919784,
+      15676118
+    ]
+  },
+  {
+    "ref": "2E",
+    "km": 17.7,
+    "centerline_km": 17.7,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 3,
+    "n_relations": 1,
+    "components": 1,
+    "name": "National Highway 2 East",
+    "rel_ids": [
+      18773436
+    ]
+  },
+  {
+    "ref": "Xa lộ Hà Nội",
+    "km": 17.5,
+    "centerline_km": 8.7,
+    "maxspeed_km": 2.3,
+    "pct_maxspeed": 13.2,
+    "classes": "trunk",
+    "n_ways": 64,
+    "n_relations": 1,
+    "components": 4,
+    "name": "Xa lộ Hà Nội",
+    "rel_ids": [
+      10272890
+    ]
+  },
+  {
+    "ref": "ĐT.518D",
+    "km": 17.4,
+    "centerline_km": 17.4,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 2,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Cao Thịnh – Quang Trung",
+    "rel_ids": [
+      15686598
+    ]
+  },
+  {
+    "ref": "Đường trục Bắc Nam",
+    "km": 17.1,
+    "centerline_km": 16.8,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 15,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường trục Bắc Nam",
+    "rel_ids": [
+      20780183
+    ]
+  },
+  {
+    "ref": "ĐT.510",
+    "km": 16.7,
+    "centerline_km": 8.6,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 8,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 510",
+    "rel_ids": [
+      16036561
+    ]
+  },
+  {
+    "ref": "ĐT.283",
+    "km": 16.2,
+    "centerline_km": 16.2,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 16,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 283",
+    "rel_ids": [
+      18982620
+    ]
+  },
+  {
+    "ref": "ĐT.530D",
+    "km": 16.0,
+    "centerline_km": 16.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "tertiary",
+    "n_ways": 7,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Trí Nang – Giao Thiện – Lương Sơn",
+    "rel_ids": [
+      15660424
+    ]
+  },
+  {
+    "ref": "ĐT.420",
+    "km": 15.9,
+    "centerline_km": 14.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,trunk",
+    "n_ways": 23,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường Tỉnh 420",
+    "rel_ids": [
+      18209635
+    ]
+  },
+  {
+    "ref": "TT - BY",
+    "km": 15.9,
+    "centerline_km": 15.9,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 4,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường nối Trạm Tấu - Bắc Yên",
+    "rel_ids": [
+      20733354
+    ]
+  },
+  {
+    "ref": "481",
+    "km": 15.6,
+    "centerline_km": 15.6,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 27,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Tỉnh lộ 481",
+    "rel_ids": [
+      2162003
+    ]
+  },
+  {
+    "ref": "ĐT.520E",
+    "km": 15.5,
+    "centerline_km": 15.5,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 5,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Thanh Xuân – Thanh Lâm – Hóa Quỳ",
+    "rel_ids": [
+      15660492
+    ]
+  },
+  {
+    "ref": "8",
+    "km": 15.3,
+    "centerline_km": 15.1,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 14,
+    "n_relations": 1,
+    "components": 1,
+    "name": "National Highway 8",
+    "rel_ids": [
+      18773413
+    ]
+  },
+  {
+    "ref": "6B",
+    "km": 15.2,
+    "centerline_km": 15.1,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 5,
+    "n_relations": 1,
+    "components": 1,
+    "name": "National Highway 6 Branch B",
+    "rel_ids": [
+      18773421
+    ]
+  },
+  {
+    "ref": "Đường Nguyễn Văn Cừ",
+    "km": 14.6,
+    "centerline_km": 8.8,
+    "maxspeed_km": 3.6,
+    "pct_maxspeed": 24.9,
+    "classes": "primary",
+    "n_ways": 36,
+    "n_relations": 2,
+    "components": 2,
+    "name": "Đường Nguyễn Văn Cừ",
+    "rel_ids": [
+      18694609,
+      19211267
+    ]
+  },
+  {
+    "ref": "ĐT.263C",
+    "km": 14.5,
+    "centerline_km": 14.5,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 15,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 263C",
+    "rel_ids": [
+      18211648
+    ]
+  },
+  {
+    "ref": "Đê sông Cà Lồ",
+    "km": 14.5,
+    "centerline_km": 14.5,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 6,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đê sông Cà Lồ",
+    "rel_ids": [
+      19715001
+    ]
+  },
+  {
+    "ref": "Quốc lộ 18B",
+    "km": 14.4,
+    "centerline_km": 14.4,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 6,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Quốc lộ 18B",
+    "rel_ids": [
+      18370629
+    ]
+  },
+  {
+    "ref": "S518",
+    "km": 14.2,
+    "centerline_km": 14.2,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 1,
+    "n_relations": 1,
+    "components": 1,
+    "name": "518省道",
+    "rel_ids": [
+      18655392
+    ]
+  },
+  {
+    "ref": "Đường Lý Thái Tổ",
+    "km": 13.9,
+    "centerline_km": 7.6,
+    "maxspeed_km": 4.4,
+    "pct_maxspeed": 31.8,
+    "classes": "primary,secondary",
+    "n_ways": 48,
+    "n_relations": 2,
+    "components": 4,
+    "name": "Đường Lý Thái Tổ",
+    "rel_ids": [
+      18694608,
+      18699456
+    ]
+  },
+  {
+    "ref": "ĐT.406",
+    "km": 13.8,
+    "centerline_km": 13.8,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 9,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 406",
+    "rel_ids": [
+      18209629
+    ]
+  },
+  {
+    "ref": "ĐT.422",
+    "km": 13.8,
+    "centerline_km": 13.8,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary",
+    "n_ways": 26,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường tỉnh 422",
+    "rel_ids": [
+      18209636
+    ]
+  },
+  {
+    "ref": "S86",
+    "km": 13.6,
+    "centerline_km": 6.8,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "motorway",
+    "n_ways": 4,
+    "n_relations": 2,
+    "components": 2,
+    "name": "平孟口岸高速公路（平孟口岸方向）",
+    "rel_ids": [
+      18501496,
+      18501497
+    ]
+  },
+  {
+    "ref": "X944",
+    "km": 13.6,
+    "centerline_km": 13.6,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 3,
+    "n_relations": 1,
+    "components": 1,
+    "name": "944县道:壬庄-吕平公路",
+    "rel_ids": [
+      18759648
+    ]
+  },
+  {
+    "ref": "QL.279B",
+    "km": 13.0,
+    "centerline_km": 10.8,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,trunk",
+    "n_ways": 9,
+    "n_relations": 1,
+    "components": 1,
+    "name": "",
+    "rel_ids": [
+      19924424
+    ]
+  },
+  {
+    "ref": "G248",
+    "km": 12.5,
+    "centerline_km": 12.5,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 5,
+    "n_relations": 1,
+    "components": 1,
+    "name": "248国道 兰马线",
+    "rel_ids": [
+      13902178
+    ]
+  },
+  {
+    "ref": "S62",
+    "km": 12.4,
+    "centerline_km": 6.2,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 2,
+    "n_relations": 1,
+    "components": 2,
+    "name": "水崇爱高速",
+    "rel_ids": [
+      11544315
+    ]
+  },
+  {
+    "ref": "18B",
+    "km": 12.4,
+    "centerline_km": 12.2,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 6,
+    "n_relations": 1,
+    "components": 1,
+    "name": "National Highway 18 Section B",
+    "rel_ids": [
+      19440116
+    ]
+  },
+  {
+    "ref": "Đường Võ Chí Công",
+    "km": 12.4,
+    "centerline_km": 6.2,
+    "maxspeed_km": 4.3,
+    "pct_maxspeed": 34.9,
+    "classes": "primary,trunk",
+    "n_ways": 84,
+    "n_relations": 1,
+    "components": 4,
+    "name": "Đường Võ Chí Công",
+    "rel_ids": [
+      19684142
+    ]
+  },
+  {
+    "ref": "ĐT.542C",
+    "km": 12.3,
+    "centerline_km": 12.1,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary",
+    "n_ways": 19,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Đường tỉnh 542C",
+    "rel_ids": [
+      18168700
+    ]
+  },
+  {
+    "ref": "Đường Vành đai 1 Hải Dương",
+    "km": 11.9,
+    "centerline_km": 5.9,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "tertiary",
+    "n_ways": 4,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường Vành đai 1 Hải Dương",
+    "rel_ids": [
+      18090923
+    ]
+  },
+  {
+    "ref": "X783",
+    "km": 11.3,
+    "centerline_km": 11.3,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 3,
+    "n_relations": 1,
+    "components": 1,
+    "name": "783县道:北斗-念井公路",
+    "rel_ids": [
+      18655443
+    ]
+  },
+  {
+    "ref": "ĐT.535",
+    "km": 11.1,
+    "centerline_km": 11.1,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 6,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 535",
+    "rel_ids": [
+      16034406
+    ]
+  },
+  {
+    "ref": "ĐT.507",
+    "km": 11.1,
+    "centerline_km": 11.1,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 8,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Triệu Sơn – Vĩnh Lộc",
+    "rel_ids": [
+      16666779
+    ]
+  },
+  {
+    "ref": "ĐT.823D",
+    "km": 11.0,
+    "centerline_km": 5.5,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 2,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường tỉnh 823D",
+    "rel_ids": [
+      15997999
+    ]
+  },
+  {
+    "ref": "HL",
+    "km": 10.9,
+    "centerline_km": 10.3,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "tertiary",
+    "n_ways": 10,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Hương lộ Tân Lộc",
+    "rel_ids": [
+      19564996
+    ]
+  },
+  {
+    "ref": "ĐT.520G",
+    "km": 10.7,
+    "centerline_km": 10.7,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 3,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Hóa Quỳ – Cát Vân",
+    "rel_ids": [
+      15660504
+    ]
+  },
+  {
+    "ref": "ĐT.388",
+    "km": 10.7,
+    "centerline_km": 10.7,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary",
+    "n_ways": 7,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 388",
+    "rel_ids": [
+      18735262
+    ]
+  },
+  {
+    "ref": "Đường Quang Trung",
+    "km": 10.4,
+    "centerline_km": 10.4,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 9,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường Quang Trung",
+    "rel_ids": [
+      18694613
+    ]
+  },
+  {
+    "ref": "Đường Hữu Nghị",
+    "km": 10.2,
+    "centerline_km": 5.1,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary",
+    "n_ways": 24,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường Hữu Nghị",
+    "rel_ids": [
+      19138409
+    ]
+  },
+  {
+    "ref": "Đê Tả Sông Ngũ Huyện Khê",
+    "km": 10.2,
+    "centerline_km": 10.2,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary,tertiary",
+    "n_ways": 18,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Đê Tả Sông Ngũ Huyện Khê",
+    "rel_ids": [
+      19691746
+    ]
+  },
+  {
+    "ref": "ĐT.285B",
+    "km": 10.1,
+    "centerline_km": 8.6,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 16,
+    "n_relations": 1,
+    "components": 12,
+    "name": "Đường tỉnh 285B",
+    "rel_ids": [
+      18986296
+    ]
+  },
+  {
+    "ref": "ĐT.983",
+    "km": 9.7,
+    "centerline_km": 9.7,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 14,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 983",
+    "rel_ids": [
+      1929646
+    ]
+  },
+  {
+    "ref": "Đại lộ Đông Tây",
+    "km": 9.6,
+    "centerline_km": 4.8,
+    "maxspeed_km": 6.2,
+    "pct_maxspeed": 64.6,
+    "classes": "primary,trunk",
+    "n_ways": 40,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Đại lộ Đông Tây",
+    "rel_ids": [
+      13543926
+    ]
+  },
+  {
+    "ref": "7",
+    "km": 9.5,
+    "centerline_km": 9.3,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 5,
+    "n_relations": 1,
+    "components": 1,
+    "name": "National Highway 7",
+    "rel_ids": [
+      453828
+    ]
+  },
+  {
+    "ref": "ĐT.282B",
+    "km": 9.5,
+    "centerline_km": 9.5,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 2,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 282B",
+    "rel_ids": [
+      19579594
+    ]
+  },
+  {
+    "ref": "ĐT.72",
+    "km": 9.1,
+    "centerline_km": 9.1,
+    "maxspeed_km": 0.3,
+    "pct_maxspeed": 2.8,
+    "classes": "primary,secondary",
+    "n_ways": 11,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Đường tỉnh 72",
+    "rel_ids": [
+      18209633
+    ]
+  },
+  {
+    "ref": "Đường Nguyên Phi Ỷ Lan",
+    "km": 9.0,
+    "centerline_km": 4.5,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 11,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường Nguyên Phi Ỷ Lan",
+    "rel_ids": [
+      20366330
+    ]
+  },
+  {
+    "ref": "ĐT.851",
+    "km": 8.8,
+    "centerline_km": 8.7,
+    "maxspeed_km": 0.1,
+    "pct_maxspeed": 1.2,
+    "classes": "secondary",
+    "n_ways": 16,
+    "n_relations": 1,
+    "components": 4,
+    "name": "Đường liên xã Lai Vung - Hòa Long",
+    "rel_ids": [
+      19323688
+    ]
+  },
+  {
+    "ref": "481C",
+    "km": 8.6,
+    "centerline_km": 8.6,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 1,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Tỉnh lộ 481C",
+    "rel_ids": [
+      2164926
+    ]
+  },
+  {
+    "ref": "Đường Nguyễn Trãi",
+    "km": 8.6,
+    "centerline_km": 6.4,
+    "maxspeed_km": 3.3,
+    "pct_maxspeed": 38.1,
+    "classes": "primary,secondary,trunk",
+    "n_ways": 27,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường Nguyễn Trãi",
+    "rel_ids": [
+      18699554
+    ]
+  },
+  {
+    "ref": "G673",
+    "km": 8.4,
+    "centerline_km": 8.4,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 3,
+    "n_relations": 1,
+    "components": 1,
+    "name": "673国道",
+    "rel_ids": [
+      17261722
+    ]
+  },
+  {
+    "ref": "ĐT.536",
+    "km": 8.0,
+    "centerline_km": 7.9,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 12,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường tỉnh 536",
+    "rel_ids": [
+      16034410
+    ]
+  },
+  {
+    "ref": "ĐT.480C",
+    "km": 7.8,
+    "centerline_km": 7.8,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 4,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 480C",
+    "rel_ids": [
+      2163036
+    ]
+  },
+  {
+    "ref": "961",
+    "km": 7.7,
+    "centerline_km": 7.7,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 11,
+    "n_relations": 1,
+    "components": 1,
+    "name": "",
+    "rel_ids": [
+      1929344
+    ]
+  },
+  {
+    "ref": "Đường trục Đông Tây",
+    "km": 7.7,
+    "centerline_km": 7.5,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 7,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường trục Đông Tây",
+    "rel_ids": [
+      20780184
+    ]
+  },
+  {
+    "ref": "Đường Ngô Gia Tự",
+    "km": 7.6,
+    "centerline_km": 7.3,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 10,
+    "n_relations": 2,
+    "components": 2,
+    "name": "Đường Ngô Gia Tự",
+    "rel_ids": [
+      18699555,
+      18803444
+    ]
+  },
+  {
+    "ref": "X773",
+    "km": 7.3,
+    "centerline_km": 7.3,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 2,
+    "n_relations": 1,
+    "components": 1,
+    "name": "773县道:吕平-孟麻公路",
+    "rel_ids": [
+      18759649
+    ]
+  },
+  {
+    "ref": "16",
+    "km": 7.2,
+    "centerline_km": 7.2,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 6,
+    "n_relations": 1,
+    "components": 1,
+    "name": "National Highway 16",
+    "rel_ids": [
+      19440129
+    ]
+  },
+  {
+    "ref": "S221",
+    "km": 7.1,
+    "centerline_km": 7.1,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 7,
+    "n_relations": 1,
+    "components": 2,
+    "name": "S221",
+    "rel_ids": [
+      17973560
+    ]
+  },
+  {
+    "ref": "Đường 16",
+    "km": 6.9,
+    "centerline_km": 6.9,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 1,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường 16",
+    "rel_ids": [
+      18193627
+    ]
+  },
+  {
+    "ref": "Đường Nam Lý - Trung Trương",
+    "km": 6.8,
+    "centerline_km": 6.8,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary",
+    "n_ways": 13,
+    "n_relations": 1,
+    "components": 4,
+    "name": "Đường Nam Lý - Trung Trương",
+    "rel_ids": [
+      14698334
+    ]
+  },
+  {
+    "ref": "Đường Bình Than",
+    "km": 6.8,
+    "centerline_km": 4.5,
+    "maxspeed_km": 1.9,
+    "pct_maxspeed": 28.0,
+    "classes": "secondary,tertiary",
+    "n_ways": 9,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường Bình Than",
+    "rel_ids": [
+      18850746
+    ]
+  },
+  {
+    "ref": "Đường Lạc Long Quân",
+    "km": 6.7,
+    "centerline_km": 3.7,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 23,
+    "n_relations": 1,
+    "components": 6,
+    "name": "Đường Lạc Long Quân",
+    "rel_ids": [
+      18756422
+    ]
+  },
+  {
+    "ref": "ĐT.278",
+    "km": 6.6,
+    "centerline_km": 6.6,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 5,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 278",
+    "rel_ids": [
+      18982587
+    ]
+  },
+  {
+    "ref": "ĐT.481D",
+    "km": 6.5,
+    "centerline_km": 6.5,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 25,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 481D",
+    "rel_ids": [
+      2164927
+    ]
+  },
+  {
+    "ref": "Đuòng Trần Phú",
+    "km": 6.5,
+    "centerline_km": 3.6,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 17,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đuòng Trần Phú",
+    "rel_ids": [
+      18694610
+    ]
+  },
+  {
+    "ref": "Đường Minh Khai",
+    "km": 6.5,
+    "centerline_km": 3.7,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 13,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường Minh Khai",
+    "rel_ids": [
+      18694611
+    ]
+  },
+  {
+    "ref": "崇左一级旅游大道",
+    "km": 6.2,
+    "centerline_km": 3.1,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 2,
+    "n_relations": 1,
+    "components": 1,
+    "name": "崇左一级旅游大道",
+    "rel_ids": [
+      16237943
+    ]
+  },
+  {
+    "ref": "G246",
+    "km": 6.2,
+    "centerline_km": 6.2,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 5,
+    "n_relations": 1,
+    "components": 1,
+    "name": "246国道 遂麻线（云南段）",
+    "rel_ids": [
+      20294347
+    ]
+  },
+  {
+    "ref": "Đường Trương Định",
+    "km": 6.0,
+    "centerline_km": 3.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 17,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Đường Trương Định",
+    "rel_ids": [
+      18694614
+    ]
+  },
+  {
+    "ref": "480B",
+    "km": 5.9,
+    "centerline_km": 5.9,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary",
+    "n_ways": 4,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Tỉnh lộ 480B",
+    "rel_ids": [
+      2163035
+    ]
+  },
+  {
+    "ref": "Đường Trục Xã  - TX 01 (Long - Hà - Trà)",
+    "km": 5.9,
+    "centerline_km": 5.9,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "tertiary",
+    "n_ways": 3,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường Trục Xã  - TX 01 (Long - Hà - Trà)",
+    "rel_ids": [
+      18230465
+    ]
+  },
+  {
+    "ref": "Đường Lý Thánh Tông",
+    "km": 5.9,
+    "centerline_km": 3.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary",
+    "n_ways": 24,
+    "n_relations": 2,
+    "components": 4,
+    "name": "Đường Lý Thánh Tông",
+    "rel_ids": [
+      18756454,
+      19909926
+    ]
+  },
+  {
+    "ref": "ĐH.10",
+    "km": 5.7,
+    "centerline_km": 2.9,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary,tertiary",
+    "n_ways": 17,
+    "n_relations": 1,
+    "components": 9,
+    "name": "",
+    "rel_ids": [
+      18465838
+    ]
+  },
+  {
+    "ref": "G358",
+    "km": 5.6,
+    "centerline_km": 5.6,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 2,
+    "n_relations": 1,
+    "components": 1,
+    "name": "358国道 石水线",
+    "rel_ids": [
+      8320504
+    ]
+  },
+  {
+    "ref": "ĐT.277B",
+    "km": 5.3,
+    "centerline_km": 5.1,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 2,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường tỉnh 277B",
+    "rel_ids": [
+      18986297
+    ]
+  },
+  {
+    "ref": "Đường Lý Thường Kiệt",
+    "km": 5.2,
+    "centerline_km": 2.6,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 9,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường Lý Thường Kiệt",
+    "rel_ids": [
+      18699552
+    ]
+  },
+  {
+    "ref": "ĐT.537A",
+    "km": 5.0,
+    "centerline_km": 4.2,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 7,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 537A",
+    "rel_ids": [
+      16034408
+    ]
+  },
+  {
+    "ref": "9E",
+    "km": 5.0,
+    "centerline_km": 4.7,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 7,
+    "n_relations": 1,
+    "components": 1,
+    "name": "National Highway 9 East",
+    "rel_ids": [
+      19440130
+    ]
+  },
+  {
+    "ref": "Xa lộ Đại Hàn",
+    "km": 4.7,
+    "centerline_km": 2.3,
+    "maxspeed_km": 2.2,
+    "pct_maxspeed": 46.1,
+    "classes": "trunk",
+    "n_ways": 20,
+    "n_relations": 1,
+    "components": 6,
+    "name": "Xa lộ Đại Hàn",
+    "rel_ids": [
+      13537812
+    ]
+  },
+  {
+    "ref": "Đường Bưởi",
+    "km": 4.5,
+    "centerline_km": 2.2,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary,trunk",
+    "n_ways": 26,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường Bưởi",
+    "rel_ids": [
+      19684141
+    ]
+  },
+  {
+    "ref": "ĐT.312",
+    "km": 4.3,
+    "centerline_km": 4.3,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 2,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 312",
+    "rel_ids": [
+      18209630
+    ]
+  },
+  {
+    "ref": "15",
+    "km": 4.3,
+    "centerline_km": 4.3,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 3,
+    "n_relations": 1,
+    "components": 1,
+    "name": "National Highway 15",
+    "rel_ids": [
+      18773423
+    ]
+  },
+  {
+    "ref": "Đường Dốc Đỏ kéo dài",
+    "km": 4.3,
+    "centerline_km": 2.1,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 6,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường Dốc Đỏ kéo dài",
+    "rel_ids": [
+      20202252
+    ]
+  },
+  {
+    "ref": "Vành đai 3",
+    "km": 4.2,
+    "centerline_km": 3.8,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 14,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Vành đai 3",
+    "rel_ids": [
+      13490968
+    ]
+  },
+  {
+    "ref": "ĐH",
+    "km": 4.2,
+    "centerline_km": 4.2,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "tertiary",
+    "n_ways": 12,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường Ngô Gia Tự",
+    "rel_ids": [
+      19673473
+    ]
+  },
+  {
+    "ref": "Đường Yên Phụ",
+    "km": 4.2,
+    "centerline_km": 2.5,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 39,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường Yên Phụ",
+    "rel_ids": [
+      19684140
+    ]
+  },
+  {
+    "ref": "ĐMT 8A",
+    "km": 4.0,
+    "centerline_km": 4.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "tertiary",
+    "n_ways": 8,
+    "n_relations": 1,
+    "components": 1,
+    "name": "ĐMT 8A",
+    "rel_ids": [
+      18175941
+    ]
+  },
+  {
+    "ref": "Đường Lê Thái Tổ",
+    "km": 3.7,
+    "centerline_km": 1.8,
+    "maxspeed_km": 3.6,
+    "pct_maxspeed": 97.4,
+    "classes": "primary",
+    "n_ways": 15,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường Lê Thái Tổ",
+    "rel_ids": [
+      18756452
+    ]
+  },
+  {
+    "ref": "21",
+    "km": 3.7,
+    "centerline_km": 3.7,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 6,
+    "n_relations": 1,
+    "components": 1,
+    "name": "ផ្លូវជាតិលេខ២១",
+    "rel_ids": [
+      19639845
+    ]
+  },
+  {
+    "ref": "S219",
+    "km": 3.6,
+    "centerline_km": 3.6,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 3,
+    "n_relations": 1,
+    "components": 1,
+    "name": "",
+    "rel_ids": [
+      17993150
+    ]
+  },
+  {
+    "ref": "Đường Nguyễn Quyền",
+    "km": 3.6,
+    "centerline_km": 3.6,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "tertiary",
+    "n_ways": 6,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường Nguyễn Quyền",
+    "rel_ids": [
+      20337527
+    ]
+  },
+  {
+    "ref": "Đường Hai Bà Trưng",
+    "km": 3.5,
+    "centerline_km": 2.1,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 4,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường Hai Bà Trưng",
+    "rel_ids": [
+      18699553
+    ]
+  },
+  {
+    "ref": "Đường nối cao tốc Hạ Long - Hải Phòng đến Đông Triều",
+    "km": 3.5,
+    "centerline_km": 1.7,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 4,
+    "n_relations": 1,
+    "components": 4,
+    "name": "Đường nối cao tốc Hạ Long - Hải Phòng đến Đông Triều",
+    "rel_ids": [
+      20107149
+    ]
+  },
+  {
+    "ref": "X264",
+    "km": 3.4,
+    "centerline_km": 3.4,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 1,
+    "n_relations": 1,
+    "components": 1,
+    "name": "防城县道X264线",
+    "rel_ids": [
+      9258250
+    ]
+  },
+  {
+    "ref": "Đường Nguyễn Đăng Đạo",
+    "km": 3.1,
+    "centerline_km": 2.9,
+    "maxspeed_km": 1.4,
+    "pct_maxspeed": 46.6,
+    "classes": "primary,secondary,tertiary",
+    "n_ways": 17,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường Nguyễn Đăng Đạo",
+    "rel_ids": [
+      18699455
+    ]
+  },
+  {
+    "ref": "Đường Lý Anh Tông",
+    "km": 3.1,
+    "centerline_km": 1.8,
+    "maxspeed_km": 2.8,
+    "pct_maxspeed": 89.4,
+    "classes": "primary,secondary,tertiary",
+    "n_ways": 13,
+    "n_relations": 1,
+    "components": 6,
+    "name": "Đường Lý Anh Tông",
+    "rel_ids": [
+      18756453
+    ]
+  },
+  {
+    "ref": "Đường Thiên Đức",
+    "km": 3.0,
+    "centerline_km": 3.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,secondary",
+    "n_ways": 9,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường Thiên Đức",
+    "rel_ids": [
+      18850744
+    ]
+  },
+  {
+    "ref": "Quảng Trường Sáng Tạo",
+    "km": 2.9,
+    "centerline_km": 1.4,
+    "maxspeed_km": 2.9,
+    "pct_maxspeed": 100.0,
+    "classes": "tertiary",
+    "n_ways": 25,
+    "n_relations": 1,
+    "components": 3,
+    "name": "Quảng Trường Sáng Tạo",
+    "rel_ids": [
+      10259345
+    ]
+  },
+  {
+    "ref": "NR 33 Reconstruction Project",
+    "km": 2.7,
+    "centerline_km": 2.6,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 5,
+    "n_relations": 1,
+    "components": 1,
+    "name": "NR 33 Reconstruction Project",
+    "rel_ids": [
+      18245777
+    ]
+  },
+  {
+    "ref": "Đường Âu Cơ",
+    "km": 2.7,
+    "centerline_km": 2.6,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 5,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường Âu Cơ",
+    "rel_ids": [
+      18756423
+    ]
+  },
+  {
+    "ref": "G322",
+    "km": 2.6,
+    "centerline_km": 1.3,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 11,
+    "n_relations": 1,
+    "components": 2,
+    "name": "322国道 瑞友线",
+    "rel_ids": [
+      398073
+    ]
+  },
+  {
+    "ref": "Cầu Ba Son",
+    "km": 2.6,
+    "centerline_km": 1.3,
+    "maxspeed_km": 2.3,
+    "pct_maxspeed": 89.5,
+    "classes": "secondary",
+    "n_ways": 4,
+    "n_relations": 1,
+    "components": 4,
+    "name": "Cầu Ba Son",
+    "rel_ids": [
+      13293777
+    ]
+  },
+  {
+    "ref": "ĐT.295C",
+    "km": 2.4,
+    "centerline_km": 2.1,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 9,
+    "n_relations": 1,
+    "components": 4,
+    "name": "Đường tỉnh 295C",
+    "rel_ids": [
+      18986298
+    ]
+  },
+  {
+    "ref": "Đường Kinh Dương Vương",
+    "km": 2.3,
+    "centerline_km": 1.2,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 8,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường Kinh Dương Vương",
+    "rel_ids": [
+      19274454
+    ]
+  },
+  {
+    "ref": "Vĩnh Tuy - Minh Khai - Yên Duyên",
+    "km": 2.1,
+    "centerline_km": 2.1,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,tertiary",
+    "n_ways": 10,
+    "n_relations": 1,
+    "components": 4,
+    "name": "Vĩnh Tuy - Minh Khai - Yên Duyên",
+    "rel_ids": [
+      20655902
+    ]
+  },
+  {
+    "ref": "Đường Dương Đình Nghệ",
+    "km": 2.0,
+    "centerline_km": 2.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 3,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường Dương Đình Nghệ",
+    "rel_ids": [
+      19176700
+    ]
+  },
+  {
+    "ref": "Đê Tân Long",
+    "km": 1.9,
+    "centerline_km": 1.9,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary,tertiary",
+    "n_ways": 3,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đê Tân Long",
+    "rel_ids": [
+      18167856
+    ]
+  },
+  {
+    "ref": "Đường Hoàng Hoa Thám",
+    "km": 1.9,
+    "centerline_km": 1.9,
+    "maxspeed_km": 1.9,
+    "pct_maxspeed": 100.0,
+    "classes": "tertiary",
+    "n_ways": 3,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường Hoàng Hoa Thám",
+    "rel_ids": [
+      18982586
+    ]
+  },
+  {
+    "ref": "Đường Hàn Thuyên",
+    "km": 1.5,
+    "centerline_km": 1.5,
+    "maxspeed_km": 1.3,
+    "pct_maxspeed": 82.7,
+    "classes": "tertiary",
+    "n_ways": 5,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường Hàn Thuyên",
+    "rel_ids": [
+      18850747
+    ]
+  },
+  {
+    "ref": "Đường Bà Chúa Kho",
+    "km": 1.5,
+    "centerline_km": 1.4,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "tertiary",
+    "n_ways": 4,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường Bà Chúa Kho",
+    "rel_ids": [
+      19271851
+    ]
+  },
+  {
+    "ref": "Đường Lý Tự Trọng",
+    "km": 1.5,
+    "centerline_km": 1.4,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 12,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường Lý Tự Trọng",
+    "rel_ids": [
+      19909925
+    ]
+  },
+  {
+    "ref": "Đường Lê Hồng Phong",
+    "km": 1.4,
+    "centerline_km": 1.4,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "tertiary",
+    "n_ways": 2,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường Lê Hồng Phong",
+    "rel_ids": [
+      18844906
+    ]
+  },
+  {
+    "ref": "Đường Đồng Kỵ 1",
+    "km": 1.4,
+    "centerline_km": 1.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary,tertiary",
+    "n_ways": 6,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường Đồng Kỵ 1",
+    "rel_ids": [
+      19211266
+    ]
+  },
+  {
+    "ref": "S216",
+    "km": 1.3,
+    "centerline_km": 1.3,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 1,
+    "n_relations": 1,
+    "components": 1,
+    "name": "216省道",
+    "rel_ids": [
+      18655394
+    ]
+  },
+  {
+    "ref": "Đường Lê Phụng Hiểu",
+    "km": 1.3,
+    "centerline_km": 1.3,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary,tertiary",
+    "n_ways": 10,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường Lê Phụng Hiểu",
+    "rel_ids": [
+      18850745
+    ]
+  },
+  {
+    "ref": "Phố Cát Linh",
+    "km": 1.2,
+    "centerline_km": 0.6,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "tertiary",
+    "n_ways": 15,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Phố Cát Linh",
+    "rel_ids": [
+      18740274
+    ]
+  },
+  {
+    "ref": "G7211",
+    "km": 1.1,
+    "centerline_km": 0.5,
+    "maxspeed_km": 1.1,
+    "pct_maxspeed": 100.0,
+    "classes": "motorway",
+    "n_ways": 4,
+    "n_relations": 1,
+    "components": 2,
+    "name": "",
+    "rel_ids": [
+      911963
+    ]
+  },
+  {
+    "ref": "ĐT.983C",
+    "km": 1.1,
+    "centerline_km": 1.1,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 8,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường tỉnh 983C",
+    "rel_ids": [
+      15982514
+    ]
+  },
+  {
+    "ref": "Đường Phù Đổng Thiên Vương",
+    "km": 1.1,
+    "centerline_km": 1.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "tertiary",
+    "n_ways": 9,
+    "n_relations": 1,
+    "components": 2,
+    "name": "Đường Phù Đổng Thiên Vương",
+    "rel_ids": [
+      19369403
+    ]
+  },
+  {
+    "ref": "S312",
+    "km": 0.6,
+    "centerline_km": 0.6,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "primary",
+    "n_ways": 1,
+    "n_relations": 1,
+    "components": 1,
+    "name": "广西312省道",
+    "rel_ids": [
+      9258252
+    ]
+  },
+  {
+    "ref": "S6011",
+    "km": 0.5,
+    "centerline_km": 0.2,
+    "maxspeed_km": 0.5,
+    "pct_maxspeed": 100.0,
+    "classes": "motorway",
+    "n_ways": 2,
+    "n_relations": 1,
+    "components": 2,
+    "name": "岳圩口岸高速",
+    "rel_ids": [
+      18292878
+    ]
+  },
+  {
+    "ref": "Đường Nguyễn Cao",
+    "km": 0.1,
+    "centerline_km": 0.1,
+    "maxspeed_km": 0.1,
+    "pct_maxspeed": 100.0,
+    "classes": "tertiary",
+    "n_ways": 1,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Đường Nguyễn Cao",
+    "rel_ids": [
+      19366254
+    ]
+  },
+  {
+    "ref": "原S314",
+    "km": 0.1,
+    "centerline_km": 0.1,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "trunk",
+    "n_ways": 1,
+    "n_relations": 1,
+    "components": 1,
+    "name": "原S314",
+    "rel_ids": [
+      19693401
+    ]
+  },
+  {
+    "ref": "CT.12",
+    "km": 0.0,
+    "centerline_km": 0.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "",
+    "n_ways": 0,
+    "n_relations": 1,
+    "components": 0,
+    "name": "Tuyến nối đường cao tốc Hà Nội - Lào Cai với Hà Giang",
+    "rel_ids": [
+      13843716
+    ]
+  },
+  {
+    "ref": "CT.13",
+    "km": 0.0,
+    "centerline_km": 0.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "",
+    "n_ways": 0,
+    "n_relations": 1,
+    "components": 0,
+    "name": "Đường cao tốc Bảo Hà (Lào Cai) - Lai Châu",
+    "rel_ids": [
+      13843819
+    ]
+  },
+  {
+    "ref": "Phố Lê Ninh",
+    "km": 0.0,
+    "centerline_km": 0.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "",
+    "n_ways": 0,
+    "n_relations": 1,
+    "components": 0,
+    "name": "Phố Lê Ninh",
+    "rel_ids": [
+      14018652
+    ]
+  },
+  {
+    "ref": "Đường Nguyễn Văn Nguyễn",
+    "km": 0.0,
+    "centerline_km": 0.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "",
+    "n_ways": 0,
+    "n_relations": 1,
+    "components": 0,
+    "name": "Đường Nguyễn Văn Nguyễn",
+    "rel_ids": [
+      14899406
+    ]
+  },
+  {
+    "ref": "Lộ Làng",
+    "km": 0.0,
+    "centerline_km": 0.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "",
+    "n_ways": 0,
+    "n_relations": 1,
+    "components": 0,
+    "name": "Lộ Làng",
+    "rel_ids": [
+      15413240
+    ]
+  },
+  {
+    "ref": "CT.08",
+    "km": 0.0,
+    "centerline_km": 0.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "",
+    "n_ways": 0,
+    "n_relations": 1,
+    "components": 0,
+    "name": "Đường cao tốc Ninh Bình - Hải Phòng",
+    "rel_ids": [
+      15965597
+    ]
+  },
+  {
+    "ref": "CT.31",
+    "km": 0.0,
+    "centerline_km": 0.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "",
+    "n_ways": 0,
+    "n_relations": 1,
+    "components": 0,
+    "name": "Đường cao tốc Thành phố Hồ Chí Minh - Mộc Bài",
+    "rel_ids": [
+      16054080
+    ]
+  },
+  {
+    "ref": "CT.32",
+    "km": 0.0,
+    "centerline_km": 0.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "",
+    "n_ways": 0,
+    "n_relations": 1,
+    "components": 0,
+    "name": "Đường cao tốc Gò Dầu - Xa Mát",
+    "rel_ids": [
+      16054081
+    ]
+  },
+  {
+    "ref": "CT.15",
+    "km": 0.0,
+    "centerline_km": 0.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "",
+    "n_ways": 0,
+    "n_relations": 1,
+    "components": 0,
+    "name": "Đường cao tốc Tuyên Quang - Hà Giang",
+    "rel_ids": [
+      16078818
+    ]
+  },
+  {
+    "ref": "Hệ thống vành đai Vĩnh Phúc",
+    "km": 0.0,
+    "centerline_km": 0.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "",
+    "n_ways": 0,
+    "n_relations": 1,
+    "components": 0,
+    "name": "Hệ thống vành đai Vĩnh Phúc",
+    "rel_ids": [
+      16452543
+    ]
+  },
+  {
+    "ref": "CT.10",
+    "km": 0.0,
+    "centerline_km": 0.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "",
+    "n_ways": 0,
+    "n_relations": 1,
+    "components": 0,
+    "name": "Đường cao tốc Quảng Ninh - Lạng Sơn - Cao Bằng",
+    "rel_ids": [
+      16915548
+    ]
+  },
+  {
+    "ref": "QL.39B",
+    "km": 0.0,
+    "centerline_km": 0.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "secondary",
+    "n_ways": 1,
+    "n_relations": 1,
+    "components": 1,
+    "name": "Quốc lộ 39B",
+    "rel_ids": [
+      17718085
+    ]
+  },
+  {
+    "ref": "CT.25",
+    "km": 0.0,
+    "centerline_km": 0.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "",
+    "n_ways": 0,
+    "n_relations": 1,
+    "components": 0,
+    "name": "Đường cao tốc Nha Trang - Đà Lạt",
+    "rel_ids": [
+      18138698
+    ]
+  },
+  {
+    "ref": "CT.30",
+    "km": 0.0,
+    "centerline_km": 0.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "",
+    "n_ways": 0,
+    "n_relations": 1,
+    "components": 0,
+    "name": "Đường cao tốc Thành phố Hồ Chí Minh - Chơn Thành - Hoa Lư",
+    "rel_ids": [
+      18525852
+    ]
+  },
+  {
+    "ref": "CT.43",
+    "km": 0.0,
+    "centerline_km": 0.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "",
+    "n_ways": 0,
+    "n_relations": 1,
+    "components": 0,
+    "name": "Đường cao tốc Cà Mau – Đất Mũi",
+    "rel_ids": [
+      18972839
+    ]
+  },
+  {
+    "ref": "CT.17",
+    "km": 0.0,
+    "centerline_km": 0.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "",
+    "n_ways": 0,
+    "n_relations": 1,
+    "components": 0,
+    "name": "Đường cao tốc Vinh - Thanh Thủy",
+    "rel_ids": [
+      19118056
+    ]
+  },
+  {
+    "ref": "Phố Huỳnh Tấn Phát",
+    "km": 0.0,
+    "centerline_km": 0.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "",
+    "n_ways": 0,
+    "n_relations": 1,
+    "components": 0,
+    "name": "Phố Huỳnh Tấn Phát",
+    "rel_ids": [
+      19254684
+    ]
+  },
+  {
+    "ref": "Đê Sông Cầu",
+    "km": 0.0,
+    "centerline_km": 0.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "",
+    "n_ways": 0,
+    "n_relations": 1,
+    "components": 0,
+    "name": "Đê Sông Cầu",
+    "rel_ids": [
+      19730291
+    ]
+  },
+  {
+    "ref": "Đê Sông Đuống",
+    "km": 0.0,
+    "centerline_km": 0.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "",
+    "n_ways": 0,
+    "n_relations": 1,
+    "components": 0,
+    "name": "Đê Sông Đuống",
+    "rel_ids": [
+      19730292
+    ]
+  },
+  {
+    "ref": "Lam Thao pharmacy store",
+    "km": 0.0,
+    "centerline_km": 0.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "",
+    "n_ways": 0,
+    "n_relations": 1,
+    "components": 0,
+    "name": "Lam Thao pharmacy store",
+    "rel_ids": [
+      20225937
+    ]
+  },
+  {
+    "ref": "Đường Nội Khu Nghĩa Trang Giáo Xứ Bùi Chu",
+    "km": 0.0,
+    "centerline_km": 0.0,
+    "maxspeed_km": 0.0,
+    "pct_maxspeed": 0.0,
+    "classes": "",
+    "n_ways": 0,
+    "n_relations": 1,
+    "components": 0,
+    "name": "Đường Nội Khu Nghĩa Trang Giáo Xứ Bùi Chu",
+    "rel_ids": [
+      20246443
+    ]
+  }
+]

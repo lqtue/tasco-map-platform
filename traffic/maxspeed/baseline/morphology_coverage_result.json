@@ -1,0 +1,92 @@
+{
+  "unit": "km_geodesic_wgs84",
+  "classes": {
+    "primary": {
+      "total_km": 17538.652979970215,
+      "lanes_km": 7031.631085087304,
+      "oneway_km": 6005.897564217667,
+      "oneway_yes_km": 5372.275061708855,
+      "maxspeed_km": 3123.381920610292,
+      "lanes_and_oneway_km": 3775.2775939086196
+    },
+    "tertiary": {
+      "total_km": 56693.47364077621,
+      "lanes_km": 3092.347959660015,
+      "oneway_km": 4012.0597673980787,
+      "oneway_yes_km": 3426.974287680859,
+      "maxspeed_km": 1177.5050564567398,
+      "lanes_and_oneway_km": 992.8264470595437
+    },
+    "primary_link": {
+      "total_km": 209.6763994920978,
+      "lanes_km": 56.372256064623436,
+      "oneway_km": 129.7632588898952,
+      "oneway_yes_km": 123.36215523898653,
+      "maxspeed_km": 9.014272298317344,
+      "lanes_and_oneway_km": 48.543686755177475
+    },
+    "trunk": {
+      "total_km": 23087.444956215633,
+      "lanes_km": 11607.032543230293,
+      "oneway_km": 8242.392728055496,
+      "oneway_yes_km": 7154.466165231654,
+      "maxspeed_km": 5020.372985077823,
+      "lanes_and_oneway_km": 5408.785653505215
+    },
+    "motorway": {
+      "total_km": 6036.698631844346,
+      "lanes_km": 5897.726182543195,
+      "oneway_km": 6012.600058993533,
+      "oneway_yes_km": 5794.9070567208055,
+      "maxspeed_km": 5821.757720015666,
+      "lanes_and_oneway_km": 5888.040505870412
+    },
+    "motorway_link": {
+      "total_km": 865.3231682219747,
+      "lanes_km": 492.71317383127973,
+      "oneway_km": 845.6866243051062,
+      "oneway_yes_km": 837.0067892734722,
+      "maxspeed_km": 370.4181335751409,
+      "lanes_and_oneway_km": 485.08334107706287
+    },
+    "secondary": {
+      "total_km": 30414.654891548023,
+      "lanes_km": 5205.03305828393,
+      "oneway_km": 5546.994206365748,
+      "oneway_yes_km": 4884.987427038265,
+      "maxspeed_km": 2129.722053909819,
+      "lanes_and_oneway_km": 2310.735012230023
+    },
+    "secondary_link": {
+      "total_km": 168.43309394063408,
+      "lanes_km": 27.006745234701953,
+      "oneway_km": 94.10712095078763,
+      "oneway_yes_km": 91.67339950104508,
+      "maxspeed_km": 2.8560230062137792,
+      "lanes_and_oneway_km": 24.11597153070629
+    },
+    "trunk_link": {
+      "total_km": 296.1743313007492,
+      "lanes_km": 98.22362272154808,
+      "oneway_km": 236.34402248034263,
+      "oneway_yes_km": 231.4417453518661,
+      "maxspeed_km": 45.094248353965995,
+      "lanes_and_oneway_km": 94.77571429124531
+    },
+    "tertiary_link": {
+      "total_km": 180.31557249647835,
+      "lanes_km": 8.236316496406745,
+      "oneway_km": 46.69654282904885,
+      "oneway_yes_km": 45.915919315091365,
+      "maxspeed_km": 3.576421754248474,
+      "lanes_and_oneway_km": 6.740744430142933
+    }
+  },
+  "tertiary_plus": {
+    "total_km": 133770.92510035442,
+    "lanes_km": 32833.770828804736,
+    "oneway_km": 29819.944325030523,
+    "oneway_yes_km": 26633.60999838044,
+    "lanes_and_oneway_km": 18375.66521257381
+  }
+}

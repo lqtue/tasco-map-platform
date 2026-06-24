@@ -1,10 +1,22 @@
-config/.env
-pipeline/downloads/
-pipeline/cogs/
+archive/legacy/config/.env
+archive/legacy/pipeline/downloads/
+archive/legacy/pipeline/cogs/
 *.pyc
 __pycache__/
 .DS_Store
 *.pbf
-coverage/.venv/
-coverage/data/
-geocode/data/
+archive/admin-poi/coverage/.venv/
+archive/admin-poi/coverage/data/
+archive/admin-poi/geocode/data/
+traffic/maxspeed/baseline/route_geom.parquet
+# regenerable baseline outputs (deployed copies live in traffic/lanes/static/data/)
+traffic/maxspeed/baseline/national_roads.geojson
+traffic/maxspeed/baseline/route_freshness.json
+traffic/maxspeed/baseline/route_speed_profile_result.json
+traffic/maxspeed/dashboard/data/route_edits.json
+archive/vendor/
+
+# lanes/ — node / SvelteKit build artifacts
+node_modules/
+traffic/lanes/build/
+traffic/lanes/.svelte-kit/
