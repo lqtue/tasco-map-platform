@@ -64,6 +64,9 @@
   .maplibregl-popup-content b{font-size:12px}
   .maplibregl-popup-anchor-top .maplibregl-popup-tip{border-bottom-color:#141a23}
   .maplibregl-popup-anchor-bottom .maplibregl-popup-tip{border-top-color:#141a23}
+  .exp-btn{width:100%;padding:9px 14px;border-radius:8px;border:1px solid var(--line);background:var(--elev);color:var(--ink2);font:12px/1.4 'Inter',system-ui,sans-serif;cursor:pointer;text-align:left;transition:.15s;display:flex;align-items:center;gap:9px;margin-bottom:6px}
+  .exp-btn:hover{background:#243040;color:#fff;border-color:rgba(255,255,255,.15)}
+  .exp-btn .ext{margin-left:auto;font-size:10px;color:var(--mut);background:var(--inset);border:1px solid var(--line);border-radius:4px;padding:2px 7px;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -112,6 +115,21 @@
         <div class="bd-card" style="--cc:var(--amber)"><span class="nm">Urban / built-up</span><span class="dt" id="bUrbanShare"></span><span class="val" id="bUrban">—</span></div>
         <div class="bd-card" style="--cc:var(--accent)"><span class="nm">Strategic roads</span><span class="dt" id="bRoadShare"></span><span class="val" id="bRoad">—</span></div>
       </div>
+    </div>
+
+    <div class="section">
+      <div class="sec-title">Export AOI for partners</div>
+      <button class="exp-btn" onclick="exportSummary()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 8h6M8 5v6"/></svg>
+        AOI Summary — km² by tier &amp; province
+        <span class="ext">JSON</span>
+      </button>
+      <button class="exp-btn" onclick="exportGeoJSON()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 16 16"><polygon points="8,2 14,6 14,10 8,14 2,10 2,6"/><path d="M8 2v12M2 6l12 0M2 10l12 0"/></svg>
+        AOI Cells — hex polygons for archive lookup
+        <span class="ext">GeoJSON</span>
+      </button>
+      <div class="note">Send to providers so they can check archive coverage and quote pricing against your exact selection.</div>
     </div>
   </aside>
 
@@ -262,6 +280,87 @@ map.on('error',e=>console.warn('map:',e&&e.error?e.error.message:e));  // non-fa
 
 $('genTag').textContent=`Vietnam · H3 res-${D.map_res} · ${D.generated}`;
 update();
+
+// --- export ----------------------------------------------------------------
+const CLS=['Motorway','Trunk','Primary','Secondary','Tertiary'];
+
+function selectedFeats(){
+  const thr=D.thresholds[thrIdx];
+  return D.fc.features.filter(f=>{
+    const p=f.properties;
+    if(scope.provs && !scope.provs.has(p.p)) return false;
+    const u=on.urban && p.b>=thr;
+    const r=on.road  && p.c>=0 && p.c<=cutIdx;
+    return u||r;
+  });
+}
+
+function exportSummary(){
+  const c=calc();
+  const thr=D.thresholds[thrIdx];
+  const byProv={};
+  D.prov.forEach((p,i)=>{
+    if(scope.provs && !scope.provs.has(i)) return;
+    const u=on.urban?p.urban_km2[thrIdx]:0;
+    const rd=on.road?p.road_km2_by_cut[cutIdx]:0;
+    const e=(on.urban&&on.road)?p.ur_km2[thrIdx][cutIdx]:(on.urban?u:0)+(on.road?rd:0);
+    if(e>0.05) byProv[D.provinces[i]]={
+      urban_km2:Math.round(u*10)/10,
+      roads_km2:Math.round(rd*10)/10,
+      total_km2:Math.round(e*10)/10
+    };
+  });
+  const out={
+    generated:new Date().toISOString().slice(0,10),
+    source:'TASCO Mapping Division — Satellite Coverage Selector',
+    settings:{
+      scope:scope.name,
+      urban_threshold:Math.round(thr*100)+'%',
+      road_class_cutoff:D.cutoffs[cutIdx]
+    },
+    total_km2:Math.round(c.env),
+    breakdown:{
+      urban_km2:Math.round(c.urban),
+      roads_km2:Math.round(c.roads)
+    },
+    by_province:byProv
+  };
+  dl('tasco-aoi-summary.json', JSON.stringify(out,null,2));
+}
+
+function exportGeoJSON(){
+  const thr=D.thresholds[thrIdx];
+  const feats=selectedFeats().map(f=>{
+    const p=f.properties;
+    const u=on.urban && p.b>=thr;
+    const r=on.road  && p.c>=0 && p.c<=cutIdx;
+    return {...f, properties:{
+      province:D.provinces[p.p],
+      tier:u&&r?'Urban+Roads':u?'Urban':'Roads',
+      built_up_pct:Math.round(p.b*100),
+      road_km:Math.round(p.r*10)/10,
+      top_road_class:p.c>=0?CLS[p.c]:null
+    }};
+  });
+  const out={
+    type:'FeatureCollection',
+    metadata:{
+      generated:new Date().toISOString().slice(0,10),
+      source:'TASCO Mapping Division — Satellite Coverage Selector',
+      settings:{scope:scope.name,urban_threshold:Math.round(thr*100)+'%',road_class_cutoff:D.cutoffs[cutIdx]},
+      total_cells:feats.length
+    },
+    features:feats
+  };
+  dl('tasco-aoi-cells.geojson', JSON.stringify(out));
+}
+
+function dl(name,content){
+  const a=document.createElement('a');
+  a.href='data:application/octet-stream,'+encodeURIComponent(content);
+  a.download=name;
+  a.click();
+}
 </script>
 </body>
 </html>

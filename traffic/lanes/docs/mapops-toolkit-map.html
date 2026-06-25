@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MapOps Toolkit — system map</title>
+<style>
+  :root{
+    --ink:#1a1f26; --muted:#5b6573; --line:#d6dbe2; --bg:#f6f7f9; --card:#fff;
+    --built:#2e7d32; --built-bg:#eaf5ea;
+    --partial:#b07d00; --partial-bg:#fbf3df;
+    --blocked:#c0392b; --blocked-bg:#fbeae8;
+    --plan:#5b6573; --plan-bg:#eef0f3;
+    --accent:#2563eb;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}
+  .wrap{max-width:1000px;margin:0 auto;padding:32px 20px 64px;}
+  h1{font-size:24px;margin:0 0 4px;letter-spacing:-.01em}
+  .sub{color:var(--muted);margin:0 0 20px}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin:0 0 28px;font-size:13px;color:var(--muted)}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .dot{width:11px;height:11px;border-radius:50%;display:inline-block}
+  .d-built{background:var(--built)} .d-partial{background:var(--partial)}
+  .d-blocked{background:var(--blocked)} .d-plan{background:var(--plan)}
+
+  .layer{display:flex;flex-direction:column;align-items:center}
+  .lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;
+       color:var(--muted);margin:0 0 8px;align-self:flex-start}
+  .arrow{color:var(--line);font-size:22px;line-height:1;margin:2px 0}
+
+  .chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+  .chip{background:var(--card);border:1px solid var(--line);border-radius:999px;
+        padding:6px 13px;font-size:13px;color:var(--ink);white-space:nowrap}
+
+  .bar{width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;
+       padding:13px 16px;text-align:center}
+
+  .tracks{display:grid;grid-template-columns:1fr 1fr;gap:16px;width:100%}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;
+        border-top:4px solid var(--line);position:relative}
+  .card.built{border-top-color:var(--built)}
+  .card .who{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+  .card h3{margin:3px 0 2px;font-size:17px}
+  .card .tool{font-size:13px;color:var(--accent);margin:0 0 8px}
+  .card ul{margin:0;padding-left:18px;color:var(--ink);font-size:13.5px}
+  .card li{margin:3px 0}
+
+  .pill{position:absolute;top:14px;right:16px;font-size:11px;font-weight:700;border-radius:999px;
+        padding:3px 9px}
+  .p-built{background:var(--built-bg);color:var(--built)}
+  .p-partial{background:var(--partial-bg);color:var(--partial)}
+  .p-blocked{background:var(--blocked-bg);color:var(--blocked)}
+  .p-plan{background:var(--plan-bg);color:var(--plan)}
+
+  .hub{width:100%;background:var(--blocked-bg);border:2px solid var(--blocked);border-radius:14px;
+       padding:16px 18px;text-align:center;position:relative}
+  .hub h3{margin:0 0 3px;font-size:18px;color:var(--blocked)}
+  .hub .schema{font-size:12.5px;color:var(--muted);font-family:ui-monospace,Menlo,monospace}
+  .hub .why{font-size:13px;color:var(--ink);margin-top:7px}
+  .sib{position:absolute;right:-8px;top:50%;transform:translate(100%,-50%);
+       background:var(--card);border:1px dashed var(--partial);border-radius:10px;
+       padding:8px 11px;font-size:12px;width:150px;text-align:left;color:var(--muted)}
+  .sib b{color:var(--ink)}
+
+  .outs{display:grid;grid-template-columns:1fr 1fr;gap:16px;width:100%}
+  .out{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 16px;text-align:center}
+  .out b{display:block;margin-bottom:2px}
+  .out small{color:var(--muted)}
+
+  .gate{width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;
+        padding:12px 16px;text-align:center}
+  .gate b{color:var(--ink)}
+
+  .note{margin-top:34px;padding:14px 16px;background:var(--card);border:1px solid var(--line);
+        border-radius:12px;font-size:13.5px;color:var(--muted)}
+  .note b{color:var(--ink)}
+  a{color:var(--accent);text-decoration:none}
+  @media(max-width:640px){.tracks,.outs{grid-template-columns:1fr}.sib{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>TASCO MapOps Toolkit — how it fits together</h1>
+  <p class="sub">One edit's path from raw signal to the live map. Two editing tracks, one shared store, one push.</p>
+
+  <div class="legend">
+    <span><i class="dot d-built"></i> built &amp; deployed</span>
+    <span><i class="dot d-partial"></i> partial / methodology</span>
+    <span><i class="dot d-blocked"></i> blocked — the gap to close</span>
+    <span><i class="dot d-plan"></i> planned (depends on backend)</span>
+  </div>
+
+  <!-- SOURCES -->
+  <div class="layer">
+    <div class="lbl">1 · Sources — where the truth comes from</div>
+    <div class="chips">
+      <span class="chip">OSM (local PBF + live)</span>
+      <span class="chip">Mapillary / Google SV</span>
+      <span class="chip">Satellite · Open Buildings</span>
+      <span class="chip">Luật TT38/2024</span>
+      <span class="chip">Probe GPS</span>
+      <span class="chip">Wikidata km</span>
+    </div>
+  </div>
+
+  <div class="arrow">▼</div>
+
+  <!-- SUGGESTION ENGINE -->
+  <div class="layer" style="width:100%">
+    <div class="lbl">2 · Suggestion engine — AI detects, rules + math reason</div>
+    <div class="bar">
+      multi-source observations → <b>decision tree</b> (TT38 morphology→speed) + <b>Bayesian fusion</b>
+      → a ranked suggestion <span class="pill p-plan" style="position:static;margin-left:6px">planned</span>
+    </div>
+  </div>
+
+  <div class="arrow">▼</div>
+
+  <!-- TWO TRACKS -->
+  <div class="layer" style="width:100%">
+    <div class="lbl">3 · Two editing tracks — human decides (evidence required)</div>
+    <div class="tracks">
+      <div class="card built">
+        <span class="pill p-built">built</span>
+        <div class="who">Geometry &amp; QA</div>
+        <h3>Quân</h3>
+        <div class="tool">RouteSense ↗ crimsonv99.github.io/roadmeter</div>
+        <ul>
+          <li>Road shape &amp; topology</li>
+          <li>C1–C7 quality checks (connectivity, oneway, maxspeed sanity…)</li>
+          <li>Changeset review (OSMCha-style diff, edit-km by contributor)</li>
+        </ul>
+      </div>
+      <div class="card built">
+        <span class="pill p-built">built</span>
+        <div class="who">Metadata</div>
+        <h3>Tuệ</h3>
+        <div class="tool">MapOps Toolkit · traffic/lanes</div>
+        <ul>
+          <li>Per-way table editor</li>
+          <li>Presets: maxspeed → lanes / turn / maxheight</li>
+          <li>Evidence links (📷 Mapillary, iD, JOSM)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow">▼ both write to ▼</div>
+
+  <!-- EDITOR DB (the blocker) -->
+  <div class="layer" style="width:100%">
+    <div class="lbl">4 · Shared store — the one thing not built yet</div>
+    <div class="hub">
+      <span class="pill p-blocked">blocked</span>
+      <h3>Editor Spatial DB · PostGIS, versioned</h3>
+      <div class="schema">feature · observation · suggestion · changeset · edit · preset</div>
+      <div class="why">Shared schema not yet locked — the contract between <b>O3KR2.2</b> (Tuệ, OSM→DB)
+        and <b>O3KR3.2</b> (Quân, write-back). Until it exists, every edit is hand-applied in iD/JOSM.</div>
+      <div class="sib"><b>POI crawl</b> (AWS reverse-geocode + Open Buildings dedup) feeds the same store on the side — <i>sibling pipeline, not a track</i></div>
+    </div>
+  </div>
+
+  <div class="arrow">▼</div>
+
+  <!-- REVIEW GATE -->
+  <div class="layer" style="width:100%">
+    <div class="lbl">5 · Review → approve</div>
+    <div class="gate"><b>Quân's gate</b> — review the staged changeset, approve only with street-view evidence
+      <span class="pill p-plan" style="position:static;margin-left:6px">planned</span></div>
+  </div>
+
+  <div class="arrow">▼</div>
+
+  <!-- OUTPUTS -->
+  <div class="layer" style="width:100%">
+    <div class="lbl">6 · Push — out to the world</div>
+    <div class="outs">
+      <div class="out"><b>Live OSM</b><small>approved changesets (.osc)</small></div>
+      <div class="out"><b>Production serving</b><small>Martin · Valhalla · OpenSearch → MapLibre apps · owned by O4</small></div>
+    </div>
+  </div>
+
+  <div class="note">
+    <b>Read it top-to-bottom as one edit's journey.</b> Steps 3 (both tracks) are <b>done</b> — the team
+    already has the editors. Step 4 (the red box) is the single blocker: lock the schema with O4 and the
+    whole write-back path (steps 4–6) opens. Steps 2 &amp; 5–6 follow once the store exists.
+    &nbsp;·&nbsp; Companion docs: <i>unified-mapops-toolkit-plan.md</i> (how/when/who) ·
+    <i>editor-platform.html</i> (full one-pager).
+  </div>
+</div>
+</body>
+</html>

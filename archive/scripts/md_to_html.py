@@ -9,44 +9,59 @@ Usage:
     python3 scripts/md_to_html.py docs/vision/road-attribute-editor-plan.md          # -> .html
     python3 scripts/md_to_html.py docs/vision/road-attribute-editor-plan.md --pdf    # + .pdf (needs weasyprint)
 """
+import base64
 import html
 import re
 import sys
 from pathlib import Path
 
 CSS = """
-:root { --ink:#1f2933; --muted:#6b7280; --line:#e2e7ee; --accent:#1d4ed8; }
+:root { --ink:#1f2933; --muted:#6b7280; --line:#dde3ec; --accent:#1a2e5c; --navy:#1a2e5c; }
 * { box-sizing: border-box; }
 body { font-family: -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-       color: var(--ink); line-height: 1.55; max-width: 860px; margin: 40px auto;
-       padding: 0 24px; font-size: 15px; }
-h1 { font-size: 30px; line-height: 1.2; margin: 0 0 8px; }
-h2 { font-size: 21px; margin: 34px 0 10px; padding-bottom: 6px; border-bottom: 2px solid var(--line); }
-h3 { font-size: 16px; margin: 22px 0 8px; }
+       color: var(--ink); line-height: 1.6; max-width: 860px; margin: 40px auto;
+       padding: 0 32px; font-size: 15px; }
+.doc-header { display:flex; align-items:center; justify-content:space-between;
+              padding-bottom: 18px; margin-bottom: 28px;
+              border-bottom: 3px solid var(--navy); }
+.doc-header img { height: 36px; width: auto; }
+.doc-header .div-label { font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+                          color: var(--muted); font-weight: 600; text-align: right; }
+h1 { font-size: 28px; line-height: 1.2; margin: 0 0 6px; color: var(--navy); }
+h2 { font-size: 19px; margin: 36px 0 10px; padding-bottom: 6px;
+     border-bottom: 2px solid var(--line); color: var(--navy); }
+h3 { font-size: 15px; margin: 22px 0 8px; color: #2c3e66; }
 p { margin: 10px 0; }
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
 code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-       font-size: 0.88em; background: #f3f5f9; padding: 1px 5px; border-radius: 4px; }
+       font-size: 0.88em; background: #f0f3f8; padding: 1px 5px; border-radius: 4px; }
 pre { background: #0f172a; color: #e2e8f0; padding: 14px 16px; border-radius: 8px;
       overflow-x: auto; line-height: 1.45; }
 pre code { background: none; color: inherit; padding: 0; font-size: 13px; }
-blockquote { margin: 14px 0; padding: 8px 16px; border-left: 4px solid #9bb4d6;
-             background: #f7f9fc; color: #44505e; border-radius: 0 6px 6px 0; }
+blockquote { margin: 14px 0; padding: 8px 16px; border-left: 4px solid #7a96c4;
+             background: #f5f7fb; color: #44505e; border-radius: 0 6px 6px 0; }
 blockquote p { margin: 4px 0; }
 ul, ol { margin: 10px 0; padding-left: 24px; }
-li { margin: 4px 0; }
-table { border-collapse: collapse; width: 100%; margin: 14px 0; font-size: 14px; }
-th, td { border: 1px solid var(--line); padding: 7px 10px; text-align: left; vertical-align: top; }
-th { background: #f3f5f9; font-weight: 600; }
-tr:nth-child(even) td { background: #fafbfd; }
+li { margin: 5px 0; }
+table { border-collapse: collapse; width: 100%; margin: 16px 0; font-size: 14px; }
+th, td { border: 1px solid var(--line); padding: 8px 11px; text-align: left; vertical-align: top; }
+th { background: #edf0f7; color: var(--navy); font-weight: 600; }
+tr:nth-child(even) td { background: #f8f9fc; }
 hr { border: 0; border-top: 1px solid var(--line); margin: 28px 0; }
 figure { margin: 24px 0; text-align: center; }
 figure svg { max-width: 100%; height: auto; }
 figcaption { font-size: 13px; color: var(--muted); margin-top: 8px; text-align: center; }
-@media print { body { margin: 0; max-width: none; font-size: 11pt; }
-               h2 { page-break-after: avoid; } pre, table, blockquote { page-break-inside: avoid; }
-               pre { background: #f3f5f9; color: #0f172a; } }
+.doc-footer { margin-top: 48px; padding-top: 14px; border-top: 1px solid var(--line);
+              font-size: 12px; color: var(--muted); }
+@media print {
+  body { margin: 0; max-width: none; font-size: 11pt; padding: 0 24px; }
+  .doc-header { padding-bottom: 14px; margin-bottom: 20px; }
+  h1 { font-size: 22pt; }
+  h2 { page-break-after: avoid; font-size: 14pt; }
+  pre, table, blockquote { page-break-inside: avoid; }
+  pre { background: #f3f5f9; color: #0f172a; }
+}
 """
 
 
@@ -143,6 +158,15 @@ def convert(md: str) -> str:
     return "\n".join(out)
 
 
+def _logo_tag(src: Path) -> str:
+    for candidate in [src.parent / "assets/tasco-logo.png",
+                      src.parent.parent / "docs/assets/tasco-logo.png"]:
+        if candidate.exists():
+            data = base64.b64encode(candidate.read_bytes()).decode()
+            return f'<img src="data:image/png;base64,{data}" alt="TASCO">'
+    return '<strong style="font-size:22px;letter-spacing:.05em;color:#1a2e5c">TASCO</strong>'
+
+
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     if not args:
@@ -150,10 +174,13 @@ def main():
     src = Path(args[0])
     md = src.read_text(encoding="utf-8")
     title = next((l[2:].strip() for l in md.split("\n") if l.startswith("# ")), src.stem)
+    header = (f'<div class="doc-header">{_logo_tag(src)}'
+              f'<div class="div-label">Mapping Division<br>Confidential</div></div>')
+    footer = '<div class="doc-footer">TASCO Mapping Division · VTII · TASCO Group · Confidential</div>'
     doc = (f"<!doctype html><html lang=en><head><meta charset=utf-8>"
            f"<meta name=viewport content='width=device-width,initial-scale=1'>"
            f"<title>{html.escape(title)}</title><style>{CSS}</style></head>"
-           f"<body>{convert(md)}</body></html>")
+           f"<body>{header}{convert(md)}{footer}</body></html>")
     out_html = src.with_suffix(".html")
     out_html.write_text(doc, encoding="utf-8")
     print(f"wrote {out_html}")
