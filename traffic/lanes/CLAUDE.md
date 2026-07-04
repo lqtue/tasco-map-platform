@@ -159,7 +159,10 @@ Thin modules orchestrated by `+page.svelte` (which owns the state — see above)
 - **MapView** — encapsulates Leaflet; imperative `showRoad()`/`highlightSeg()`/`zoom()`/`resize()`
   via `bind:this`; `onpick` (map click → page → `DiagramView.focusWay`). Draws the focused
   segment's paired carriageway (`pairId`) as a green dashed line; `WayGeom.crossings` become
-  amber Mapillary markers.
+  amber Mapillary markers. A **Mapillary speed-sign overlay** (Map options → toggle + token) draws
+  already-detected speed-limit signs in the current viewport as red-ringed km/h markers (evidence
+  to match against staged edits), refetched on pan/zoom; the fetch helper is `$lib/osm/mapillary.ts`
+  (browser twin of `traffic/signs/mapillary_signs.py`), token kept in `localStorage`.
 - **StatsDashboard** — `$derived` coverage %, length headline (raw vs decoupled estimate vs
   Wikidata official), intersection counts; export lives in its header snippet.
 - **ExportPanel / HelpDialog** — CSV/JSON export with per-column selection; how-to-use dialog.

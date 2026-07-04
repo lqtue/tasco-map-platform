@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import type { WayGeom } from '$lib/osm/types';
+  import { fetchSpeedSigns, tileCount, type Bbox } from '$lib/osm/mapillary';
 
   // clicking a segment on the map tells the page which way to show in the diagram
   let { onpick }: { onpick?: (id: number) => void } = $props();
@@ -20,6 +21,13 @@
   let customLayer: any;
   let geomOpacity = $state(0.85); // road geometry line opacity (slider)
   let customUrl = $state('');
+
+  // Mapillary already-detected speed-sign overlay (evidence layer for editing)
+  let signLayer: any;
+  let signsOn = $state(false);
+  let mlyToken = $state(''); // Mapillary client token (MLY|…), kept in localStorage
+  let signStatus = $state('');
+  let signTimer: any;
 
   // overzoom past a source's native max instead of showing blank/grey tiles
   const TILE_OPTS = { maxNativeZoom: 19, maxZoom: 22 };
@@ -60,9 +68,69 @@
     });
     baseLayers = [osm, sat];
     layersControl = L.control.layers({ OSM: osm, Satellite: sat }, {}, { position: 'topright' }).addTo(map);
+    mlyToken = localStorage.getItem('mapillary_token') ?? '';
+    // pan/zoom (incl. showRoad's fitBounds) reloads the sign overlay for the new view
+    map.on('moveend', () => {
+      if (!signsOn) return;
+      clearTimeout(signTimer);
+      signTimer = setTimeout(loadSigns, 400);
+    });
     // the map sits in a CSS-grid column; recompute size once layout settles
     setTimeout(() => map.invalidateSize(), 0);
   });
+
+  // a Mapillary speed-sign marker: a red-ringed circle with the km/h value
+  function signMarker(s: { lat: number; lng: number; value: number | null; last_seen: string | null }) {
+    const label = s.value ?? '?';
+    const icon = L.divIcon({
+      className: '',
+      html: `<div class="mly-sign">${label}</div>`,
+      iconSize: [26, 26],
+      iconAnchor: [13, 13]
+    });
+    const seen = s.last_seen ? s.last_seen.slice(0, 10) : 'unknown';
+    const mly = `https://www.mapillary.com/app/?lat=${s.lat.toFixed(6)}&lng=${s.lng.toFixed(6)}&z=18`;
+    return L.marker([s.lat, s.lng], { icon }).bindPopup(
+      `<b>${label} km/h</b> · Mapillary<br>last seen ${seen}<br>` +
+        `<a href="${mly}" target="_blank" rel="noopener">📷 view here</a>`
+    );
+  }
+
+  // fetch + draw the detected speed signs in the current viewport
+  async function loadSigns() {
+    if (!map || !signsOn) return;
+    const token = mlyToken.trim();
+    if (!token) {
+      signStatus = 'paste a Mapillary token (MLY|…)';
+      return;
+    }
+    const b = map.getBounds();
+    const bbox: Bbox = [b.getWest(), b.getSouth(), b.getEast(), b.getNorth()];
+    if (tileCount(bbox) > 64) {
+      signStatus = 'zoom in to load signs';
+      return;
+    }
+    signStatus = 'loading…';
+    try {
+      const signs = await fetchSpeedSigns(bbox, token);
+      if (signLayer) map.removeLayer(signLayer);
+      signLayer = L.layerGroup(signs.map(signMarker)).addTo(map);
+      signStatus = `${signs.length} sign${signs.length === 1 ? '' : 's'}`;
+    } catch (e) {
+      signStatus = (e as Error).message || 'fetch failed';
+    }
+  }
+
+  function onToggleSigns() {
+    if (signsOn) {
+      localStorage.setItem('mapillary_token', mlyToken.trim());
+      loadSigns();
+    } else if (signLayer) {
+      map.removeLayer(signLayer);
+      signLayer = null;
+      signStatus = '';
+    }
+  }
 
   // circle marker for the begin point (avoids Leaflet's missing default icon PNG)
   function beginMarker(latlng: [number, number]) {
@@ -164,6 +232,17 @@
         />
       </label>
       <button class="btn" onclick={addCustom}>Add</button>
+      <label class="signs">
+        <input type="checkbox" bind:checked={signsOn} onchange={onToggleSigns} /> Mapillary speed signs
+      </label>
+      <input
+        class="tok"
+        type="password"
+        placeholder="MLY|token"
+        bind:value={mlyToken}
+        onblur={() => signsOn && (localStorage.setItem('mapillary_token', mlyToken.trim()), loadSigns())}
+      />
+      {#if signStatus}<span class="sstat">{signStatus}</span>{/if}
     </div>
   </details>
 </div>
@@ -214,5 +293,35 @@
   .hint .btn {
     font-size: 11px;
     padding: 3px 10px;
+  }
+  .signs {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .tok {
+    width: 120px;
+    font: inherit;
+    font-size: 11px;
+    padding: 3px 6px;
+    border: 1px solid #cbd2dc;
+    border-radius: 4px;
+  }
+  .sstat {
+    color: #6b7280;
+  }
+  /* Leaflet divIcon is created at runtime outside the scoped DOM → must be global */
+  :global(.mly-sign) {
+    width: 26px;
+    height: 26px;
+    border: 3px solid #e11d48;
+    border-radius: 50%;
+    background: #fff;
+    color: #111;
+    font: 700 11px/1 sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
   }
 </style>

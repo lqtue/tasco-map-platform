@@ -64,6 +64,21 @@ key numbers are quoted from open-access full text or Smart Citation snippets. Li
 - **Qiu, S., Psyllidis, A., & Bozzon, A. (2019).** *Crowd-mapping urban objects from street-level
   imagery.* ACM WWW. https://doi.org/10.1145/3308558.3313651
 
+**Triangulating sign positions from our own crawled imagery (basis for `traffic/signs/` self-crawl
+pipeline — see `traffic/signs/README.md`).**
+- **Krylov, V. A., Kenny, E., & Dahyot, R. (2018).** *Automatic discovery and geotagging of objects
+  from street view imagery.* Remote Sensing, 10(5), 661. https://doi.org/10.3390/rs10050661
+  — Fuses multi-view triangulation + monocular depth in an MRF; the canonical geolocation method.
+- **(2018).** *Object geolocation using MRF-based multi-sensor fusion.*
+  https://doi.org/10.1109/icip.2018.8451458 — earlier MRF fusion formulation.
+- **(2020).** *Geolocating traffic signs using crowd-sourced imagery.*
+  https://doi.org/10.1145/3397536.3422340 ; **(2021).** *…using large imagery datasets.*
+  https://doi.org/10.1145/3469830.3470900 — traffic-sign-specific crowd geolocation at scale.
+- **(2020).** *Monocular vision-based crowdsourced 3D traffic sign positioning with unknown camera
+  intrinsics and distortion coefficients.* https://doi.org/10.48550/arxiv.2007.04592 ;
+  *Crowdsourced 3D mapping: combined multi-view geometry + self-supervised learning* (IROS 2020),
+  https://doi.org/10.1109/iros45743.2020.9341243 — calibration-free SfM variants.
+
 **Traffic-light detection specifically, and the satellite fallback for un-imaged intersections.**
 - **Mentasti, S., Simsek, Y. C., & Matteucci, M. (2023).** *Traffic lights detection and tracking for
   HD map creation.* Frontiers in Robotics and AI, 10, 1065394.

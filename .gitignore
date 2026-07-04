@@ -14,9 +14,22 @@ traffic/maxspeed/baseline/national_roads.geojson
 traffic/maxspeed/baseline/route_freshness.json
 traffic/maxspeed/baseline/route_speed_profile_result.json
 traffic/maxspeed/dashboard/data/route_edits.json
+traffic/signs/data/
 archive/vendor/
 
 # lanes/ — node / SvelteKit build artifacts
 node_modules/
 traffic/lanes/build/
 traffic/lanes/.svelte-kit/
+
+# maxspeed/baseline/explore/ — local PBF viewer + metadata editor (server/ web/ tools/ data/)
+# code is committed; regenerable extracts, generated artifacts, env + secrets are not.
+traffic/maxspeed/baseline/explore/*.osm.pbf
+traffic/maxspeed/baseline/explore/*.geojson
+traffic/maxspeed/baseline/explore/*.pmtiles
+traffic/maxspeed/baseline/explore/*.sqlite
+traffic/maxspeed/baseline/explore/*.csv
+traffic/maxspeed/baseline/explore/*.log
+traffic/maxspeed/baseline/explore/.venv/
+traffic/maxspeed/baseline/explore/.env
+traffic/maxspeed/baseline/explore/.osm_token*.json
