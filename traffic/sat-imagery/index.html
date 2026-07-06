@@ -660,11 +660,15 @@
     }
     // Demo/trial: a contiguous dense-urban patch + a contiguous road-corridor stretch
     // (60/40 of budget) — coherent, taskable, tests GSD *and* geometric accuracy.
+    // Urban blob is ANCHORED to Hanoi (boss's most-wanted AOI: Hanoi urban / redevelopment).
+    const HANOI = new Set(findProv(['hà nội']));
     function demoSelect(km) {
-      let uSeed = -1, uB = -1, cSeed = -1, cR = -1;
+      let uSeed = -1, uB = -1, uSeedAny = -1, uBAny = -1, cSeed = -1, cR = -1;
       for (let i = 0; i < F.length; i++) { const p = F[i].properties; if (!p.t) continue;
-        if (p.b > uB) { uB = p.b; uSeed = i; }
+        if (HANOI.has(p.p) && p.b > uB) { uB = p.b; uSeed = i; }        // densest hex in Hanoi
+        if (p.b > uBAny) { uBAny = p.b; uSeedAny = i; }                  // fallback: densest anywhere
         if (p.c >= 0 && p.c <= 1 && (p.r || 0) > cR) { cR = p.r || 0; cSeed = i; } }
+      if (uSeed < 0) uSeed = uSeedAny;
       const urban = uSeed >= 0 ? grow(uSeed, km * 0.6, i => F[i].properties.b) : new Set();
       const corr = cSeed >= 0 ? grow(cSeed, km * 0.4, i => { const p = F[i].properties; return (p.c >= 0 && p.c <= 2) ? (p.r || 0) + (3 - p.c) : -1; }) : new Set();
       return [...new Set([...urban, ...corr])];
