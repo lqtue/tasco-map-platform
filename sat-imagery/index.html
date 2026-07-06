@@ -67,6 +67,15 @@
   .exp-btn{width:100%;padding:9px 14px;border-radius:8px;border:1px solid var(--line);background:var(--elev);color:var(--ink2);font:12px/1.4 'Inter',system-ui,sans-serif;cursor:pointer;text-align:left;transition:.15s;display:flex;align-items:center;gap:9px;margin-bottom:6px}
   .exp-btn:hover{background:#243040;color:#fff;border-color:rgba(255,255,255,.15)}
   .exp-btn .ext{margin-left:auto;font-size:10px;color:var(--mut);background:var(--inset);border:1px solid var(--line);border-radius:4px;padding:2px 7px;flex-shrink:0}
+  .tier{display:flex;align-items:center;gap:10px;background:var(--inset);border:1px solid var(--line);border-radius:8px;padding:9px 11px;margin-bottom:6px;cursor:pointer;transition:.15s;border-left:3px solid var(--tc)}
+  .tier:hover{background:var(--elev)}
+  .tier.on{background:color-mix(in srgb,var(--tc) 14%,var(--inset));border-color:var(--tc)}
+  .tier .dot{width:11px;height:11px;border-radius:3px;background:var(--tc);flex-shrink:0}
+  .tier .tinfo{flex:1;min-width:0}
+  .tier .tname{font-size:12px;font-weight:600;color:#fff}
+  .tier .tdesc{font-size:10px;color:var(--mut)}
+  .tier .tkm{font-size:12.5px;font-weight:700;color:var(--ink2);font-variant-numeric:tabular-nums;text-align:right}
+  .tier .tkm small{display:block;font-size:9.5px;color:var(--mut);font-weight:500}
 </style>
 </head>
 <body>
@@ -87,34 +96,9 @@
     </div>
 
     <div class="section">
-      <div class="sec-title">1 · Coverage layers — view separately or combined</div>
-      <div class="pills" id="layerPills"></div>
-      <div class="note">Toggle each target type. The envelope is the <i>union</i> of whatever is on — urban only, roads only, or both combined.</div>
-    </div>
-
-    <div class="section">
-      <div class="sec-title">2 · Geographic scope (procurement phase)</div>
-      <div class="pills" id="scopePills"></div>
-    </div>
-
-    <div class="section" id="thrSection">
-      <div class="sec-title">3 · Urban-density threshold</div>
-      <div class="pills" id="thrPills"></div>
-      <div class="note">How dense a cell must be to count as an urban target. Raise to buy only the densest cores; lower to widen coverage.</div>
-    </div>
-
-    <div class="section" id="cutSection">
-      <div class="sec-title">4 · Strategic-road class</div>
-      <div class="pills" id="cutPills"></div>
-      <div class="note" id="cutNote">Which road classes pull a corridor cell in. <b id="cutKm"></b> of national network included.</div>
-    </div>
-
-    <div class="section">
-      <div class="sec-title">Why these cells — selection breakdown</div>
-      <div class="bd-grid">
-        <div class="bd-card" style="--cc:var(--amber)"><span class="nm">Urban / built-up</span><span class="dt" id="bUrbanShare"></span><span class="val" id="bUrban">—</span></div>
-        <div class="bd-card" style="--cc:var(--accent)"><span class="nm">Strategic roads</span><span class="dt" id="bRoadShare"></span><span class="val" id="bRoad">—</span></div>
-      </div>
+      <div class="sec-title">Priority selection — image the top tiers first</div>
+      <div id="tierList"></div>
+      <div class="note">Every hex is scored on built-up density + road access + key zones, then binned into priority tiers. Picking a tier includes all higher tiers; the total is the cumulative km² to image.</div>
     </div>
 
     <div class="section">
@@ -162,7 +146,7 @@
   </main>
 </div>
 
-<script src="data.js?v=5"></script>
+<script src="data.js?v=6"></script>
 <script>
 const D = window.DATA;
 const $ = id => document.getElementById(id);
@@ -176,101 +160,52 @@ const provName = raw => raw.replace(/^(Thủ đô|thành phố|tỉnh)\s+/i,'').
 const findProv = subs => D.provinces.map((p,i)=>({n:p.toLowerCase(),i}))
   .filter(o=>subs.some(s=>o.n.includes(s))).map(o=>o.i);
 
-// --- selection model -------------------------------------------------------
-const SCOPES = [
-  {id:'p1', name:'3 cities', sub:'pilot',     provs:new Set(findProv(['hà nội','hồ chí minh','đà nẵng']))},
-  {id:'p2', name:'Key 12',   sub:'expansion', provs:new Set(findProv(['hà nội','hồ chí minh','đà nẵng','hải phòng','cần thơ','huế','khánh hòa','lâm đồng','quảng ninh','bắc ninh','nghệ an','an giang']))},
-  {id:'p3', name:'Nationwide',sub:'full roll-out', provs:null},
-];
-const LAYERS=[{id:'urban',name:'Urban'},{id:'road',name:'Roads'}];
-let scope=SCOPES[1], thrIdx=2, cutIdx=2;
-let on={urban:true, road:true};
+// --- priority-tier selection model -----------------------------------------
+const NT = (D.tier_km2||[]).length-1;                 // number of priority tiers
+const TIER_COL=['#ff5b4a','#ff9838','#ffcf3f','#7bc96f','#4c8dff'];  // P1..P5
+const TIER_DESC=['Densest urban cores','Dense urban + major roads','Urban + primary corridors','Secondary urban / roads','Rest of envelope'];
+let priCut = 1;                                        // include tiers 1..priCut
 
-function inScope(i){ return !scope.provs || scope.provs.has(i); }
+// attach the baked tier to each hex feature so the map can paint by it
+D.fc.features.forEach((f,i)=>{ f.properties.t = D.htier[i]||0; });
 
-function calc(){
-  let env=0, urban=0, roads=0;
-  const U=on.urban, R=on.road;
-  D.prov.forEach((p,i)=>{
-    if(!inScope(i)) return;
-    const u=p.urban_km2[thrIdx], rd=p.road_km2_by_cut[cutIdx];
-    // union of enabled layers; urban∩road overlap removed via ur_km2
-    const e = (U&&R) ? p.ur_km2[thrIdx][cutIdx] : (U?u:0)+(R?rd:0);
-    env+=e;
-    if(U) urban+=u; if(R) roads+=rd;
-  });
-  return {env,urban,roads};
-}
+const cumKm = cut => { let s=0; for(let t=1;t<=cut;t++) s+=D.tier_km2[t]||0; return s; };
 
 // --- render ----------------------------------------------------------------
-function renderPills(el,items,activeId,onClick){
-  el.innerHTML='';
-  items.forEach(it=>{
+function renderTiers(){
+  const el=$('tierList'); el.innerHTML='';
+  for(let t=1;t<=NT;t++){
     const d=document.createElement('div');
-    d.className='pill'+(it.id===activeId?' active':'');
-    d.innerHTML=`${it.name}<span class="sub">${it.sub}</span>`;
-    d.onclick=()=>onClick(it);
+    d.className='tier'+(t<=priCut?' on':''); d.style.setProperty('--tc',TIER_COL[t-1]);
+    d.innerHTML=`<span class="dot"></span>
+      <span class="tinfo"><span class="tname">Priority ${t}</span><span class="tdesc">${TIER_DESC[t-1]||''}</span></span>
+      <span class="tkm">${fmt(D.tier_km2[t])} km²<small>cum ${fmt(cumKm(t))}</small></span>`;
+    d.onclick=()=>{ priCut=t; update(); };
     el.appendChild(d);
-  });
+  }
 }
-function renderToggles(el,items,isOn,toggle){
-  el.innerHTML='';
-  items.forEach(it=>{
-    const d=document.createElement('div');
-    d.className='pill'+(isOn(it)?' active':'');
-    d.textContent=it.name;
-    d.onclick=()=>toggle(it);
-    el.appendChild(d);
-  });
-}
-function renderControls(){
-  renderToggles($('layerPills'),LAYERS,it=>on[it.id],it=>{on[it.id]=!on[it.id];update();});
-  renderPills($('scopePills'),SCOPES,scope.id,it=>{scope=it;update();});
-  renderPills($('thrPills'),D.thresholds.map((t,i)=>({id:'h'+i,name:'≥'+Math.round(t*100)+'%',sub:''})),'h'+thrIdx,it=>{thrIdx=+it.id.slice(1);update();});
-  renderPills($('cutPills'),D.cutoffs.map((c,i)=>({id:'c'+i,name:c,sub:''})),'c'+cutIdx,it=>{cutIdx=+it.id.slice(1);update();});
-  $('thrSection').style.opacity=on.urban?1:0.4;
-  $('cutSection').style.opacity=on.road?1:0.4;
-}
-
 function update(){
-  renderControls();
-  const c=calc();
-  $('hKm').innerHTML=`${fmt(c.env)} <small>km²</small>`;
-  const parts=[]; if(on.urban)parts.push('urban ≥'+Math.round(D.thresholds[thrIdx]*100)+'%'); if(on.road)parts.push(D.cutoffs[cutIdx]);
-  $('hScope').textContent=`${scope.name} · ${parts.join(' + ')||'no layers'}`;
-  $('cutKm').textContent=`${fmt(D.class_km[cutIdx])} km`;
-  const card=(elV,elS,active,val)=>{ $(elV).textContent=active?fmt(val)+' km²':'off'; $(elV).style.color=active?'':'var(--mut)'; $(elS).textContent=active?'included':'excluded'; };
-  card('bUrban','bUrbanShare',on.urban,c.urban);
-  card('bRoad','bRoadShare',on.road,c.roads);
+  renderTiers();
+  $('hKm').innerHTML=`${fmt(cumKm(priCut))} <small>km²</small>`;
+  $('hScope').textContent = priCut===1 ? 'Priority 1 only' : `Priority 1–${priCut} of ${NT}`;
   if(mapReady){ paintMap(); renderLegend(); }
 }
 
 // --- map -------------------------------------------------------------------
-const C_URBAN='#d4993a', C_ROAD='#4c8dff', C_MIX='#2ca6a4', C_OFF='rgba(120,130,145,0.08)';
-function membership(){
-  const thr=D.thresholds[thrIdx];
-  const inS = scope.provs ? ['in',['get','p'],['literal',[...scope.provs]]] : true;
-  const U = on.urban ? ['>=',['get','b'],thr] : false;
-  const R = on.road  ? ['all',['>=',['get','c'],0],['<=',['get','c'],cutIdx]] : false;
-  return {inS,U,R};
-}
+const C_OFF='rgba(120,130,145,0.07)';
 function paintMap(){
-  const {inS,U,R}=membership();
-  // colour by which enabled layer a hex satisfies; mixed = urban AND road
-  map.setPaintProperty('hexfill','fill-color',['case',
-    ['all',inS,U,R], C_MIX,
-    ['all',inS,U],   C_URBAN,
-    ['all',inS,R],   C_ROAD,
-    C_OFF]);
+  const byTier=['match',['get','t']];
+  for(let t=1;t<=NT;t++) byTier.push(t, TIER_COL[t-1]);
+  byTier.push(C_OFF);
+  map.setPaintProperty('hexfill','fill-color',
+    ['case',['all',['>',['get','t'],0],['<=',['get','t'],priCut]], byTier, C_OFF]);
   map.setPaintProperty('hexfill','fill-outline-color',
-    ['case',['all',inS,['any',U,R]],'rgba(255,255,255,0.10)','rgba(0,0,0,0)']);
+    ['case',['all',['>',['get','t'],0],['<=',['get','t'],priCut]],'rgba(255,255,255,0.10)','rgba(0,0,0,0)']);
 }
 function renderLegend(){
-  $('legend').innerHTML='<b>Selected for imaging</b>'+
-    (on.urban?`<i style="background:${C_URBAN}"></i>Urban `:'')+
-    (on.road?`<i style="background:${C_ROAD}"></i>Roads `:'')+
-    (on.urban&&on.road?`<i style="background:${C_MIX}"></i>Both `:'')+
-    `<i style="background:rgba(120,130,145,.35)"></i>Not selected`;
+  let h='<b>Priority tiers (imaging)</b>';
+  for(let t=1;t<=NT;t++) h+=`<i style="background:${t<=priCut?TIER_COL[t-1]:'rgba(120,130,145,.35)'}"></i>P${t} `;
+  $('legend').innerHTML=h;
 }
 
 let mapReady=false;
@@ -289,8 +224,9 @@ map.on('load',()=>{
     const p=e.features[0].properties;
     map.getCanvas().style.cursor='pointer';
     const cls = p.c>=0 ? CLS[p.c] : '<span style="color:var(--mut)">no major road</span>';
+    const pri = p.t>0 ? `Priority ${p.t}` : '<span style="color:var(--mut)">outside envelope</span>';
     pop.setLngLat(e.lngLat).setHTML(
-      `<b>${provName(D.provinces[p.p])}</b><br>Built-up: ${(p.b*100).toFixed(0)}% · Roads: ${p.r.toFixed(1)} km<br>Top road class: ${cls}`
+      `<b>${provName(D.provinces[p.p])}</b> · ${pri}<br>Built-up: ${(p.b*100).toFixed(0)}% · Roads: ${p.r.toFixed(1)} km<br>Top road class: ${cls}`
     ).addTo(map);
   });
   map.on('mouseleave','hexfill',()=>{map.getCanvas().style.cursor='';pop.remove();});
@@ -306,64 +242,35 @@ update();
 const CLS=['Motorway','Trunk','Primary','Secondary','Tertiary'];
 
 function selectedFeats(){
-  const thr=D.thresholds[thrIdx];
-  return D.fc.features.filter(f=>{
-    const p=f.properties;
-    if(scope.provs && !scope.provs.has(p.p)) return false;
-    const u=on.urban && p.b>=thr;
-    const r=on.road  && p.c>=0 && p.c<=cutIdx;
-    return u||r;
-  });
+  return D.fc.features.filter(f=>{ const t=f.properties.t; return t>0 && t<=priCut; });
 }
 
 function buildSummary(){
-  const c=calc();
-  const thr=D.thresholds[thrIdx];
+  const feats=selectedFeats();
   const byProv={};
-  D.prov.forEach((p,i)=>{
-    if(scope.provs && !scope.provs.has(i)) return;
-    const u=on.urban?p.urban_km2[thrIdx]:0;
-    const rd=on.road?p.road_km2_by_cut[cutIdx]:0;
-    const e=(on.urban&&on.road)?p.ur_km2[thrIdx][cutIdx]:(on.urban?u:0)+(on.road?rd:0);
-    if(e>0.05) byProv[D.provinces[i]]={
-      urban_km2:Math.round(u*10)/10,
-      roads_km2:Math.round(rd*10)/10,
-      total_km2:Math.round(e*10)/10
-    };
-  });
+  feats.forEach(f=>{ const p=f.properties; const nm=D.provinces[p.p];
+    (byProv[nm]||(byProv[nm]={km2:0}));
+    byProv[nm].km2+=ringAreaKm2(f.geometry.coordinates[0]); });
+  for(const k in byProv) byProv[k].km2=Math.round(byProv[k].km2);
+  const by_priority={};
+  for(let t=1;t<=priCut;t++) by_priority['P'+t]={km2:D.tier_km2[t],cumulative_km2:cumKm(t)};
   const out={
     generated:new Date().toISOString().slice(0,10),
     source:'TASCO Mapping Division — Satellite Coverage Selector',
-    settings:{
-      scope:scope.name,
-      urban_threshold:Math.round(thr*100)+'%',
-      road_class_cutoff:D.cutoffs[cutIdx]
-    },
-    total_km2:Math.round(c.env),
-    breakdown:{
-      urban_km2:Math.round(c.urban),
-      roads_km2:Math.round(c.roads)
-    },
-    by_phase:{
-      'P1_urban_built_up':Math.round(c.urban),
-      'P2_road_corridors':Math.round(c.roads),
-      'P3_maritime':'supplied separately on request'
-    },
+    settings:{ priority_cutoff:'P1–P'+priCut+' of '+NT, scoring:'0.6·density_percentile + 0.3·road_class + 0.1·key_area' },
+    total_km2:cumKm(priCut),
+    by_priority,
     by_province:byProv
   };
   return JSON.stringify(out,null,2);
 }
 
 function buildGeoJSON(){
-  const thr=D.thresholds[thrIdx];
   const feats=selectedFeats().map(f=>{
     const p=f.properties;
-    const u=on.urban && p.b>=thr;
-    const r=on.road  && p.c>=0 && p.c<=cutIdx;
     return {...f, properties:{
       province:D.provinces[p.p],
-      phase:u&&r?'P1+P2':u?'P1':'P2',   // P1=urban built-up, P2=road corridor
-      tier:u&&r?'Urban+Roads':u?'Urban':'Roads',
+      priority:'P'+p.t,
       built_up_pct:Math.round(p.b*100),
       road_km:Math.round(p.r*10)/10,
       top_road_class:p.c>=0?CLS[p.c]:null
@@ -374,8 +281,8 @@ function buildGeoJSON(){
     metadata:{
       generated:new Date().toISOString().slice(0,10),
       source:'TASCO Mapping Division — Satellite Coverage Selector',
-      settings:{scope:scope.name,urban_threshold:Math.round(thr*100)+'%',road_class_cutoff:D.cutoffs[cutIdx]},
-      total_cells:feats.length
+      settings:{priority_cutoff:'P1–P'+priCut+' of '+NT},
+      total_cells:feats.length, total_km2:cumKm(priCut)
     },
     features:feats
   };
