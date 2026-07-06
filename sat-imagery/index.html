@@ -195,7 +195,7 @@ function buildTierList(){
   el.appendChild(dm); _rows.demo=dm;
   for(let t=1;t<=NT;t++){
     const d=document.createElement('div');
-    d.style.setProperty('--tc',TIER_COL[t-1]);
+    d.className='tier'; d.style.setProperty('--tc',TIER_COL[t-1]);
     d.innerHTML=`<span class="dot"></span>
       <span class="tinfo"><span class="tname">Tier ${t} · ${TIER_DESC[t-1]}</span><span class="tdesc">cumulative to here</span></span>
       <span class="tkm">${fmt(D.tier_km2[t])} km²<small>cum ${fmt(cumKm(t))} km²</small></span>`;
