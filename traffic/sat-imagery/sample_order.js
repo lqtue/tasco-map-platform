@@ -29,7 +29,7 @@ const ROADW = [1, 0.8, 0.6, 0.3, 0.15];   // by top-class idx: motorway..tertiar
 const cand = [];
 for (let i = 0; i < F.length; i++) {
   const p = F[i].properties;
-  if (p.b >= 0.10 || (p.c >= 0 && p.c <= 2) || p.i) cand.push(i);
+  if (p.b >= 0.05 || (p.c >= 0 && p.c <= 3) || p.i) cand.push(i);
 }
 
 // density percentile via sorted built-up ratios (fraction of candidates <= b)
@@ -53,24 +53,25 @@ const pri = top.map(x => Math.round(x[1] * 1000) / 1000);
 D.sample_order = order;
 D.sample_pri = pri;
 
-// --- priority tiers (for the selector): quantile bands over all scored cells -
-const N = 5;                        // number of priority levels
+// --- priority tiers (for the selector): explicit rule-based bins -------------
+// 1 densest urban · 2 dense urban + major road · 3 urban + primary · 4 rest
+const N = 4;
+const T1B = 0.30, T2B = 0.15, T3B = 0.08;   // built-up thresholds (tunable)
+const tierRule = i => { const p = F[i].properties;
+  if (p.b >= T1B) return 1;                                 // densest urban
+  if (p.b >= T2B || (p.c >= 0 && p.c <= 1)) return 2;       // dense urban OR motorway/trunk
+  if (p.b >= T3B || (p.c >= 0 && p.c <= 2)) return 3;       // urban OR primary
+  return 4;                                                 // rest of the candidate envelope
+};
 const ringArea = ring => {          // spherical excess km²
   const R = 6371.0088, d = Math.PI / 180; let s = 0;
   for (let k = 0; k < ring.length - 1; k++) { const a = ring[k], b = ring[k + 1]; s += (b[0] - a[0]) * d * (2 + Math.sin(a[1] * d) + Math.sin(b[1] * d)); }
   return Math.abs(s * R * R / 2);
 };
-const BANDS = [0.75, 0.60, 0.45, 0.30, 0];   // lower score bound of P1..P5 (1=highest)
-const tierOf = s => { for (let t = 0; t < BANDS.length; t++) if (s >= BANDS[t]) return t + 1; return 0; };
 const htier = new Array(F.length).fill(0);
 const tierKm2 = new Array(N + 1).fill(0);
 const tierN = new Array(N + 1).fill(0);
-scored.forEach(x => {
-  const t = tierOf(x[1]);
-  htier[x[0]] = t;
-  tierKm2[t] += ringArea(F[x[0]].geometry.coordinates[0]);
-  tierN[t]++;
-});
+cand.forEach(i => { const t = tierRule(i); htier[i] = t; tierKm2[t] += ringArea(F[i].geometry.coordinates[0]); tierN[t]++; });
 D.htier = htier;
 D.tier_km2 = tierKm2.map(v => Math.round(v));
 
@@ -92,9 +93,10 @@ const withRoad = order.filter(i => F[i].properties.c >= 0).length;
 const keyN = order.filter(i => F[i].properties.i).length;
 console.log(`candidates=${cand.length} scored=${scored.length} baked=${order.length}`);
 console.log(`pri[top]=${pri[0]} pri[last]=${pri[pri.length - 1]} descending=${dsc} provinces=${provs} with_road=${withRoad} key_cells=${keyN}`);
-console.log('tiers (P1..P5):');
-for (let t = 1; t <= N; t++) console.log(`  P${t}: ${tierN[t]} cells, ${D.tier_km2[t].toLocaleString()} km²  (cumulative ${D.tier_km2.slice(1, t + 1).reduce((a, b) => a + b, 0).toLocaleString()} km²)`);
+const TL = ['', 'densest urban', 'dense urban + major road', 'urban + primary', 'rest'];
+console.log('tiers:');
+for (let t = 1; t <= N; t++) console.log(`  T${t} ${TL[t]}: ${tierN[t]} cells, ${D.tier_km2[t].toLocaleString()} km²  (cumulative ${D.tier_km2.slice(1, t + 1).reduce((a, b) => a + b, 0).toLocaleString()} km²)`);
 console.assert(dsc, 'order not descending by priority');
 console.assert(new Set(order).size === order.length, 'duplicate in order');
-console.assert(htier.filter(t => t > 0).length === scored.length, 'tier count mismatch');
+console.assert(htier.filter(t => t > 0).length === cand.length, 'tier count mismatch');
 console.log('priority order + tiers baked into data.js');

@@ -3,29 +3,21 @@
 Server-less static page for showing international partners how we **select** which
 areas to buy satellite imagery for, and **track** procurement against that plan.
 
-- `index.html` — the demo (MapLibre + plain JS, no build step). **Priority selector:**
-  every hex is pre-scored (`priority = 0.6·density_percentile + 0.3·road_class +
-  0.1·key_area`) and binned into 5 priority tiers (P1 densest cores → P5 rest of
-  envelope); the panel lists each tier + its km² (and cumulative), and picking a tier
-  images all higher tiers. Hero km², map colouring, **selection metrics** (avg built-up
-  %, road-class mix), and **per-tier pricing** (`TIER_PRICE` USD/km²) update live.
-- **Dual AOI export** (satellites image strips/scenes, not hexes): the ZIP bundles a
-  pricing **summary**, the hex **archive mask** (`buildGeoJSON`, for coverage lookup),
-  and **tasking footprints** (`taskingFeatures` — a bounding-box strip per contiguous
-  cluster, padded to `MIN_FOOT_KM`, with `target_km²` vs billable `footprint_km²` and
-  an `overhead_pct`). "Preview tasking footprints" overlays them on the map.
+- `index.html` — the demo (MapLibre + plain JS, no build step). **Coverage-priority
+  selector:** a **demo/trial** row with a slider (free-sample size — top-priority cells
+  up to N km² via `D.sample_order`), then **4 rule-based tiers** — `1` densest urban,
+  `2` dense urban + major road, `3` urban + primary, `4` rest of envelope — each with
+  its km² (and cumulative); picking a tier images all higher tiers. **Tasking-footprint
+  overlay is a toggle, default on.** No cost figures shown.
 - `data.js` — baked H3 res-7 bundle (`window.DATA`); the only data the page needs.
-  `sample_order.js` bakes the priority fields: `htier` (per-hex tier 1..5, 0=outside
-  envelope), `tier_km2` (imaging km² per tier), plus `sample_order`/`sample_pri` for
-  the free-sample optimizer. Tier bands + candidate envelope are tunable at its top.
-- **Free-sample optimizer** — a partner enters the free km² they can offer; the page
-  fills that budget by descending **per-hex priority** (`window.DATA.sample_order`,
-  baked by `sample_order.js`: `priority = 0.6·density_percentile + 0.3·road_class +
-  0.1·key_area`; `sample_pri` holds the scores), then dissolves the picked cells into
-  scene-ready polygons (H3 cells merged, enclosed gaps filled — **not** hex tiles) and
-  exports a ZIP. All geometry (spherical area, edge-cancellation dissolve,
-  Douglas-Peucker smooth) is plain JS — no libraries (CSP forbids externals). Min
-  budget 50 km². Weights/key-rule are tunable at the top of `sample_order.js`.
+  `sample_order.js` bakes `htier` (per-hex tier 1..4, 0=outside envelope), `tier_km2`
+  (imaging km² per tier), and `sample_order` (priority order for the demo slider).
+  Tier thresholds (`T1B/T2B/T3B`) + candidate envelope are tunable at its top.
+- **Single bundle export** (satellites image strips, not hexes): one ZIP with a
+  selection **summary** (per-province km²), the hex **archive mask** (`buildGeoJSON`,
+  coverage lookup), and **tasking footprints** (`taskingFeatures` — bbox strip per
+  contiguous cluster, padded to `MIN_FOOT_KM`, fully-contained boxes dropped,
+  `deduped_footprint_km²` = union area so overlaps bill once, + `overhead_pct`).
 
 ## Run locally
 ```
