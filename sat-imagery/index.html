@@ -582,7 +582,7 @@
             <rect x="2" y="2" width="12" height="12" rx="2" />
             <path d="M8 2v3M8 7v2M8 11v3" />
           </svg>
-          Download AOI bundle — summary + mask + tasking strips
+          Download AOI for the selected area
           <span class="ext">ZIP</span>
         </button>
         <div class="note">Bundle = selection <b>summary</b> + hex <b>archive mask</b> (coverage lookup) + <b>tasking
@@ -642,8 +642,10 @@
     function buildAdj() {
       const edge = new Map(), cand = [];
       for (let i = 0; i < F.length; i++) if (F[i].properties.t) cand.push(i);
-      for (const i of cand) { const ring = F[i].geometry.coordinates[0];
-        for (let j = 0; j < ring.length - 1; j++) { const a = vk(ring[j]), b = vk(ring[j + 1]), k = a < b ? a + '|' + b : b + '|' + a; (edge.get(k) || edge.set(k, []).get(k)).push(i); } }
+      for (const i of cand) {
+        const ring = F[i].geometry.coordinates[0];
+        for (let j = 0; j < ring.length - 1; j++) { const a = vk(ring[j]), b = vk(ring[j + 1]), k = a < b ? a + '|' + b : b + '|' + a; (edge.get(k) || edge.set(k, []).get(k)).push(i); }
+      }
       const adj = new Map(); cand.forEach(i => adj.set(i, new Set()));
       for (const cells of edge.values()) for (const a of cells) for (const b of cells) if (a !== b) adj.get(a).add(b);
       _adj = adj; return adj;
@@ -661,14 +663,21 @@
     }
     // Demo/trial: a contiguous dense-urban patch + a contiguous road-corridor stretch
     // (60/40 of budget) — coherent, taskable, tests GSD *and* geometric accuracy.
-    // Urban blob is ANCHORED to Hanoi (boss's most-wanted AOI: Hanoi urban / redevelopment).
+    // Urban blob is ANCHORED to the boss's most-wanted AOI: Hanoi's ACTIVE demolition
+    // corridor — Ring Road 1 (Vành đai 1) Hoàng Cầu–Voi Phục, Đống Đa/Ba Đình. The data
+    // has no demolition layer, so we seed on the corridor coordinate and grow the dense
+    // urban patch containing it. Update DEMO_ANCHOR when the boss supplies an exact polygon.
     const HANOI = new Set(findProv(['hà nội']));
+    const DEMO_ANCHOR = [105.817, 21.025];   // [lon,lat] Ring Road 1 Hoàng Cầu–Voi Phục clearance
+    const hexCenter = i => { const r = F[i].geometry.coordinates[0], n = r.length - 1; let x = 0, y = 0; for (let k = 0; k < n; k++) { x += r[k][0]; y += r[k][1]; } return [x / n, y / n]; };
     function demoSelect(km) {
-      let uSeed = -1, uB = -1, uSeedAny = -1, uBAny = -1, cSeed = -1, cR = -1;
-      for (let i = 0; i < F.length; i++) { const p = F[i].properties; if (!p.t) continue;
-        if (HANOI.has(p.p) && p.b > uB) { uB = p.b; uSeed = i; }        // densest hex in Hanoi
+      let uSeed = -1, uD = Infinity, uSeedAny = -1, uBAny = -1, cSeed = -1, cR = -1;
+      for (let i = 0; i < F.length; i++) {
+        const p = F[i].properties; if (!p.t) continue;
+        if (HANOI.has(p.p)) { const c = hexCenter(i), d = (c[0] - DEMO_ANCHOR[0]) ** 2 + (c[1] - DEMO_ANCHOR[1]) ** 2; if (d < uD) { uD = d; uSeed = i; } }  // hex nearest the demolition corridor
         if (p.b > uBAny) { uBAny = p.b; uSeedAny = i; }                  // fallback: densest anywhere
-        if (p.c >= 0 && p.c <= 1 && (p.r || 0) > cR) { cR = p.r || 0; cSeed = i; } }
+        if (p.c >= 0 && p.c <= 1 && (p.r || 0) > cR) { cR = p.r || 0; cSeed = i; }
+      }
       if (uSeed < 0) uSeed = uSeedAny;
       const urban = uSeed >= 0 ? grow(uSeed, km * 0.6, i => F[i].properties.b) : new Set();
       const corr = cSeed >= 0 ? grow(cSeed, km * 0.4, i => { const p = F[i].properties; return (p.c >= 0 && p.c <= 2) ? (p.r || 0) + (3 - p.c) : -1; }) : new Set();
@@ -921,7 +930,7 @@
     // Far-apart clusters never intersect → stay separate.
     function mergeBuckets(buckets) {
       let g = buckets.map(cl => cl.slice());                     // ponytail: greedy O(n³) worst; n = grid buckets (≤ few hundred)
-      for (;;) {
+      for (; ;) {
         const rects = g.map(bboxRect); let did = false;
         for (let i = 0; i < g.length && !did; i++)
           for (let j = i + 1; j < g.length; j++) {
