@@ -119,7 +119,7 @@
 
     <div class="section">
       <div class="sec-title">Free-sample optimizer</div>
-      <div class="note">Tell us the free coverage you can offer for evaluation — we return the optimal area (densest urban, spread across regions), merged into scene-ready polygons (not hex tiles).</div>
+      <div class="note">Tell us the free coverage you can offer for evaluation — we return the highest-priority area (each hex scored on built-up density + road access + key zones), merged into scene-ready polygons (not hex tiles).</div>
       <div style="display:flex;gap:8px;align-items:center;margin:10px 0">
         <input id="freeKm" type="number" min="50" step="10" value="50"
           style="width:90px;padding:7px 8px;background:#12161c;border:1px solid #2a3340;border-radius:7px;color:#e6edf3;font-size:14px">
@@ -162,7 +162,7 @@
   </main>
 </div>
 
-<script src="data.js?v=4"></script>
+<script src="data.js?v=5"></script>
 <script>
 const D = window.DATA;
 const $ = id => document.getElementById(id);
