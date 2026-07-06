@@ -118,6 +118,22 @@
     </div>
 
     <div class="section">
+      <div class="sec-title">Free-sample optimizer</div>
+      <div class="note">Tell us the free coverage you can offer for evaluation — we return the optimal area (densest urban, spread across regions), merged into scene-ready polygons (not hex tiles).</div>
+      <div style="display:flex;gap:8px;align-items:center;margin:10px 0">
+        <input id="freeKm" type="number" min="50" step="10" value="50"
+          style="width:90px;padding:7px 8px;background:#12161c;border:1px solid #2a3340;border-radius:7px;color:#e6edf3;font-size:14px">
+        <span style="color:#8a94a3;font-size:13px">km² free</span>
+        <button class="exp-btn" onclick="computeSample()" style="margin:0;flex:1">Compute optimal area</button>
+      </div>
+      <div id="sampleOut" class="note"></div>
+      <button class="exp-btn" id="sampleDl" onclick="exportSampleZip()" style="display:none;margin-top:8px">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M8 2v3M8 7v2M8 11v3"/></svg>
+        Download sample AOI <span class="ext">ZIP</span>
+      </button>
+    </div>
+
+    <div class="section">
       <div class="sec-title">Export AOI for partners</div>
       <button class="exp-btn" onclick="exportZip()">
         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M8 2v3M8 7v2M8 11v3"/></svg>
@@ -146,7 +162,7 @@
   </main>
 </div>
 
-<script src="data.js?v=3"></script>
+<script src="data.js?v=4"></script>
 <script>
 const D = window.DATA;
 const $ = id => document.getElementById(id);
@@ -414,6 +430,118 @@ function dl(name,content){
   a.href='data:application/octet-stream,'+encodeURIComponent(content);
   a.download=name;
   a.click();
+}
+
+// --- free-sample optimizer --------------------------------------------------
+// Partner enters free km²; we reveal cells from the pre-baked density+variety
+// growth order (D.sample_order), dissolve them into scene-ready polygons
+// (holes filled), and export. All geometry math is plain JS (CSP: no libs).
+const MIN_KM=50;
+const _area=new Map();
+function ringAreaKm2(ring){                 // spherical excess, |signed|
+  const R=6371.0088, d=Math.PI/180; let s=0;
+  for(let i=0;i<ring.length-1;i++){const a=ring[i],b=ring[i+1];
+    s+=(b[0]-a[0])*d*(2+Math.sin(a[1]*d)+Math.sin(b[1]*d));}
+  return Math.abs(s*R*R/2);
+}
+function cellArea(i){let a=_area.get(i);if(a==null){a=ringAreaKm2(D.fc.features[i].geometry.coordinates[0]);_area.set(i,a);}return a;}
+function signedArea(ring){let s=0;for(let i=0;i<ring.length-1;i++)s+=ring[i][0]*ring[i+1][1]-ring[i+1][0]*ring[i][1];return s/2;}
+function pickByBudget(km){
+  const o=D.sample_order||[]; let acc=0; const sel=[];
+  for(const i of o){acc+=cellArea(i);sel.push(i);if(acc>=km)break;}
+  return sel;
+}
+const vk=p=>p[0].toFixed(5)+','+p[1].toFixed(5);
+function dissolveFill(sel){                 // -> array of outer rings (holes dropped)
+  const dir=new Map();                      // directed boundary edges, CCW per hex
+  for(const i of sel){
+    let ring=D.fc.features[i].geometry.coordinates[0];
+    if(signedArea(ring)<0) ring=ring.slice().reverse();
+    for(let j=0;j<ring.length-1;j++){
+      const a=ring[j],b=ring[j+1], rk=vk(b)+'>'+vk(a);
+      if(dir.has(rk)) dir.delete(rk);       // opposite edge = shared interior -> cancel
+      else dir.set(vk(a)+'>'+vk(b),[a,b]);
+    }
+  }
+  const start=new Map();                     // start-vertex -> [edge,...]
+  for(const e of dir.values()){const k=vk(e[0]);(start.get(k)||start.set(k,[]).get(k)).push(e);}
+  const usedV=new Set(), rings=[];
+  for(const e0 of dir.values()){
+    if(usedV.has(vk(e0[0])+'|'+vk(e0[1])))continue;
+    const ring=[e0[0]]; let cur=e0;
+    for(let g=0;g<100000;g++){
+      usedV.add(vk(cur[0])+'|'+vk(cur[1])); ring.push(cur[1]);
+      const outs=start.get(vk(cur[1]))||[];
+      let nx=null; for(const o of outs) if(!usedV.has(vk(o[0])+'|'+vk(o[1]))){nx=o;break;}
+      if(!nx) break; cur=nx;
+    }
+    if(ring.length>3){ if(vk(ring[0])!==vk(ring[ring.length-1])) ring.push(ring[0]); rings.push(ring);}
+  }
+  return rings.filter(r=>signedArea(r)>0).map(r=>dp(r,0.0025));  // outer only; light smooth
+}
+function dp(ring,eps){                        // Douglas-Peucker on closed ring
+  const pts=ring.slice(0,-1); if(pts.length<4) return ring;
+  const keep=new Uint8Array(pts.length); keep[0]=1;
+  (function rec(s,e){let dmax=0,idx=-1;const [ax,ay]=pts[s],[bx,by]=pts[e%pts.length];
+    for(let i=s+1;i<e;i++){const [x,y]=pts[i];
+      const num=Math.abs((by-ay)*x-(bx-ax)*y+bx*ay-by*ax), den=Math.hypot(bx-ax,by-ay)||1;
+      const d=num/den; if(d>dmax){dmax=d;idx=i;}}
+    if(dmax>eps&&idx>-1){keep[idx]=1;rec(s,idx);rec(idx,e);}})(0,pts.length);
+  const out=[]; for(let i=0;i<pts.length;i++) if(keep[i]) out.push(pts[i]);
+  out.push(out[0]); return out.length>3?out:ring;
+}
+let _sample=null;
+function computeSample(){
+  const km=Math.max(MIN_KM,Math.round(+document.getElementById('freeKm').value||MIN_KM));
+  document.getElementById('freeKm').value=km;
+  const sel=pickByBudget(km), polys=dissolveFill(sel);
+  const provs=[...new Set(sel.map(i=>D.provinces[D.fc.features[i].properties.p]))];
+  const area=polys.reduce((s,r)=>s+ringAreaKm2(r),0);
+  _sample={km,sel,polys,provs,area};
+  document.getElementById('sampleOut').innerHTML=
+    `Optimal sample ≈<b>${Math.round(area)} km²</b> · ${polys.length} area(s) · ${provs.length} province(s)<br>`+
+    provs.slice(0,5).join(', ')+(provs.length>5?` +${provs.length-5} more`:'');
+  drawSample(polys);
+  document.getElementById('sampleDl').style.display='';
+}
+function drawSample(polys){
+  const fc={type:'FeatureCollection',features:polys.map(r=>({type:'Feature',properties:{},geometry:{type:'Polygon',coordinates:[r]}}))};
+  if(map.getSource('sample')) map.getSource('sample').setData(fc);
+  else{ map.addSource('sample',{type:'geojson',data:fc});
+    map.addLayer({id:'sampfill',type:'fill',source:'sample',paint:{'fill-color':'#ffcc33','fill-opacity':0.35}});
+    map.addLayer({id:'sampline',type:'line',source:'sample',paint:{'line-color':'#ffcc33','line-width':2}});}
+  if(polys.length){let minx=180,miny=90,maxx=-180,maxy=-90;
+    polys.forEach(r=>r.forEach(([x,y])=>{minx=Math.min(minx,x);miny=Math.min(miny,y);maxx=Math.max(maxx,x);maxy=Math.max(maxy,y);}));
+    map.fitBounds([[minx,miny],[maxx,maxy]],{padding:60,maxZoom:11});}
+}
+function sampleGeoJSON(){
+  return JSON.stringify({type:'FeatureCollection',
+    metadata:{generated:new Date().toISOString().slice(0,10),
+      source:'TASCO Mapping Division — provider free-sample optimizer',
+      free_km2_requested:_sample.km, delivered_km2:Math.round(_sample.area),
+      note:'Dissolved scene-ready AOI (H3 cells merged, enclosed gaps filled). Not hex tiles.',
+      areas:_sample.polys.length, provinces:_sample.provs},
+    features:_sample.polys.map((r,k)=>({type:'Feature',
+      properties:{area_id:k+1,km2:Math.round(ringAreaKm2(r)*10)/10},
+      geometry:{type:'Polygon',coordinates:[r]}}))});
+}
+function sampleSummary(){
+  return JSON.stringify({generated:new Date().toISOString().slice(0,10),
+    source:'TASCO Mapping Division — provider free-sample optimizer',
+    free_km2_requested:_sample.km, delivered_km2:Math.round(_sample.area),
+    areas:_sample.polys.length, provinces:_sample.provs,
+    method:'Density-ranked, variety-seeded contiguous selection up to the free budget; cells dissolved into scene footprints with enclosed gaps filled.'},null,2);
+}
+async function exportSampleZip(){
+  if(!_sample) return;
+  const enc=new TextEncoder();
+  const blob=await makeZip([
+    {name:'tasco-free-sample-summary.json',data:enc.encode(sampleSummary())},
+    {name:'tasco-free-sample-aoi.geojson',data:enc.encode(sampleGeoJSON())},
+  ]);
+  const url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download='tasco-free-sample.zip';a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 </script>
 </body>
