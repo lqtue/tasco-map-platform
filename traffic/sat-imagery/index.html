@@ -119,6 +119,11 @@
 
     <div class="section">
       <div class="sec-title">Export AOI for partners</div>
+      <button class="exp-btn" onclick="exportZip()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M8 2v3M8 7v2M8 11v3"/></svg>
+        Download AOI bundle — summary + hex polygons
+        <span class="ext">ZIP</span>
+      </button>
       <button class="exp-btn" onclick="exportSummary()">
         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 8h6M8 5v6"/></svg>
         AOI Summary — km² by tier &amp; province
@@ -295,7 +300,7 @@ function selectedFeats(){
   });
 }
 
-function exportSummary(){
+function buildSummary(){
   const c=calc();
   const thr=D.thresholds[thrIdx];
   const byProv={};
@@ -323,12 +328,17 @@ function exportSummary(){
       urban_km2:Math.round(c.urban),
       roads_km2:Math.round(c.roads)
     },
+    by_phase:{
+      'P1_urban_built_up':Math.round(c.urban),
+      'P2_road_corridors':Math.round(c.roads),
+      'P3_maritime':'supplied separately on request'
+    },
     by_province:byProv
   };
-  dl('tasco-aoi-summary.json', JSON.stringify(out,null,2));
+  return JSON.stringify(out,null,2);
 }
 
-function exportGeoJSON(){
+function buildGeoJSON(){
   const thr=D.thresholds[thrIdx];
   const feats=selectedFeats().map(f=>{
     const p=f.properties;
@@ -336,6 +346,7 @@ function exportGeoJSON(){
     const r=on.road  && p.c>=0 && p.c<=cutIdx;
     return {...f, properties:{
       province:D.provinces[p.p],
+      phase:u&&r?'P1+P2':u?'P1':'P2',   // P1=urban built-up, P2=road corridor
       tier:u&&r?'Urban+Roads':u?'Urban':'Roads',
       built_up_pct:Math.round(p.b*100),
       road_km:Math.round(p.r*10)/10,
@@ -352,7 +363,50 @@ function exportGeoJSON(){
     },
     features:feats
   };
-  dl('tasco-aoi-cells.geojson', JSON.stringify(out));
+  return JSON.stringify(out);
+}
+function exportSummary(){ dl('tasco-aoi-summary.json', buildSummary()); }
+function exportGeoJSON(){ dl('tasco-aoi-cells.geojson', buildGeoJSON()); }
+
+// single-zip export — native CompressionStream, no library (CSP forbids externals)
+const CRCT=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c;}return t;})();
+function crc32(u8){let c=~0;for(let i=0;i<u8.length;i++)c=CRCT[(c^u8[i])&255]^(c>>>8);return(~c)>>>0;}
+async function deflateRaw(u8){
+  const cs=new CompressionStream('deflate-raw');
+  const blob=await new Response(new Blob([u8]).stream().pipeThrough(cs)).blob();
+  return new Uint8Array(await blob.arrayBuffer());
+}
+async function makeZip(files){                     // files=[{name,data:Uint8Array}]
+  const enc=new TextEncoder(), body=[], central=[]; let off=0;
+  for(const f of files){
+    const nb=enc.encode(f.name), crc=crc32(f.data), comp=await deflateRaw(f.data);
+    const lh=new DataView(new ArrayBuffer(30));
+    lh.setUint32(0,0x04034b50,true); lh.setUint16(4,20,true); lh.setUint16(8,8,true);
+    lh.setUint32(14,crc,true); lh.setUint32(18,comp.length,true);
+    lh.setUint32(22,f.data.length,true); lh.setUint16(26,nb.length,true);
+    body.push(new Uint8Array(lh.buffer),nb,comp);
+    const ch=new DataView(new ArrayBuffer(46));
+    ch.setUint32(0,0x02014b50,true); ch.setUint16(4,20,true); ch.setUint16(6,20,true);
+    ch.setUint16(10,8,true); ch.setUint32(16,crc,true); ch.setUint32(20,comp.length,true);
+    ch.setUint32(24,f.data.length,true); ch.setUint16(28,nb.length,true); ch.setUint32(42,off,true);
+    central.push(new Uint8Array(ch.buffer),nb);
+    off+=30+nb.length+comp.length;
+  }
+  let cdLen=0; central.forEach(c=>cdLen+=c.length);
+  const eo=new DataView(new ArrayBuffer(22));
+  eo.setUint32(0,0x06054b50,true); eo.setUint16(8,files.length,true); eo.setUint16(10,files.length,true);
+  eo.setUint32(12,cdLen,true); eo.setUint32(16,off,true);
+  return new Blob([...body,...central,new Uint8Array(eo.buffer)],{type:'application/zip'});
+}
+async function exportZip(){
+  const enc=new TextEncoder();
+  const blob=await makeZip([
+    {name:'tasco-aoi-summary.json',data:enc.encode(buildSummary())},
+    {name:'tasco-aoi-cells.geojson',data:enc.encode(buildGeoJSON())},
+  ]);
+  const url=URL.createObjectURL(blob), a=document.createElement('a');
+  a.href=url; a.download='tasco-aoi.zip'; a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 
 function dl(name,content){

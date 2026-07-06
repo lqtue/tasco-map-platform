@@ -16,6 +16,8 @@ From that page you can:
   - **AOI Summary (JSON)** — total km² with tier and province breakdown, for pricing
   - **AOI Cells (GeoJSON)** — the exact H3 hex polygons, for archive inventory lookup
 
+Each cell in the GeoJSON is tagged so you can **filter by procurement phase and type**: `phase` (`P1` urban built-up, `P2` road corridor, `P1+P2` where they overlap — P3 maritime supplied separately on request), `tier`, `top_road_class` (Motorway/Trunk/Primary), `built_up_pct`, and `province`. The AOI Summary carries the matching `by_phase` and `by_province` km² breakdowns for phased pricing.
+
 ### Priority tiers
 
 | Tier | Description | Approx. area |
