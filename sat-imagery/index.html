@@ -617,7 +617,7 @@
     const TIER_COL = ['#ff5b4a', '#ff9838', '#ffcf3f', '#7bc96f'];
     const TIER_DESC = ['Densest urban', 'Dense urban', 'Urban', 'Rest + road corridors'];
     const MIN_FOOT_KM = 5;                                  // min tasking-footprint side (km)
-    const MAX_FOOT_KM = 120;                                // max merged footprint side (km) — a long strip/scene
+    const MAX_FOOT_KM = 60;                                 // max merged footprint side (km) ≈ one scene — keeps boxes realistic; merge only collapses a compact AOI's grid-straddle
     const DEMO_MIN = 50, DEMO_MAX = 1000;
     const FOOT_GRID = 0.5;                 // tasking-grid cell (deg) ≈ 55 km scene
 
