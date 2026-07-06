@@ -1,0 +1,46 @@
+TEAM PRODUCT DASHBOARD,,,,,,,
+,,,,,,,
+Team Name,TrafficData,,,,List of members traveling to Vietnam for approval,,
+Product Name,TrafficData Macro,TrafficData Atlas,TrafficData SIM,TrafficData Smart Parking Spaces,Name,Position,Role/Tasks
+Product Stage,Scaling,Launch / Go-to-Market,Scaling,Launch / Go-to-Market,Ivan Chebykin,CEO,"making key decisions, confirming agreements, representing the company"
+Reporting Period,Since 6/2022,Since 05/2025,Since 10/2024,Since 12/2024,Dmitrii Ponocov,CCO,"making key financial decisions, confirming agreements, representing the company"
+Last Updated,05.05.2026,27.03.2026,09.11.2025,18.05.2026,Alexandr Ulanov,CTO,"making key technical decisions, support for integration, deploying the system, pilot implementation"
+More info about product,"TrafficData Macro EN.pptx
+TrafficData Macro EN.pdf","TrafficData Atlas EN.pptx
+TrafficData Atlas EN.pdf","TrafficData SIM EN.pptx
+TrafficData SIM EN.pdf","TrafficData Smart Parking Spaces EN.pptx
+TrafficData Smart Parking Spaces EN.pdf",,,
+,,,,,,,
+,Proposal Scope of work,Proposal for Deliverables,Success Metrics,Resource support needed from Tasco,,,
+TrafficData Macro,"1. Technical selection of pilot locations in Ho Chi Minh City and connecting RTSP streams to the monitoring platform.
+2. Setting up detection zones to measure vehicle intensity, classification, and movement trajectories.
+3. Testing automated detection for scenarios such as accidents, traffic jams, wrong-way driving, and illegal stops.","1. Interactive map showing camera statuses along with configured counting lines and detection zones.
+2. Detailed data on flow intensity, vehicle types, speed, and level of service.
+3. Analytical dashboards and final pilot presentation.","1. Successful stream connection and high-accuracy data collection verified by manual audit of video samples.
+2. Reliable identification and logging of traffic incidents with timestamps and visual proof. 
+3. Identification of congestion patterns and providing sufficient data to support optimization in TrafficData SIM.","1. Provision of RTSP links, camera technical specifications, and network infrastructure access.
+2. Support in camera angle adjustment and coverage of key conflict zones.
+3. Local context data on lane configurations and specific vehicle types (e.g., high motorcycle share).
+",,,
+TrafficData SIM,"1. Selecting a high-traffic intersection to create a digital twin with precise lane and phase structures.
+2. Analyze traffic flows at the intersection using TrafficData Air
+3. Gathering current signal timing plans and identifying bottlenecks in the existing traffic flow.
+4. Calculating optimized signal scenarios and comparing them against the baseline to evaluate performance gains.","1. Digital twin of the intersection, reflecting geometry, lane layouts, and existing signal phase logic.
+2. Base scenario report identifying current performance issues and peak-period load distribution.
+3. ""Before vs. After"" report comparing delays, queue lengths, and capacity.","1. High model accuracy utilizing real-world measurements from TrafficData Macro.
+2. Measurable improvement in traffic efficiency (reduced delays and queue lengths).
+3. Practical applicability of proposed plans regarding local safety requirements and operational constraints.","1. Intersection technical data, including detailed geometry, lane-use signs, and pedestrian crossing locations.
+2. Capture traffic conditions using UAV
+3. Current signalization parameters, such as cycle lengths, phase sequences, and specific safety intervals (yellow/all-red).
+4. Clarification on local requirements and the possibility of real-world implementation of the optimized plans.",,,
+TrafficData Atlas,"1. Demonstrate the device and the data collection workflow for road objects to build a digital twin.
+2. Process 30 minutes of driving data and showcase the collected results.
+3. Collect 4-8 hours of video to train neural networks on the specific features of Vietnamese road infrastructure.","The main results are 2:
+1. Granted access to the demo service with the results of processing
+2. The collected data set for further training of the solution for local peculiarities","1. Object detection accuracy is >90% (applicable only to road assets present in the Russian dataset).
+2. Object geolocation error is <0.5 meters (under stable GPS conditions).
+3. 4-8 hours of representative videos have been collected for further training.","1. A driver and a vehicle equipped with roof rails or trunk mounting points (required for hardware installation) for 4-8 hours of total driving time.
+2. Recommendations for route selection to maximize the density of traffic signs in both urban and non-urban areas.",,,
+TrafficData Smart Parking Spaces,,,,,,,
+,,,,,,,
+,  ,,,,,,

@@ -582,7 +582,7 @@
             <rect x="2" y="2" width="12" height="12" rx="2" />
             <path d="M8 2v3M8 7v2M8 11v3" />
           </svg>
-          Download AOI bundle — summary + mask + tasking strips
+          Download AOI for the selected area
           <span class="ext">ZIP</span>
         </button>
         <div class="note">Bundle = selection <b>summary</b> + hex <b>archive mask</b> (coverage lookup) + <b>tasking
@@ -617,6 +617,7 @@
     const TIER_COL = ['#ff5b4a', '#ff9838', '#ffcf3f', '#7bc96f'];
     const TIER_DESC = ['Densest urban', 'Dense urban', 'Urban', 'Rest + road corridors'];
     const MIN_FOOT_KM = 5;                                  // min tasking-footprint side (km)
+    const MAX_FOOT_KM = 60;                                 // max merged footprint side (km) ≈ one scene — keeps boxes realistic; merge only collapses a compact AOI's grid-straddle
     const DEMO_MIN = 50, DEMO_MAX = 1000;
     const FOOT_GRID = 0.5;                 // tasking-grid cell (deg) ≈ 55 km scene
 
@@ -641,8 +642,10 @@
     function buildAdj() {
       const edge = new Map(), cand = [];
       for (let i = 0; i < F.length; i++) if (F[i].properties.t) cand.push(i);
-      for (const i of cand) { const ring = F[i].geometry.coordinates[0];
-        for (let j = 0; j < ring.length - 1; j++) { const a = vk(ring[j]), b = vk(ring[j + 1]), k = a < b ? a + '|' + b : b + '|' + a; (edge.get(k) || edge.set(k, []).get(k)).push(i); } }
+      for (const i of cand) {
+        const ring = F[i].geometry.coordinates[0];
+        for (let j = 0; j < ring.length - 1; j++) { const a = vk(ring[j]), b = vk(ring[j + 1]), k = a < b ? a + '|' + b : b + '|' + a; (edge.get(k) || edge.set(k, []).get(k)).push(i); }
+      }
       const adj = new Map(); cand.forEach(i => adj.set(i, new Set()));
       for (const cells of edge.values()) for (const a of cells) for (const b of cells) if (a !== b) adj.get(a).add(b);
       _adj = adj; return adj;
@@ -664,10 +667,12 @@
     const HANOI = new Set(findProv(['hà nội']));
     function demoSelect(km) {
       let uSeed = -1, uB = -1, uSeedAny = -1, uBAny = -1, cSeed = -1, cR = -1;
-      for (let i = 0; i < F.length; i++) { const p = F[i].properties; if (!p.t) continue;
+      for (let i = 0; i < F.length; i++) {
+        const p = F[i].properties; if (!p.t) continue;
         if (HANOI.has(p.p) && p.b > uB) { uB = p.b; uSeed = i; }        // densest hex in Hanoi
         if (p.b > uBAny) { uBAny = p.b; uSeedAny = i; }                  // fallback: densest anywhere
-        if (p.c >= 0 && p.c <= 1 && (p.r || 0) > cR) { cR = p.r || 0; cSeed = i; } }
+        if (p.c >= 0 && p.c <= 1 && (p.r || 0) > cR) { cR = p.r || 0; cSeed = i; }
+      }
       if (uSeed < 0) uSeed = uSeedAny;
       const urban = uSeed >= 0 ? grow(uSeed, km * 0.6, i => F[i].properties.b) : new Set();
       const corr = cSeed >= 0 ? grow(cSeed, km * 0.4, i => { const p = F[i].properties; return (p.c >= 0 && p.c <= 2) ? (p.r || 0) + (3 - p.c) : -1; }) : new Set();
@@ -911,9 +916,30 @@
       }
       return km;
     }
+    const rectsHit = (a, b) => a[0] < b[2] && b[0] < a[2] && a[1] < b[3] && b[1] < a[3];  // AABB overlap
+    const sideKm = b => { const cla = Math.cos((b[1] + b[3]) / 2 * Math.PI / 180); return Math.max((b[2] - b[0]) * 111.32 * cla, (b[3] - b[1]) * 110.57); };
+    // Grid-snapping caps footprint size, but a compact cluster straddling a grid line
+    // splits into padded bboxes that overlap. Merge intersecting footprints so an AOI
+    // reads as one clean box — but only while the merged box stays scene-sized
+    // (MAX_FOOT_KM), so broad contiguous tiers don't chain into a country-spanning box.
+    // Far-apart clusters never intersect → stay separate.
+    function mergeBuckets(buckets) {
+      let g = buckets.map(cl => cl.slice());                     // ponytail: greedy O(n³) worst; n = grid buckets (≤ few hundred)
+      for (; ;) {
+        const rects = g.map(bboxRect); let did = false;
+        for (let i = 0; i < g.length && !did; i++)
+          for (let j = i + 1; j < g.length; j++) {
+            if (!rectsHit(rects[i], rects[j])) continue;
+            const comb = g[i].concat(g[j]);
+            if (sideKm(bboxRect(comb)) > MAX_FOOT_KM) continue;   // capped → leave separate
+            g.splice(j, 1); g[i] = comb; did = true; break;
+          }
+        if (!did) return g;
+      }
+    }
     function taskingFeatures(idxs) {
-      // one bounded bbox per occupied grid cell — footprints can't span the country
-      return gridBuckets(idxs).map((cl, k) => {
+      // one bounded bbox per cluster of grid cells — footprints can't span the country
+      return mergeBuckets(gridBuckets(idxs)).map((cl, k) => {
         const b = bboxRect(cl), foot = rectKm2(b);
         const target = cl.reduce((s, i) => s + ringAreaKm2(F[i].geometry.coordinates[0]), 0);
         const tiers = [...new Set(cl.map(i => F[i].properties.t))].sort((a, b) => a - b).map(t => 'T' + t);
@@ -936,7 +962,7 @@
         type: 'FeatureCollection', metadata: {
           generated: new Date().toISOString().slice(0, 10),
           source: 'TASCO Mapping Division — tasking footprints',
-          note: 'One bbox scene per ~55 km tasking-grid cell for NEW acquisition (satellites image strips/scenes, not hexes). target_km2 = priority cells inside; deduped_footprint_km2 = union area of all footprints (overlaps billed once).',
+          note: 'One bbox scene per AOI cluster for NEW acquisition (grid-snapped to ~55 km scenes, then intersecting footprints merged so boxes do not overlap). target_km2 = priority cells inside; deduped_footprint_km2 = union area of all footprints (overlaps billed once).',
           selection: selDesc(), footprints: feats.length,
           total_target_km2: tgt, deduped_footprint_km2: dedup, overhead_pct: tgt ? Math.round((dedup / tgt - 1) * 100) : 0
         },

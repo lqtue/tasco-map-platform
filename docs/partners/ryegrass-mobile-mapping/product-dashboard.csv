@@ -1,0 +1,14 @@
+TEAM PRODUCT DASHBOARD,,,,,,,
+,,,,,,,
+Team Name,Ryegrass,,,,List of members traveling to Vietnam for approval,,
+Product Name,MMS L-Scan Premium D2,,,,Name,Position,Role/Tasks
+Product Stage,Commercial Product / Mass Production,,,,Dr. Dmitry Stolyarenko,CSO,Head of project team
+Reporting Period,June 2026,,,,Dr. Bogdan Kirillov,Business Development ,JV consulting
+Last Updated,"June 21, 2026",,,,Dr. Anastasia Stolyarenko,Executive Assistance,Liason & Communications
+,,,,,Konstanfin Tokar,CTO,Tech Lead
+,,,,,,,
+Proposal Scope of work,Proposal for Deliverables,Success Metrics,Resource support needed form Tasco,,,,
+Field data acquisition: High-speed mobile laser scanning of designated urban areas using the MMS L-Scan Premium D2 to capture high-density 3D point clouds and panoramic imagery of building facades.,Raw and Processed Point Clouds: Calibrated and classified 3D point clouds of the surveyed urban areas in industry-standard formats (.LAS / .LAZ).,Data Accuracy (Absolute): Root Mean Square Error (RMSE) of the processed 3D point cloud remains within ≤ 5 cm for all surveyed urban routes under stable GNSS coverage.,Technical & Regulatory Clarifications for the Mobile Mapping Project in Vietnam. See details in Discussion page.,,,,
+"Data processing: Georeferencing, point cloud calibration, strip adjustment, and filtering of the collected urban geospatial data.",3D Building Models: 3D models of surveyed buildings integrated into a georeferenced map database.,Data Completeness: 100% coverage of the agreed urban roads and target building facades without critical data gaps or scanning shadow zones.,"Provide SUV/Pickup with a driver, compatible rails and access to a secure garage.",,,,
+3D Modeling & Integration: Generation of 3D building models based on the processed point clouds and integration of these objects into the digital map framework.,Trajectory: Georeferenced trajectories,GIS System Compatibility: Successful and seamless integration of the generated 3D building models into the customer’s existing digital mapping or GIS platform.,,,,,
+,"Final Project Report: Technical documentation detailing the survey methodology, data quality control (QA/QC) analysis, and accuracy assessment reports.",,,,,,

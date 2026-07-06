@@ -22,6 +22,12 @@ Hard gate at each `→`: must clear before moving forward. Gate fails → **Park
 | **UP42** | 🛒 Vendor | **1→2** No contact | Send partner brief + request intro | Vũ |
 | **Skywatch** | 🛒 Vendor | **1→2** No contact | Send partner brief + request intro | Vũ |
 
+## 3D Buildings & Demolition Data
+
+| Provider | Model | Stage | Gate / blocker | Owner |
+|---|---|---|---|---|
+| **ForaSpace** | 🤝 Partnership | **2→3** Work package received | 10-day tech spike (5–10 km² Hanoi) gates contract; ❗ needs Tasco demolition-corridor polygon. Consumes CGSTL imagery — [sat-case link](foraspace-3d-buildings/analysis-sat-case-link.md). | Tuệ |
+
 ## Street View & Ground Collection
 
 | Provider | Model | Stage | Gate / blocker | Owner |
@@ -31,6 +37,7 @@ Hard gate at each `→`: must clear before moving forward. Gate fails → **Park
 | **Mapillary** | 🔌 Data source | **8** Active (sign pipeline) | — | Tuệ |
 | **KartaView** | 🛒 Vendor | **1→2** No contact | Assess Vietnam coverage first | Tuệ |
 | **Google SV API** | 🛒 Vendor | **1→2** Scoped in OKR | Confirm training data licensing before proceeding | Tuệ |
+| **Ryegrass** | 🤝 Partnership | **2→3** Product dashboard received | MMS L-Scan D2 mobile LiDAR → .LAS/.LAZ point clouds + georeferenced 3D building models (≤5 cm RMSE). Team wants to travel to VN. ❗ Needs Tasco tech req ([draft](ryegrass-mobile-mapping/tech-requirements.md)) + SUV/driver/rails/garage + regulatory clarifications. Feeds 3D-buildings (cf. ForaSpace). | Tuệ |
 
 ## POI / Geocoding
 
@@ -46,6 +53,7 @@ Hard gate at each `→`: must clear before moving forward. Gate fails → **Park
 |---|---|---|---|---|
 | **TomTom (display)** | 🛒 Vendor | **8** Active | ⚠️ Way ID 2–3 years old — display only, never ETA | Huy |
 | **Mapillary GPS** | 🔌 Data source | **8** Active | — | Tuệ |
+| **TrafficData** | 🤝 Partnership | **2→3** Product dashboard received | 4 products: Macro (RTSP camera flow/incident analytics), SIM (intersection digital twin + signal optimization), Atlas (mobile road-asset capture), Smart Parking. Pilot in HCMC. ❗ Needs Tasco tech req ([draft](trafficdata-traffic-analytics/tech-requirements.md)) + RTSP links/camera specs/UAV/signal params. | Tuệ |
 
 ---
 

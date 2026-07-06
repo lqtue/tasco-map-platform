@@ -1,0 +1,860 @@
+TEAM PRODUCT DASHBOARD,,,,,,,
+,,,,,,,
+Team Name,,,,,List of members traveling to Vietnam for approval,,
+Product Name,,,,,Name,Position,Role/Tasks
+Product Stage,,,,,Alexander Kuznetsov,CEO,Program engineering
+Reporting Period,,,,,Inal Tomaev,COO/CBDO,Operations. Product
+Last Updated,,,,,,,
+,,,,,,,
+,,,,,,,
+Proposal Scope of work,Proposal for Deliverables,Success Metrics,Resource support needed form Tasco,,,,
+"# Technical Work Package
+
+# Hanoi 3D Building Data, Demolition Detection, and 3D Map Tile API Pilot
+
+## 1. Project Context
+
+We are building a 3D Building Data Platform and 3D Map Tile API for a production mapping platform in Vietnam.
+
+The first pilot area is Hanoi.
+
+Hanoi is undergoing active urban change. In several areas, old houses and buildings have been demolished to create or expand roads and transport infrastructure. Existing open or global datasets may still contain these previous buildings. This creates a serious map quality issue: if we directly render all buildings from Google-derived datasets, OSM, or the Munich/TUM GlobalBuildingAtlas dataset, the 3D map may show buildings that no longer exist.
+
+Therefore, this project is not a pure 3D rendering task. It is a building data lifecycle and quality-control platform.
+
+The pilot must identify, classify, and render buildings with confidence. It must distinguish between:
+
+```text
+active_building
+demolished_candidate
+demolished_verified
+new_construction_candidate
+under_construction_candidate
+low_confidence_building
+do_not_render
+```
+
+The expected result is a district-focused Hanoi MVP that can ingest multiple building data sources, create a canonical building database, detect obsolete/demolished building candidates, generate confidence scores, produce LoD1 3D buildings, serve 3D Tiles and vector tiles, and provide a QA dashboard.
+
+---
+
+## 2. Pilot Geography
+
+### 2.1 Primary City
+
+Hanoi, Vietnam.
+
+### 2.2 Operating AOI Unit
+
+Use legacy Hanoi urban districts / Quận as the first operating AOI segmentation.
+
+The vendor should support both:
+
+```text
+legacy_district_name
+legacy_district_code
+current_ward_name
+current_ward_code
+```
+
+This is required because district names are still practical for project communication, map operations, and AOI planning, while current administrative operations in Vietnam now use the provincial/city level and commune/ward level.
+
+### 2.3 Recommended First AOI
+
+The first pilot should cover one to three dense Hanoi urban districts, selected by Tasco.
+
+Suggested starting candidates:
+
+```text
+Ba Dinh
+Hoan Kiem
+Dong Da
+Hai Ba Trung
+Cau Giay
+Thanh Xuan
+Hoang Mai
+Long Bien
+```
+
+Final AOI selection will depend on:
+
+```text
+road-construction and demolition activity
+building density
+business priority
+availability of current imagery
+availability of field verification
+OSM/Google/Munich dataset disagreement
+expected demo value
+```
+
+### 2.4 Road-Corridor Priority
+
+Within each selected district, the vendor should prioritize:
+
+```text
+road-widening corridors
+new road corridors
+demolition zones
+urban redevelopment corridors
+major intersections
+transport hubs
+areas where old building datasets conflict with current road geometry
+```
+
+Tasco may provide road project boundaries, right-of-way polygons, or corridor buffers. If these are not available initially, the vendor should create a provisional detection method using road geometry, recent imagery, and building-source disagreement.
+
+---
+
+## 3. Core Problem to Solve
+
+The main data problem is that previous building datasets may be stale.
+
+A building may appear in:
+
+```text
+Google building data
+Google Open Buildings / Open Buildings Temporal
+Munich/TUM GlobalBuildingAtlas
+OSM building polygons
+older satellite imagery
+```
+
+But the building may no longer exist because it has been demolished for road construction.
+
+The platform must not blindly render all detected buildings. It must assign each building a lifecycle state, confidence score, and render policy.
+
+---
+
+## 4. Required Data Sources
+
+The vendor should design the system to support the following data sources.
+
+### 4.1 Required Sources for MVP
+
+```text
+OSM building polygons
+Google-derived building footprints or Google Open Buildings where available
+Google Open Buildings 2.5D Temporal or equivalent temporal raster source
+Munich/TUM GlobalBuildingAtlas building polygons, heights, and LoD1 data
+Current road network
+Current or recent satellite imagery, if available
+Tasco-provided road construction / demolition corridors, if available
+```
+
+### 4.2 Optional Sources
+
+```text
+Tasco field survey imagery
+street-view or dashcam imagery
+manual QA observations
+government/cadastral data, if available and legally usable
+Microsoft TEMPO temporal building density and height raster, if available and license-approved
+commercial high-resolution satellite imagery
+```
+
+### 4.3 Data Source Classification
+
+The system must treat sources differently.
+
+```text
+Individual building polygon source:
+    OSM, Google building polygons, TUM/GlobalBuildingAtlas polygons
+
+Individual height / LoD1 source:
+    OSM height, OSM building:levels, TUM/GlobalBuildingAtlas height and LoD1
+
+Temporal raster prior:
+    Google Open Buildings 2.5D Temporal, TEMPO, other raster height/density datasets
+
+Operational evidence:
+    road construction corridor, demolition polygon, field survey, QA notes
+```
+
+Raster sources must not be directly treated as individual-building truth. They should be used as temporal priors, freshness signals, and QA triggers.
+
+---
+
+## 5. Expected System Architecture
+
+```text
+[Source Data]
+OSM buildings
+Google building data
+Google Open Buildings Temporal
+TUM/GlobalBuildingAtlas
+Road network
+Road construction corridors
+Recent imagery
+Field survey evidence
+
+        ↓
+
+[Ingestion Layer]
+CRS normalization
+source metadata capture
+raw source snapshot storage
+license metadata storage
+
+        ↓
+
+[Conflation Layer]
+building matching
+IoU comparison
+centroid distance comparison
+area ratio comparison
+height source comparison
+canonical building ID generation
+
+        ↓
+
+[Lifecycle and Change Detection Layer]
+active building detection
+demolished candidate detection
+new construction candidate detection
+road-corridor conflict detection
+temporal raster disagreement detection
+
+        ↓
+
+[Confidence and QA Layer]
+footprint confidence
+height confidence
+freshness confidence
+demolition confidence
+overall confidence
+manual QA status
+
+        ↓
+
+[Canonical Building Store]
+PostgreSQL/PostGIS
+3DCityDB-compatible semantic model
+source lineage
+QA ledger
+versioning
+
+        ↓
+
+[Tile Generation]
+MVT vector tiles
+LoD1 building extrusion
+3D Tiles / GLB / B3DM
+tileset.json generation
+
+        ↓
+
+[API Serving]
+tile API
+building metadata API
+QA API
+version API
+diff API
+
+        ↓
+
+[Client and Dashboard]
+MapLibre extrusion viewer
+Cesium or TerriaJS 3D viewer
+QA dashboard
+source disagreement dashboard
+demolition candidate dashboard
+```
+
+---
+
+## 6. Canonical Building Data Model
+
+The vendor must not store only geometry and height. Every building must have lineage, confidence, lifecycle state, and render policy.
+
+### 6.1 Core Building Fields
+
+```text
+tasco_building_id
+geom_2d
+geom_3d_lod1
+height_m
+min_height_m
+legacy_district_name
+legacy_district_code
+current_ward_name
+current_ward_code
+source_lineage
+footprint_confidence
+height_confidence
+freshness_confidence
+demolition_confidence
+overall_confidence
+building_lifecycle_status
+qa_status
+render_policy
+valid_from
+valid_to
+created_at
+updated_at
+```
+
+### 6.2 Building Lifecycle Status
+
+```text
+active_building
+demolished_candidate
+demolished_verified
+new_construction_candidate
+under_construction_candidate
+low_confidence_building
+unknown_status
+```
+
+### 6.3 Render Policy
+
+```text
+render_production
+render_qa_only
+render_transparent_low_confidence
+hide_from_production
+do_not_render
+```
+
+### 6.4 Source Lineage Example
+
+```json
+{
+  ""osm"": {
+    ""osm_id"": ""way/123456"",
+    ""version"": ""2026-xx"",
+    ""has_height"": false,
+    ""has_levels"": true
+  },
+  ""google"": {
+    ""source_type"": ""building_polygon_or_temporal_prior"",
+    ""confidence"": 0.84,
+    ""source_year"": ""2023""
+  },
+  ""tum_global_building_atlas"": {
+    ""polygon_available"": true,
+    ""height_m"": 17.2,
+    ""lod1_available"": true
+  },
+  ""road_corridor"": {
+    ""intersects_current_road_corridor"": true,
+    ""corridor_source"": ""tasco_or_public""
+  },
+  ""manual_qa"": {
+    ""status"": ""not_reviewed""
+  }
+}
+```
+
+---
+
+## 7. Demolition and Change-Detection Logic
+
+The vendor must implement a first version of demolition/change detection.
+
+### 7.1 Demolished Candidate Rule
+
+A building should be flagged as `demolished_candidate` if one or more of the following are true:
+
+```text
+1. Building appears in older Google/TUM/OSM data but intersects a current road corridor.
+2. Building footprint overlaps a newly expanded road surface.
+3. Building appears in an older source but is absent or weak in recent temporal raster evidence.
+4. Building appears in one global dataset but not in newer source evidence.
+5. Building is inside a Tasco-provided demolition or road-construction polygon.
+6. Building is visually missing in recent satellite or field imagery.
+```
+
+### 7.2 Do-Not-Render Rule
+
+A building should be hidden from production rendering if:
+
+```text
+building_lifecycle_status = demolished_verified
+```
+
+A building should be rendered only in QA mode if:
+
+```text
+building_lifecycle_status = demolished_candidate
+or
+overall_confidence < 0.60
+or
+demolition_confidence >= 0.70
+```
+
+### 7.3 QA Review Rule
+
+The QA dashboard must show all buildings where:
+
+```text
+building exists in Google/TUM/OSM
+AND building intersects road corridor
+AND building has no current verification
+```
+
+This is the most important review queue for the Hanoi pilot.
+
+---
+
+## 8. Confidence Scoring Requirements
+
+The vendor must implement separate confidence scores.
+
+### 8.1 Footprint Confidence
+
+Measures whether the building footprint is geometrically reliable.
+
+Inputs:
+
+```text
+source agreement
+IoU between OSM/Google/TUM polygons
+centroid distance
+area ratio
+polygon validity
+manual verification
+source recency
+```
+
+### 8.2 Height Confidence
+
+Measures whether the building height is reliable.
+
+Inputs:
+
+```text
+TUM/GlobalBuildingAtlas height
+OSM height
+OSM building:levels
+raster height prior
+local outlier check
+manual verification
+```
+
+### 8.3 Freshness Confidence
+
+Measures whether the building is likely to reflect current ground reality.
+
+Inputs:
+
+```text
+latest source date
+temporal raster trend
+recent imagery evidence
+field survey evidence
+road corridor conflict
+demolition flag
+```
+
+### 8.4 Demolition Confidence
+
+Measures whether the building is likely demolished or obsolete.
+
+Inputs:
+
+```text
+intersection with current road corridor
+absence in recent imagery or temporal raster
+conflict with new road geometry
+manual demolition evidence
+source age
+building-source disagreement
+```
+
+### 8.5 Overall Confidence
+
+The overall confidence should combine:
+
+```text
+footprint_confidence
+height_confidence
+freshness_confidence
+demolition_confidence
+manual QA status
+```
+
+---
+
+## 9. Required APIs
+
+### 9.1 Vector Tile API
+
+```http
+GET /v1/tiles/buildings/{version}/{z}/{x}/{y}.mvt
+```
+
+Required attributes:
+
+```json
+{
+  ""tasco_building_id"": ""tasco_bld_hanoi_0000001"",
+  ""height_m"": 18.5,
+  ""legacy_district"": ""Dong Da"",
+  ""current_ward"": ""example_ward"",
+  ""footprint_confidence"": 0.86,
+  ""height_confidence"": 0.71,
+  ""freshness_confidence"": 0.64,
+  ""demolition_confidence"": 0.22,
+  ""overall_confidence"": 0.78,
+  ""building_lifecycle_status"": ""active_building"",
+  ""render_policy"": ""render_production""
+}
+```
+
+### 9.2 3D Tiles API
+
+```http
+GET /v1/3dtiles/buildings/{version}/hanoi/tileset.json
+GET /v1/3dtiles/buildings/{version}/hanoi/{tile_id}.glb
+GET /v1/3dtiles/buildings/{version}/hanoi/{tile_id}.b3dm
+```
+
+### 9.3 Building Metadata API
+
+```http
+GET /v1/buildings/{tasco_building_id}
+```
+
+### 9.4 QA APIs
+
+```http
+GET /v1/qa/hanoi/demolished-candidates
+GET /v1/qa/hanoi/road-corridor-conflicts
+GET /v1/qa/hanoi/source-disagreement
+GET /v1/qa/hanoi/low-confidence-buildings
+GET /v1/qa/hanoi/height-outliers
+GET /v1/qa/hanoi/new-construction-candidates
+```
+
+### 9.5 Version and Diff APIs
+
+```http
+GET /v1/building-versions
+GET /v1/building-versions/{version_id}
+GET /v1/building-versions/{version_id}/diff/{previous_version_id}
+```
+
+---
+
+## 10. QA Dashboard Requirements
+
+The QA dashboard is mandatory.
+
+### 10.1 Required Layers
+
+```text
+canonical buildings
+OSM buildings
+Google building source
+TUM/GlobalBuildingAtlas buildings
+current road network
+road construction / demolition corridor
+demolished candidates
+low-confidence buildings
+height outliers
+source disagreement
+do-not-render buildings
+```
+
+### 10.2 Required Filters
+
+```text
+legacy district / Quận
+current ward
+building lifecycle status
+render policy
+footprint confidence
+height confidence
+freshness confidence
+demolition confidence
+source combination
+manual QA status
+```
+
+### 10.3 Required QA Queues
+
+```text
+demolished_candidate_queue
+road_corridor_conflict_queue
+source_disagreement_queue
+height_outlier_queue
+missing_building_queue
+new_construction_candidate_queue
+manual_review_queue
+```
+
+### 10.4 Required Building Inspector
+
+Clicking on one building should show:
+
+```text
+tasco_building_id
+geometry source
+height source
+all source lineage
+confidence scores
+lifecycle status
+render policy
+QA flags
+before/after source evidence
+road corridor intersection status
+manual review notes
+```
+
+---
+
+## 11. MVP Deliverables
+
+The vendor must deliver the following.
+
+### 11.1 Data Pipeline
+
+```text
+raw source import scripts
+source snapshot storage
+CRS normalization
+building conflation logic
+canonical building ID generation
+confidence scoring
+demolition/change detection rules
+versioned output
+```
+
+### 11.2 Database
+
+```text
+PostgreSQL/PostGIS schema
+canonical building table
+source observation table
+source lineage table
+QA ledger table
+tile manifest table
+version manifest table
+```
+
+### 11.3 Tile Outputs
+
+```text
+MVT vector tiles with height/confidence/status attributes
+LoD1 3D building geometry
+3D Tiles tileset.json
+GLB/B3DM tile payloads
+```
+
+### 11.4 APIs
+
+```text
+vector tile API
+3D Tiles API
+building metadata API
+QA API
+version API
+diff API
+```
+
+### 11.5 Web Applications
+
+```text
+3D viewer using Cesium or TerriaJS
+2D/2.5D viewer using MapLibre
+QA dashboard
+building inspector
+source comparison mode
+demolition candidate mode
+```
+
+### 11.6 Documentation
+
+```text
+system architecture document
+database schema document
+API documentation
+data source documentation
+confidence scoring documentation
+deployment guide
+runbook
+known limitations
+license and source-use notes
+```
+
+---
+
+## 12. Acceptance Criteria
+
+The MVP is accepted only if the following are true.
+
+### 12.1 Data Acceptance
+
+```text
+1. The system ingests at least three building data sources.
+2. The system creates stable Tasco building IDs.
+3. Every rendered building has source lineage.
+4. Every rendered building has height_m or explicit height_unknown status.
+5. Every rendered building has footprint, height, freshness, demolition, and overall confidence scores.
+6. Buildings conflicting with road corridors are flagged.
+7. Demolished candidates can be hidden from production rendering.
+```
+
+### 12.2 Rendering Acceptance
+
+```text
+1. The selected Hanoi AOI renders in a web 3D viewer.
+2. The same AOI renders through vector tile extrusion.
+3. 3D Tiles load correctly through tileset.json.
+4. Low-confidence and demolished-candidate buildings can be visually distinguished.
+5. Production mode excludes do_not_render buildings.
+```
+
+### 12.3 QA Acceptance
+
+```text
+1. QA dashboard shows demolished candidates.
+2. QA dashboard shows road-corridor conflicts.
+3. QA dashboard shows source disagreement between OSM, Google, and TUM/Munich data.
+4. QA dashboard supports district/ward filtering.
+5. Building inspector shows evidence and source lineage.
+6. QA status can be updated and stored.
+```
+
+### 12.4 Reproducibility Acceptance
+
+```text
+1. Tasco can rerun the pipeline from raw input sources.
+2. Tasco receives source code.
+3. Tasco receives Docker or equivalent deployment package.
+4. Tasco receives database migration scripts.
+5. Tasco receives tile generation scripts.
+6. Tasco receives API documentation.
+7. Tasco can deploy without relying on vendor-hosted infrastructure.
+```
+
+---
+
+## 13. First Technical Spike
+
+Before a full district-scale contract, the vendor should complete a technical spike.
+
+### 13.1 Spike Duration
+
+10 working days.
+
+### 13.2 Spike AOI
+
+A 5-10 km² Hanoi urban sample selected by Tasco.
+
+The AOI should include at least one road corridor where building demolition or road expansion is likely to create conflict with older building datasets.
+
+### 13.3 Spike Inputs
+
+```text
+OSM buildings
+Google or Google-derived building data
+TUM/GlobalBuildingAtlas data
+current road network
+one temporal raster source if available
+one Tasco-provided road corridor or demolition polygon if available
+```
+
+### 13.4 Spike Outputs
+
+```text
+PostGIS database
+canonical building table
+source lineage table
+basic confidence scoring
+demolished candidate detection
+MVT vector tile output
+3D Tiles output
+simple 3D viewer
+simple QA dashboard
+short technical report
+```
+
+### 13.5 Spike Pass/Fail Criteria
+
+```text
+PASS if:
+- buildings can be generated from multiple sources
+- stale/demolished candidates can be flagged
+- 3D Tiles can be served and rendered
+- vector tiles can be served and rendered
+- source lineage is visible per building
+- Tasco can rerun the pipeline
+
+FAIL if:
+- the vendor only delivers a static 3D visualization
+- there is no source lineage
+- there is no demolition/change detection
+- there is no confidence scoring
+- there is no repeatable pipeline
+- there is no code handover
+```
+
+---
+
+## 14. Ownership and Handover
+
+Tasco must own:
+
+```text
+source code
+database schema
+canonical building IDs
+confidence scoring logic
+tile generation pipeline
+QA dashboard
+API documentation
+deployment scripts
+output datasets created for Tasco
+```
+
+Vendor-hosted demos are acceptable for presentation, but the production architecture must be deployable in Tasco-controlled infrastructure.
+
+---
+
+## 15. Key Questions for Vendor
+
+Please answer the following before project kickoff.
+
+```text
+1. Have you generated OGC 3D Tiles from building footprints before?
+2. Can you deliver both 3D Tiles and MVT vector tile extrusion?
+3. Can you build and document a PostGIS-based canonical building database?
+4. Can you preserve source lineage per building?
+5. Can you implement building conflation across OSM, Google, and TUM/Munich sources?
+6. Can you detect buildings that are obsolete because of road construction or demolition?
+7. Can you create separate footprint, height, freshness, demolition, and overall confidence scores?
+8. Can you build a QA dashboard for source disagreement and demolition candidates?
+9. Can you support both legacy district / Quận AOI segmentation and current ward-level segmentation?
+10. Can Tasco rerun the pipeline independently after handover?
+```
+
+---
+
+## 16. Final Expected Outcome
+
+The expected outcome is a reproducible Hanoi 3D Building Data and Tile API pilot.
+
+The pilot must not simply show a beautiful 3D city model. It must create a reliable building data product that can determine which buildings should be rendered, which buildings are likely obsolete, which buildings need QA, and which buildings are trusted enough for production map display.
+
+The final MVP must support:
+
+```text
+Hanoi district-focused AOI
+multi-source building ingestion
+canonical building IDs
+source lineage
+building lifecycle classification
+demolition candidate detection
+confidence scoring
+LoD1 3D building generation
+MVT vector tile API
+3D Tiles API
+QA dashboard
+repeatable deployment
+Tasco-owned source code and documentation
+```
+
+[1]: https://www.vietnam-briefing.com/news/vietnams-government-introduces-official-plan-for-provincial-mergers.html/?utm_source=chatgpt.com ""Consolidation from 63 to 34 Provinces and Cities""
+[2]: https://sites.research.google/gr/open-buildings/temporal/?utm_source=chatgpt.com ""Open Buildings 2.5D Temporal Dataset - Google Research""",,,,,,,
