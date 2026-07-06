@@ -3,10 +3,15 @@
 Server-less static page for showing international partners how we **select** which
 areas to buy satellite imagery for, and **track** procurement against that plan.
 
-- `index.html` — the demo (MapLibre + plain JS, no build step). Toggle coverage
-  layers (Urban / Roads), set urban-density threshold, road-class cutoff, and
-  geographic scope; the map + selected km² + per-province tracking update live.
+- `index.html` — the demo (MapLibre + plain JS, no build step). **Priority selector:**
+  every hex is pre-scored (`priority = 0.6·density_percentile + 0.3·road_class +
+  0.1·key_area`) and binned into 5 priority tiers (P1 densest cores → P5 rest of
+  envelope); the panel lists each tier + its km² (and cumulative), and picking a tier
+  images all higher tiers. Hero km², map colouring, and export update live.
 - `data.js` — baked H3 res-7 bundle (`window.DATA`); the only data the page needs.
+  `sample_order.js` bakes the priority fields: `htier` (per-hex tier 1..5, 0=outside
+  envelope), `tier_km2` (imaging km² per tier), plus `sample_order`/`sample_pri` for
+  the free-sample optimizer. Tier bands + candidate envelope are tunable at its top.
 - **Free-sample optimizer** — a partner enters the free km² they can offer; the page
   fills that budget by descending **per-hex priority** (`window.DATA.sample_order`,
   baked by `sample_order.js`: `priority = 0.6·density_percentile + 0.3·road_class +
