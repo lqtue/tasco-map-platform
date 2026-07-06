@@ -8,11 +8,13 @@ areas to buy satellite imagery for, and **track** procurement against that plan.
   geographic scope; the map + selected km² + per-province tracking update live.
 - `data.js` — baked H3 res-7 bundle (`window.DATA`); the only data the page needs.
 - **Free-sample optimizer** — a partner enters the free km² they can offer; the page
-  reveals cells from a pre-baked density-ranked, variety-seeded, contiguous growth
-  order (`window.DATA.sample_order`), dissolves them into scene-ready polygons (H3
-  cells merged, enclosed gaps filled — **not** hex tiles), and exports a ZIP. All
-  geometry (spherical area, edge-cancellation dissolve, Douglas-Peucker smooth) is
-  plain JS — no libraries (CSP forbids externals). Min budget 50 km².
+  fills that budget by descending **per-hex priority** (`window.DATA.sample_order`,
+  baked by `sample_order.js`: `priority = 0.6·density_percentile + 0.3·road_class +
+  0.1·key_area`; `sample_pri` holds the scores), then dissolves the picked cells into
+  scene-ready polygons (H3 cells merged, enclosed gaps filled — **not** hex tiles) and
+  exports a ZIP. All geometry (spherical area, edge-cancellation dissolve,
+  Douglas-Peucker smooth) is plain JS — no libraries (CSP forbids externals). Min
+  budget 50 km². Weights/key-rule are tunable at the top of `sample_order.js`.
 
 ## Run locally
 ```
