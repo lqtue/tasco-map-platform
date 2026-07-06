@@ -663,13 +663,18 @@
     }
     // Demo/trial: a contiguous dense-urban patch + a contiguous road-corridor stretch
     // (60/40 of budget) — coherent, taskable, tests GSD *and* geometric accuracy.
-    // Urban blob is ANCHORED to Hanoi (boss's most-wanted AOI: Hanoi urban / redevelopment).
+    // Urban blob is ANCHORED to the boss's most-wanted AOI: Hanoi's ACTIVE demolition
+    // corridor — Ring Road 1 (Vành đai 1) Hoàng Cầu–Voi Phục, Đống Đa/Ba Đình. The data
+    // has no demolition layer, so we seed on the corridor coordinate and grow the dense
+    // urban patch containing it. Update DEMO_ANCHOR when the boss supplies an exact polygon.
     const HANOI = new Set(findProv(['hà nội']));
+    const DEMO_ANCHOR = [105.817, 21.025];   // [lon,lat] Ring Road 1 Hoàng Cầu–Voi Phục clearance
+    const hexCenter = i => { const r = F[i].geometry.coordinates[0], n = r.length - 1; let x = 0, y = 0; for (let k = 0; k < n; k++) { x += r[k][0]; y += r[k][1]; } return [x / n, y / n]; };
     function demoSelect(km) {
-      let uSeed = -1, uB = -1, uSeedAny = -1, uBAny = -1, cSeed = -1, cR = -1;
+      let uSeed = -1, uD = Infinity, uSeedAny = -1, uBAny = -1, cSeed = -1, cR = -1;
       for (let i = 0; i < F.length; i++) {
         const p = F[i].properties; if (!p.t) continue;
-        if (HANOI.has(p.p) && p.b > uB) { uB = p.b; uSeed = i; }        // densest hex in Hanoi
+        if (HANOI.has(p.p)) { const c = hexCenter(i), d = (c[0] - DEMO_ANCHOR[0]) ** 2 + (c[1] - DEMO_ANCHOR[1]) ** 2; if (d < uD) { uD = d; uSeed = i; } }  // hex nearest the demolition corridor
         if (p.b > uBAny) { uBAny = p.b; uSeedAny = i; }                  // fallback: densest anywhere
         if (p.c >= 0 && p.c <= 1 && (p.r || 0) > cR) { cR = p.r || 0; cSeed = i; }
       }
