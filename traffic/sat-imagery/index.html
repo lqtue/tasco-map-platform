@@ -1,435 +1,957 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>TASCO Maps — Satellite Imagery Coverage</title>
-<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
-<style>
-  :root{
-    --bg:#090d14; --panel:#111820; --elev:#1a2230; --topbar:#0e141c; --inset:#0d1219;
-    --ink:#f0f4f8; --ink2:#dce3ec; --mut:#6b7a8d; --line:rgba(255,255,255,0.07); --line2:rgba(255,255,255,0.04);
-    --accent:#4c8dff; --amber:#d4993a; --teal:#2ca6a4; --green:#3ba776; --radius:12px;
-  }
-  *{box-sizing:border-box;margin:0}
-  html,body{height:100%;color:var(--ink);background:var(--bg);font:13px/1.5 'Inter',-apple-system,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-  #app{display:grid;grid-template-columns:460px 1fr;grid-template-rows:52px 1fr;height:100vh}
-  #topbar{grid-column:1/3;display:flex;align-items:center;gap:12px;background:var(--topbar);border-bottom:1px solid var(--line);padding:0 20px;z-index:10}
-  .brand{display:flex;align-items:center;gap:10px}
-  .brand .bname{font-size:14px;font-weight:700;color:#fff}
-  .brand .bsub{font-size:10.5px;color:var(--mut)}
-  .tag{margin-left:auto;font-size:10.5px;color:var(--mut);border:1px solid var(--line);border-radius:20px;padding:3px 11px}
-  #side{background:var(--panel);border-right:1px solid var(--line);overflow-y:auto;display:flex;flex-direction:column}
-  #side::-webkit-scrollbar{width:5px}#side::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:3px}
-  .hero{padding:22px 20px 18px;background:linear-gradient(180deg,rgba(76,141,255,0.08) 0%,transparent 100%);border-bottom:1px solid var(--line);text-align:center}
-  .hero-label{font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--mut);font-weight:600;margin-bottom:6px}
-  .hero-km{font-size:34px;font-weight:800;color:#fff;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1.1}
-  .hero-km small{font-size:16px;font-weight:600;color:var(--mut)}
-  .hero-usd{font-size:15px;font-weight:600;color:var(--accent);margin-top:5px;font-variant-numeric:tabular-nums}
-  .hero-scope{display:inline-block;background:var(--inset);border:1px solid var(--line);border-radius:20px;padding:4px 12px;font-size:11px;color:var(--ink2);margin-top:11px}
-  .section{padding:14px 20px;border-bottom:1px solid var(--line)}
-  .section:last-child{border-bottom:none}
-  .sec-title{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);font-weight:600;margin-bottom:11px}
-  .pills{display:flex;gap:6px;flex-wrap:wrap}
-  .pill{flex:1;min-width:0;background:var(--inset);border:1px solid var(--line);border-radius:8px;padding:8px 6px;text-align:center;cursor:pointer;transition:.15s;font-size:11.5px;color:var(--ink2)}
-  .pill:hover{background:var(--elev)}
-  .pill.active{background:color-mix(in srgb,var(--accent) 16%,var(--inset));border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);color:#fff;font-weight:600}
-  .pill .sub{display:block;font-size:9.5px;color:var(--mut);font-weight:400;margin-top:2px}
-  .pill.active .sub{color:var(--ink2)}
-  .bd-grid{display:grid;gap:6px}
-  .bd-card{background:var(--inset);border:1px solid var(--line);border-radius:8px;padding:9px 12px;border-left:3px solid var(--cc);display:flex;align-items:center;gap:10px}
-  .bd-card .nm{font-weight:600;font-size:12px;color:#fff;flex:1}
-  .bd-card .dt{font-size:10px;color:var(--mut)}
-  .bd-card .val{font-size:14px;font-weight:700;font-variant-numeric:tabular-nums}
-  .trk-row{display:grid;grid-template-columns:120px 1fr 58px;gap:8px;align-items:center;margin-bottom:7px;font-size:11px}
-  .trk-name{color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .trk-bar{height:8px;background:var(--inset);border-radius:5px;overflow:hidden;border:1px solid var(--line)}
-  .trk-fill{height:100%;background:var(--green);border-radius:5px}
-  .trk-num{color:var(--mut);text-align:right;font-variant-numeric:tabular-nums}
-  .note{font-size:10px;color:var(--mut);line-height:1.5;margin-top:10px}
-  #main{position:relative}
-  #map{position:absolute;inset:0}
-  .legend{position:absolute;bottom:16px;left:14px;z-index:5;background:rgba(14,20,28,0.88);border:1px solid var(--line);border-radius:8px;padding:10px 14px;font-size:11px;backdrop-filter:blur(10px)}
-  .legend b{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);font-weight:600;display:block;margin-bottom:6px}
-  .legend i{display:inline-block;width:12px;height:12px;border-radius:2px;margin:0 6px -2px 0}
-  #err{position:absolute;top:12px;left:12px;right:50px;z-index:9;background:#6b1a1a;color:#fff;padding:8px 12px;border-radius:8px;display:none;font-size:12px}
-  #load{position:absolute;inset:0;z-index:8;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:var(--bg);color:var(--mut);font-size:13px}
-  #load .spin{width:28px;height:28px;border:3px solid rgba(255,255,255,0.08);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .maplibregl-popup-content{background:#141a23;color:#e8edf3;font-size:11px;line-height:1.55;border-radius:8px;padding:8px 11px;border:1px solid var(--line)}
-  .maplibregl-popup-content b{font-size:12px}
-  .maplibregl-popup-anchor-top .maplibregl-popup-tip{border-bottom-color:#141a23}
-  .maplibregl-popup-anchor-bottom .maplibregl-popup-tip{border-top-color:#141a23}
-  .exp-btn{width:100%;padding:9px 14px;border-radius:8px;border:1px solid var(--line);background:var(--elev);color:var(--ink2);font:12px/1.4 'Inter',system-ui,sans-serif;cursor:pointer;text-align:left;transition:.15s;display:flex;align-items:center;gap:9px;margin-bottom:6px}
-  .exp-btn:hover{background:#243040;color:#fff;border-color:rgba(255,255,255,.15)}
-  .exp-btn .ext{margin-left:auto;font-size:10px;color:var(--mut);background:var(--inset);border:1px solid var(--line);border-radius:4px;padding:2px 7px;flex-shrink:0}
-  .tier{display:flex;align-items:center;gap:10px;background:var(--inset);border:1px solid var(--line);border-radius:8px;padding:9px 11px;margin-bottom:6px;cursor:pointer;transition:.15s;border-left:3px solid var(--tc)}
-  .tier:hover{background:var(--elev)}
-  .tier.on{background:color-mix(in srgb,var(--tc) 14%,var(--inset));border-color:var(--tc)}
-  .tier .dot{width:11px;height:11px;border-radius:3px;background:var(--tc);flex-shrink:0}
-  .tier .tinfo{flex:1;min-width:0}
-  .tier .tname{font-size:12px;font-weight:600;color:#fff}
-  .tier .tdesc{font-size:10px;color:var(--mut)}
-  .tier .tkm{font-size:12.5px;font-weight:700;color:var(--ink2);font-variant-numeric:tabular-nums;text-align:right}
-  .tier .tkm small{display:block;font-size:9.5px;color:var(--mut);font-weight:500}
-  .metric-row{display:flex;justify-content:space-between;font-size:12px;color:var(--ink2);margin-bottom:5px}
-  .metric-row b{color:#fff;font-variant-numeric:tabular-nums}
-  .rmix{display:flex;height:9px;border-radius:5px;overflow:hidden;margin:9px 0 6px;border:1px solid var(--line)}
-  .rmix span{display:block;min-width:2px}
-  .rmix-legend{display:flex;flex-wrap:wrap;gap:9px;font-size:10px;color:var(--mut)}
-  .rmix-legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TASCO Maps — Satellite Imagery Coverage</title>
+  <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #090d14;
+      --panel: #111820;
+      --elev: #1a2230;
+      --topbar: #0e141c;
+      --inset: #0d1219;
+      --ink: #f0f4f8;
+      --ink2: #dce3ec;
+      --mut: #6b7a8d;
+      --line: rgba(255, 255, 255, 0.07);
+      --line2: rgba(255, 255, 255, 0.04);
+      --accent: #4c8dff;
+      --amber: #d4993a;
+      --teal: #2ca6a4;
+      --green: #3ba776;
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0
+    }
+
+    html,
+    body {
+      height: 100%;
+      color: var(--ink);
+      background: var(--bg);
+      font: 13px/1.5 'Inter', -apple-system, system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased
+    }
+
+    #app {
+      display: grid;
+      grid-template-columns: 460px 1fr;
+      grid-template-rows: 52px 1fr;
+      height: 100vh
+    }
+
+    #topbar {
+      grid-column: 1/3;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--topbar);
+      border-bottom: 1px solid var(--line);
+      padding: 0 20px;
+      z-index: 10
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .brand .bname {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff
+    }
+
+    .brand .bsub {
+      font-size: 10.5px;
+      color: var(--mut)
+    }
+
+    .tag {
+      margin-left: auto;
+      font-size: 10.5px;
+      color: var(--mut);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 3px 11px
+    }
+
+    #side {
+      background: var(--panel);
+      border-right: 1px solid var(--line);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column
+    }
+
+    #side::-webkit-scrollbar {
+      width: 5px
+    }
+
+    #side::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px
+    }
+
+    .hero {
+      padding: 22px 20px 18px;
+      background: linear-gradient(180deg, rgba(76, 141, 255, 0.08) 0%, transparent 100%);
+      border-bottom: 1px solid var(--line);
+      text-align: center
+    }
+
+    .hero-label {
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--mut);
+      font-weight: 600;
+      margin-bottom: 6px
+    }
+
+    .hero-km {
+      font-size: 34px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -.03em;
+      font-variant-numeric: tabular-nums;
+      line-height: 1.1
+    }
+
+    .hero-km small {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--mut)
+    }
+
+    .hero-usd {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-top: 5px;
+      font-variant-numeric: tabular-nums
+    }
+
+    .hero-scope {
+      display: inline-block;
+      background: var(--inset);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 11px;
+      color: var(--ink2);
+      margin-top: 11px
+    }
+
+    .section {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--line)
+    }
+
+    .section:last-child {
+      border-bottom: none
+    }
+
+    .sec-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--mut);
+      font-weight: 600;
+      margin-bottom: 11px
+    }
+
+    .pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap
+    }
+
+    .pill {
+      flex: 1;
+      min-width: 0;
+      background: var(--inset);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: .15s;
+      font-size: 11.5px;
+      color: var(--ink2)
+    }
+
+    .pill:hover {
+      background: var(--elev)
+    }
+
+    .pill.active {
+      background: color-mix(in srgb, var(--accent) 16%, var(--inset));
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent);
+      color: #fff;
+      font-weight: 600
+    }
+
+    .pill .sub {
+      display: block;
+      font-size: 9.5px;
+      color: var(--mut);
+      font-weight: 400;
+      margin-top: 2px
+    }
+
+    .pill.active .sub {
+      color: var(--ink2)
+    }
+
+    .bd-grid {
+      display: grid;
+      gap: 6px
+    }
+
+    .bd-card {
+      background: var(--inset);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 9px 12px;
+      border-left: 3px solid var(--cc);
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .bd-card .nm {
+      font-weight: 600;
+      font-size: 12px;
+      color: #fff;
+      flex: 1
+    }
+
+    .bd-card .dt {
+      font-size: 10px;
+      color: var(--mut)
+    }
+
+    .bd-card .val {
+      font-size: 14px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums
+    }
+
+    .trk-row {
+      display: grid;
+      grid-template-columns: 120px 1fr 58px;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 7px;
+      font-size: 11px
+    }
+
+    .trk-name {
+      color: var(--ink2);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .trk-bar {
+      height: 8px;
+      background: var(--inset);
+      border-radius: 5px;
+      overflow: hidden;
+      border: 1px solid var(--line)
+    }
+
+    .trk-fill {
+      height: 100%;
+      background: var(--green);
+      border-radius: 5px
+    }
+
+    .trk-num {
+      color: var(--mut);
+      text-align: right;
+      font-variant-numeric: tabular-nums
+    }
+
+    .note {
+      font-size: 10px;
+      color: var(--mut);
+      line-height: 1.5;
+      margin-top: 10px
+    }
+
+    #main {
+      position: relative
+    }
+
+    #map {
+      position: absolute;
+      inset: 0
+    }
+
+    .legend {
+      position: absolute;
+      bottom: 16px;
+      left: 14px;
+      z-index: 5;
+      background: rgba(14, 20, 28, 0.88);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 11px;
+      backdrop-filter: blur(10px)
+    }
+
+    .legend b {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--mut);
+      font-weight: 600;
+      display: block;
+      margin-bottom: 6px
+    }
+
+    .legend i {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+      margin: 0 6px -2px 0
+    }
+
+    #err {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      right: 50px;
+      z-index: 9;
+      background: #6b1a1a;
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      display: none;
+      font-size: 12px
+    }
+
+    #load {
+      position: absolute;
+      inset: 0;
+      z-index: 8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: var(--bg);
+      color: var(--mut);
+      font-size: 13px
+    }
+
+    #load .spin {
+      width: 28px;
+      height: 28px;
+      border: 3px solid rgba(255, 255, 255, 0.08);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .7s linear infinite
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .maplibregl-popup-content {
+      background: #141a23;
+      color: #e8edf3;
+      font-size: 11px;
+      line-height: 1.55;
+      border-radius: 8px;
+      padding: 8px 11px;
+      border: 1px solid var(--line)
+    }
+
+    .maplibregl-popup-content b {
+      font-size: 12px
+    }
+
+    .maplibregl-popup-anchor-top .maplibregl-popup-tip {
+      border-bottom-color: #141a23
+    }
+
+    .maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
+      border-top-color: #141a23
+    }
+
+    .exp-btn {
+      width: 100%;
+      padding: 9px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: var(--elev);
+      color: var(--ink2);
+      font: 12px/1.4 'Inter', system-ui, sans-serif;
+      cursor: pointer;
+      text-align: left;
+      transition: .15s;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 6px
+    }
+
+    .exp-btn:hover {
+      background: #243040;
+      color: #fff;
+      border-color: rgba(255, 255, 255, .15)
+    }
+
+    .exp-btn .ext {
+      margin-left: auto;
+      font-size: 10px;
+      color: var(--mut);
+      background: var(--inset);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 2px 7px;
+      flex-shrink: 0
+    }
+
+    .tier {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--inset);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 9px 11px;
+      margin-bottom: 6px;
+      cursor: pointer;
+      transition: .15s;
+      border-left: 3px solid var(--tc)
+    }
+
+    .tier:hover {
+      background: var(--elev)
+    }
+
+    .tier.on {
+      background: color-mix(in srgb, var(--tc) 14%, var(--inset));
+      border-color: var(--tc)
+    }
+
+    .tier .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 3px;
+      background: var(--tc);
+      flex-shrink: 0
+    }
+
+    .tier .tinfo {
+      flex: 1;
+      min-width: 0
+    }
+
+    .tier .tname {
+      font-size: 12px;
+      font-weight: 600;
+      color: #fff
+    }
+
+    .tier .tdesc {
+      font-size: 10px;
+      color: var(--mut)
+    }
+
+    .tier .tkm {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--ink2);
+      font-variant-numeric: tabular-nums;
+      text-align: right
+    }
+
+    .tier .tkm small {
+      display: block;
+      font-size: 9.5px;
+      color: var(--mut);
+      font-weight: 500
+    }
+
+    .metric-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--ink2);
+      margin-bottom: 5px
+    }
+
+    .metric-row b {
+      color: #fff;
+      font-variant-numeric: tabular-nums
+    }
+
+    .rmix {
+      display: flex;
+      height: 9px;
+      border-radius: 5px;
+      overflow: hidden;
+      margin: 9px 0 6px;
+      border: 1px solid var(--line)
+    }
+
+    .rmix span {
+      display: block;
+      min-width: 2px
+    }
+
+    .rmix-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      font-size: 10px;
+      color: var(--mut)
+    }
+
+    .rmix-legend i {
+      display: inline-block;
+      width: 9px;
+      height: 9px;
+      border-radius: 2px;
+      margin-right: 4px
+    }
+  </style>
 </head>
+
 <body>
-<div id="app">
-  <header id="topbar">
-    <div class="brand">
-      <svg width="26" height="26" viewBox="0 0 28 28"><polygon points="14,2 25,8 25,20 14,26 3,20 3,8" fill="none" stroke="#4c8dff" stroke-width="2" stroke-linejoin="round"/><polygon points="14,8 19,11 19,17 14,20 9,17 9,11" fill="#4c8dff" opacity=".85"/></svg>
-      <div><div class="bname">TASCO Maps</div><div class="bsub">Satellite Imagery — Coverage Selection</div></div>
-    </div>
-    <div class="tag" id="genTag">Vietnam · H3</div>
-  </header>
+  <div id="app">
+    <header id="topbar">
+      <div class="brand">
+        <svg width="26" height="26" viewBox="0 0 28 28">
+          <polygon points="14,2 25,8 25,20 14,26 3,20 3,8" fill="none" stroke="#4c8dff" stroke-width="2"
+            stroke-linejoin="round" />
+          <polygon points="14,8 19,11 19,17 14,20 9,17 9,11" fill="#4c8dff" opacity=".85" />
+        </svg>
+        <div>
+          <div class="bname">TASCO Maps</div>
+          <div class="bsub">Satellite Imagery — Coverage Selection</div>
+        </div>
+      </div>
+      <div class="tag" id="genTag">Vietnam · H3</div>
+    </header>
 
-  <aside id="side">
-    <div class="hero">
-      <div class="hero-label">Selected imaging area</div>
-      <div class="hero-km" id="hKm">0 <small>km²</small></div>
-      <div class="hero-scope" id="hScope">Loading…</div>
-    </div>
+    <aside id="side">
+      <div class="hero">
+        <div class="hero-label">Selected imaging area</div>
+        <div class="hero-km" id="hKm">0 <small>km²</small></div>
+        <div class="hero-scope" id="hScope">Loading…</div>
+      </div>
 
-    <div class="section">
-      <div class="sec-title">Coverage priority</div>
-      <div id="tierList"></div>
-      <label style="display:flex;align-items:center;gap:8px;margin-top:10px;font-size:12px;color:var(--ink2);cursor:pointer">
-        <input type="checkbox" checked onchange="toggleFoot(this)"> Show tasking footprints (strips)
-      </label>
-      <div class="note">Start with the <b>demo / trial</b> (slide the free-sample size), then step up the priority tiers — densest urban first, out to the rest of the envelope. Satellites image strips, so footprints are bbox scenes, not hexes.</div>
-    </div>
+      <div class="section">
+        <div class="sec-title">Coverage priority</div>
+        <div id="tierList"></div>
+        <label
+          style="display:flex;align-items:center;gap:8px;margin-top:10px;font-size:12px;color:var(--ink2);cursor:pointer">
+          <input type="checkbox" checked onchange="toggleFoot(this)"> Show tasking footprints (strips)
+        </label>
+        <div class="note">Start with the <b>demo / trial</b> (slide the free-sample size), then step up the priority
+          tiers — densest urban first, out to the rest of the envelope. Satellites image strips, so footprints are bbox
+          scenes, not hexes.</div>
+      </div>
 
-    <div class="section">
-      <div class="sec-title">Export AOI for partners</div>
-      <button class="exp-btn" onclick="exportZip()">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M8 2v3M8 7v2M8 11v3"/></svg>
-        Download AOI bundle — summary + mask + tasking strips
-        <span class="ext">ZIP</span>
-      </button>
-      <div class="note">Bundle = selection <b>summary</b> + hex <b>archive mask</b> (coverage lookup) + <b>tasking footprints</b> (deduped bbox strips per cluster, for new acquisition).</div>
-    </div>
-  </aside>
+      <div class="section">
+        <div class="sec-title">Export AOI for partners</div>
+        <button class="exp-btn" onclick="exportZip()">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 16 16">
+            <rect x="2" y="2" width="12" height="12" rx="2" />
+            <path d="M8 2v3M8 7v2M8 11v3" />
+          </svg>
+          Download AOI bundle — summary + mask + tasking strips
+          <span class="ext">ZIP</span>
+        </button>
+        <div class="note">Bundle = selection <b>summary</b> + hex <b>archive mask</b> (coverage lookup) + <b>tasking
+            footprints</b> (deduped bbox strips per cluster, for new acquisition).</div>
+      </div>
+    </aside>
 
-  <main id="main">
-    <div id="err"></div>
-    <div id="map"></div>
-    <div id="load"><span class="spin"></span> Loading map…</div>
-    <div class="legend" id="legend"></div>
-  </main>
-</div>
+    <main id="main">
+      <div id="err"></div>
+      <div id="map"></div>
+      <div id="load"><span class="spin"></span> Loading map…</div>
+      <div class="legend" id="legend"></div>
+    </main>
+  </div>
 
-<script src="data.js?v=8"></script>
-<script>
-const D = window.DATA;
-const $ = id => document.getElementById(id);
-const fmt = n => Math.round(n).toLocaleString('en-US');
-const showErr = m => { const e=$('err'); e.style.display='block'; e.textContent=m; };
-window.onerror = (m,s,l,c)=>showErr('JS error: '+m+' @'+l+':'+c);
-if(!D) showErr('Could not load data.js');
+  <script src="data.js?v=8"></script>
+  <script>
+    const D = window.DATA;
+    const $ = id => document.getElementById(id);
+    const fmt = n => Math.round(n).toLocaleString('en-US');
+    const showErr = m => { const e = $('err'); e.style.display = 'block'; e.textContent = m; };
+    window.onerror = (m, s, l, c) => showErr('JS error: ' + m + ' @' + l + ':' + c);
+    if (!D) showErr('Could not load data.js');
 
-// Strip Vietnamese admin prefix for clean display names.
-const provName = raw => raw.replace(/^(Thủ đô|thành phố|tỉnh)\s+/i,'').trim();
-const findProv = subs => D.provinces.map((p,i)=>({n:p.toLowerCase(),i}))
-  .filter(o=>subs.some(s=>o.n.includes(s))).map(o=>o.i);
+    // Strip Vietnamese admin prefix for clean display names.
+    const provName = raw => raw.replace(/^(Thủ đô|thành phố|tỉnh)\s+/i, '').trim();
+    const findProv = subs => D.provinces.map((p, i) => ({ n: p.toLowerCase(), i }))
+      .filter(o => subs.some(s => o.n.includes(s))).map(o => o.i);
 
-// --- selection model: demo/trial (slider) + 4 rule-based priority tiers ------
-const NT = (D.tier_km2||[]).length-1;                 // 4 tiers
-const TIER_COL=['#ff5b4a','#ff9838','#ffcf3f','#7bc96f'];
-const TIER_DESC=['Densest urban','Dense urban','Urban','Rest + road corridors'];
-const MIN_FOOT_KM=5;                                  // min tasking-footprint side (km)
-const DEMO_MIN=50, DEMO_MAX=1000;
+    // --- selection model: demo/trial (slider) + 4 rule-based priority tiers ------
+    const NT = (D.tier_km2 || []).length - 1;                 // 4 tiers
+    const TIER_COL = ['#ff5b4a', '#ff9838', '#ffcf3f', '#7bc96f'];
+    const TIER_DESC = ['Densest urban', 'Dense urban', 'Urban', 'Rest + road corridors'];
+    const MIN_FOOT_KM = 5;                                  // min tasking-footprint side (km)
+    const DEMO_MIN = 50, DEMO_MAX = 1000;
+    const FOOT_GRID = 0.5;                 // tasking-grid cell (deg) ≈ 55 km scene
 
-D.fc.features.forEach((f,i)=>{ f.properties.t = D.htier[i]||0; });
-const F = D.fc.features;
+    D.fc.features.forEach((f, i) => { f.properties.t = D.htier[i] || 0; });
+    const F = D.fc.features;
 
-// geometry helpers (spherical area + per-cell cache + priority-budget pick + vertex key)
-const _area=new Map();
-function ringAreaKm2(ring){
-  const R=6371.0088, d=Math.PI/180; let s=0;
-  for(let i=0;i<ring.length-1;i++){const a=ring[i],b=ring[i+1];
-    s+=(b[0]-a[0])*d*(2+Math.sin(a[1]*d)+Math.sin(b[1]*d));}
-  return Math.abs(s*R*R/2);
-}
-function cellArea(i){let a=_area.get(i);if(a==null){a=ringAreaKm2(F[i].geometry.coordinates[0]);_area.set(i,a);}return a;}
-function pickByBudget(km){                    // top-priority cells (D.sample_order) up to km²
-  const o=D.sample_order||[]; let acc=0; const sel=[];
-  for(const i of o){acc+=cellArea(i);sel.push(i);if(acc>=km)break;}
-  return sel;
-}
-const vk=p=>p[0].toFixed(5)+','+p[1].toFixed(5);
+    // geometry helpers (spherical area + per-cell cache + priority-budget pick + vertex key)
+    const _area = new Map();
+    function ringAreaKm2(ring) {
+      const R = 6371.0088, d = Math.PI / 180; let s = 0;
+      for (let i = 0; i < ring.length - 1; i++) {
+        const a = ring[i], b = ring[i + 1];
+        s += (b[0] - a[0]) * d * (2 + Math.sin(a[1] * d) + Math.sin(b[1] * d));
+      }
+      return Math.abs(s * R * R / 2);
+    }
+    function cellArea(i) { let a = _area.get(i); if (a == null) { a = ringAreaKm2(F[i].geometry.coordinates[0]); _area.set(i, a); } return a; }
+    const vk = p => p[0].toFixed(5) + ',' + p[1].toFixed(5);
 
-let selMode='demo';   // 'demo' | 'tier'
-let demoKm=100;       // demo/trial slider value
-let priCut=1;         // active tier when selMode==='tier'
-let showFoot=true;    // tasking-footprint overlay toggle (default on)
+    // shared-edge adjacency over candidate hexes (built once, cached) — for contiguous growth
+    let _adj = null;
+    function buildAdj() {
+      const edge = new Map(), cand = [];
+      for (let i = 0; i < F.length; i++) if (F[i].properties.t) cand.push(i);
+      for (const i of cand) { const ring = F[i].geometry.coordinates[0];
+        for (let j = 0; j < ring.length - 1; j++) { const a = vk(ring[j]), b = vk(ring[j + 1]), k = a < b ? a + '|' + b : b + '|' + a; (edge.get(k) || edge.set(k, []).get(k)).push(i); } }
+      const adj = new Map(); cand.forEach(i => adj.set(i, new Set()));
+      for (const cells of edge.values()) for (const a of cells) for (const b of cells) if (a !== b) adj.get(a).add(b);
+      _adj = adj; return adj;
+    }
+    function grow(seed, budget, valueFn) {         // contiguous region grow, highest-value frontier first
+      const adj = _adj || buildAdj(), picked = new Set([seed]); let acc = cellArea(seed);
+      const front = new Map(), addFront = i => { for (const n of (adj.get(i) || [])) if (!picked.has(n)) front.set(n, valueFn(n)); };
+      addFront(seed);
+      while (acc < budget && front.size) {
+        let bi = -1, bv = -Infinity; for (const [i, v] of front) if (v > bv) { bv = v; bi = i; }
+        front.delete(bi); if (picked.has(bi)) continue;
+        picked.add(bi); acc += cellArea(bi); addFront(bi);
+      }
+      return picked;
+    }
+    // Demo/trial: a contiguous dense-urban patch + a contiguous road-corridor stretch
+    // (60/40 of budget) — coherent, taskable, tests GSD *and* geometric accuracy.
+    function demoSelect(km) {
+      let uSeed = -1, uB = -1, cSeed = -1, cR = -1;
+      for (let i = 0; i < F.length; i++) { const p = F[i].properties; if (!p.t) continue;
+        if (p.b > uB) { uB = p.b; uSeed = i; }
+        if (p.c >= 0 && p.c <= 1 && (p.r || 0) > cR) { cR = p.r || 0; cSeed = i; } }
+      const urban = uSeed >= 0 ? grow(uSeed, km * 0.6, i => F[i].properties.b) : new Set();
+      const corr = cSeed >= 0 ? grow(cSeed, km * 0.4, i => { const p = F[i].properties; return (p.c >= 0 && p.c <= 2) ? (p.r || 0) + (3 - p.c) : -1; }) : new Set();
+      return [...new Set([...urban, ...corr])];
+    }
 
-const cumKm = cut => { let s=0; for(let t=1;t<=cut;t++) s+=D.tier_km2[t]||0; return s; };
-function selectedIdx(){
-  if(selMode==='demo') return pickByBudget(demoKm);
-  const o=[]; for(let i=0;i<F.length;i++){const t=F[i].properties.t; if(t>0&&t<=priCut)o.push(i);} return o;
-}
-function selArea(idx){ let s=0; for(const i of idx) s+=cellArea(i); return s; }
+    let selMode = 'demo';   // 'demo' | 'tier'
+    let demoKm = 100;       // demo/trial slider value
+    let priCut = 1;         // active tier when selMode==='tier'
+    let showFoot = true;    // tasking-footprint overlay toggle (default on)
 
-// --- render ----------------------------------------------------------------
-let _rows={};
-function buildTierList(){
-  const el=$('tierList'); el.innerHTML=''; _rows={};
-  const dm=document.createElement('div');
-  dm.className='tier'; dm.style.setProperty('--tc','#9aa7b8');
-  dm.innerHTML=`<span class="dot"></span>
+    const cumKm = cut => { let s = 0; for (let t = 1; t <= cut; t++) s += D.tier_km2[t] || 0; return s; };
+    function selectedIdx() {
+      if (selMode === 'demo') return demoSelect(demoKm);
+      const o = []; for (let i = 0; i < F.length; i++) { const t = F[i].properties.t; if (t > 0 && t <= priCut) o.push(i); } return o;
+    }
+    function selArea(idx) { let s = 0; for (const i of idx) s += cellArea(i); return s; }
+
+    // --- render ----------------------------------------------------------------
+    let _rows = {};
+    function buildTierList() {
+      const el = $('tierList'); el.innerHTML = ''; _rows = {};
+      const dm = document.createElement('div');
+      dm.className = 'tier'; dm.style.setProperty('--tc', '#9aa7b8');
+      dm.innerHTML = `<span class="dot"></span>
     <span class="tinfo"><span class="tname">Demo / trial</span>
       <input id="demoSlider" type="range" min="${DEMO_MIN}" max="${DEMO_MAX}" step="10" value="${demoKm}" style="width:100%;margin-top:6px"></span>
     <span class="tkm"><span id="demoKmLbl">${fmt(demoKm)}</span> km²<small>free sample</small></span>`;
-  dm.onclick=e=>{ if(e.target.id!=='demoSlider'){ selMode='demo'; apply(); } };
-  el.appendChild(dm); _rows.demo=dm;
-  for(let t=1;t<=NT;t++){
-    const d=document.createElement('div');
-    d.className='tier'; d.style.setProperty('--tc',TIER_COL[t-1]);
-    d.innerHTML=`<span class="dot"></span>
-      <span class="tinfo"><span class="tname">Tier ${t} · ${TIER_DESC[t-1]}</span><span class="tdesc">cumulative to here</span></span>
-      <span class="tkm">${fmt(D.tier_km2[t])} km²<small>cum ${fmt(cumKm(t))} km²</small></span>`;
-    d.onclick=()=>{ selMode='tier'; priCut=t; apply(); };
-    el.appendChild(d); _rows['t'+t]=d;
-  }
-  $('demoSlider').addEventListener('input',ev=>{ demoKm=+ev.target.value; selMode='demo'; $('demoKmLbl').textContent=fmt(demoKm); apply(); });
-}
-function apply(){
-  const idx=selectedIdx();
-  _rows.demo.classList.toggle('on',selMode==='demo');
-  for(let t=1;t<=NT;t++) _rows['t'+t].classList.toggle('on', selMode==='tier'&&t<=priCut);
-  const area = selMode==='tier' ? cumKm(priCut) : Math.round(selArea(idx));
-  $('hKm').innerHTML=`${fmt(area)} <small>km²</small>`;
-  $('hScope').textContent = selMode==='demo' ? `Demo / trial · ${fmt(idx.length)} cells`
-    : (priCut===1?'Tier 1 · densest urban':`Tier 1–${priCut} of ${NT}`);
-  if(mapReady){ paintMap(idx); drawFootprints(idx); renderLegend(); }
-}
+      dm.onclick = e => { if (e.target.id !== 'demoSlider') { selMode = 'demo'; apply(); } };
+      el.appendChild(dm); _rows.demo = dm;
+      for (let t = 1; t <= NT; t++) {
+        const d = document.createElement('div');
+        d.className = 'tier'; d.style.setProperty('--tc', TIER_COL[t - 1]);
+        d.innerHTML = `<span class="dot"></span>
+      <span class="tinfo"><span class="tname">Tier ${t} · ${TIER_DESC[t - 1]}</span><span class="tdesc"></span></span>
+      <span class="tkm">${fmt(D.tier_km2[t])} km²<small>cumulated ${fmt(cumKm(t))} km²</small></span>`;
+        d.onclick = () => { selMode = 'tier'; priCut = t; apply(); };
+        el.appendChild(d); _rows['t' + t] = d;
+      }
+      $('demoSlider').addEventListener('input', ev => { demoKm = +ev.target.value; selMode = 'demo'; $('demoKmLbl').textContent = fmt(demoKm); apply(); });
+    }
+    function apply() {
+      const idx = selectedIdx();
+      _rows.demo.classList.toggle('on', selMode === 'demo');
+      for (let t = 1; t <= NT; t++) _rows['t' + t].classList.toggle('on', selMode === 'tier' && t <= priCut);
+      const area = selMode === 'tier' ? cumKm(priCut) : Math.round(selArea(idx));
+      $('hKm').innerHTML = `${fmt(area)} <small>km²</small>`;
+      $('hScope').textContent = selMode === 'demo' ? `Demo / trial · ${fmt(idx.length)} cells`
+        : (priCut === 1 ? 'Tier 1 · densest urban' : `Tier 1–${priCut} of ${NT}`);
+      if (mapReady) { paintMap(idx); drawFootprints(idx); renderLegend(); }
+    }
 
-// --- map -------------------------------------------------------------------
-const C_OFF='rgba(120,130,145,0.07)';
-function paintMap(idx){
-  if(selMode==='tier'){
-    const byTier=['match',['get','t']];
-    for(let t=1;t<=NT;t++) byTier.push(t, TIER_COL[t-1]);
-    byTier.push(C_OFF);
-    map.setPaintProperty('hexfill','fill-color',['case',['all',['>',['get','t'],0],['<=',['get','t'],priCut]],byTier,C_OFF]);
-    map.setPaintProperty('hexfill','fill-outline-color',['case',['all',['>',['get','t'],0],['<=',['get','t'],priCut]],'rgba(255,255,255,0.10)','rgba(0,0,0,0)']);
-    setSel([]);
-  } else {
-    map.setPaintProperty('hexfill','fill-color',C_OFF);
-    map.setPaintProperty('hexfill','fill-outline-color','rgba(0,0,0,0)');
-    setSel(idx);
-  }
-}
-function setSel(idx){
-  const fc={type:'FeatureCollection',features:idx.map(i=>F[i])};
-  if(map.getSource('sel')) map.getSource('sel').setData(fc);
-  else{ map.addSource('sel',{type:'geojson',data:fc});
-    map.addLayer({id:'selfill',type:'fill',source:'sel',paint:{'fill-color':'#ffcc33','fill-opacity':0.5,'fill-outline-color':'rgba(255,255,255,0.25)'}}); }
-}
-function drawFootprints(idx){
-  const fc={type:'FeatureCollection',features: showFoot?taskingFeatures(idx):[]};
-  if(map.getSource('task')) map.getSource('task').setData(fc);
-  else{ map.addSource('task',{type:'geojson',data:fc});
-    map.addLayer({id:'taskfill',type:'fill',source:'task',paint:{'fill-color':'#ffffff','fill-opacity':0.05}});
-    map.addLayer({id:'taskline',type:'line',source:'task',paint:{'line-color':'#ffffff','line-width':1.4,'line-dasharray':[3,2]}}); }
-}
-function renderLegend(){
-  let h;
-  if(selMode==='tier'){ h='<b>Priority tiers</b>';
-    for(let t=1;t<=NT;t++) h+=`<i style="background:${t<=priCut?TIER_COL[t-1]:'rgba(120,130,145,.35)'}"></i>T${t} `;
-  } else h='<b>Demo / trial</b><i style="background:#ffcc33"></i>Selected';
-  if(showFoot) h+=`<br><i style="background:#fff"></i>Tasking footprint`;
-  $('legend').innerHTML=h;
-}
-function toggleFoot(cb){ showFoot=cb.checked; apply(); }
+    // --- map -------------------------------------------------------------------
+    const C_OFF = 'rgba(120,130,145,0.07)';
+    function paintMap(idx) {
+      if (selMode === 'tier') {
+        const byTier = ['match', ['get', 't']];
+        for (let t = 1; t <= NT; t++) byTier.push(t, TIER_COL[t - 1]);
+        byTier.push(C_OFF);
+        map.setPaintProperty('hexfill', 'fill-color', ['case', ['all', ['>', ['get', 't'], 0], ['<=', ['get', 't'], priCut]], byTier, C_OFF]);
+        map.setPaintProperty('hexfill', 'fill-outline-color', ['case', ['all', ['>', ['get', 't'], 0], ['<=', ['get', 't'], priCut]], 'rgba(255,255,255,0.10)', 'rgba(0,0,0,0)']);
+        setSel([]);
+      } else {
+        map.setPaintProperty('hexfill', 'fill-color', C_OFF);
+        map.setPaintProperty('hexfill', 'fill-outline-color', 'rgba(0,0,0,0)');
+        setSel(idx);
+      }
+    }
+    function setSel(idx) {
+      const fc = { type: 'FeatureCollection', features: idx.map(i => F[i]) };
+      if (map.getSource('sel')) map.getSource('sel').setData(fc);
+      else {
+        map.addSource('sel', { type: 'geojson', data: fc });
+        map.addLayer({ id: 'selfill', type: 'fill', source: 'sel', paint: { 'fill-color': '#ffcc33', 'fill-opacity': 0.5, 'fill-outline-color': 'rgba(255,255,255,0.25)' } });
+      }
+    }
+    function drawFootprints(idx) {
+      const fc = { type: 'FeatureCollection', features: showFoot ? taskingFeatures(idx) : [] };
+      if (map.getSource('task')) map.getSource('task').setData(fc);
+      else {
+        map.addSource('task', { type: 'geojson', data: fc });
+        map.addLayer({ id: 'taskfill', type: 'fill', source: 'task', paint: { 'fill-color': '#ffffff', 'fill-opacity': 0.05 } });
+        map.addLayer({ id: 'taskline', type: 'line', source: 'task', paint: { 'line-color': '#ffffff', 'line-width': 1.4, 'line-dasharray': [3, 2] } });
+      }
+    }
+    function renderLegend() {
+      let h;
+      if (selMode === 'tier') {
+        h = '<b>Priority tiers</b>';
+        for (let t = 1; t <= NT; t++) h += `<i style="background:${t <= priCut ? TIER_COL[t - 1] : 'rgba(120,130,145,.35)'}"></i>T${t} `;
+      } else h = '<b>Demo / trial</b><i style="background:#ffcc33"></i>Selected';
+      if (showFoot) h += `<br><i style="background:#fff"></i>Tasking footprint`;
+      $('legend').innerHTML = h;
+    }
+    function toggleFoot(cb) { showFoot = cb.checked; apply(); }
 
-let mapReady=false;
-// Self-contained style — no external glyphs/sprites/tiles, so nothing on a CDN
-// can break the demo. The hex layer (added on load) is the whole map.
-const map=new maplibregl.Map({container:'map',
-  style:{version:8,sources:{},layers:[{id:'bg',type:'background',paint:{'background-color':'#0a0f16'}}]},
-  center:[107.6,16.2],zoom:5.1,attributionControl:false});
-map.addControl(new maplibregl.NavigationControl({showCompass:false}),'top-right');
-map.on('load',()=>{
-  map.addSource('hex',{type:'geojson',data:D.fc});
-  map.addLayer({id:'hexfill',type:'fill',source:'hex',paint:{'fill-opacity':0.72}});
-  const CLS=['Motorway','Trunk','Primary','Secondary','Tertiary'];
-  const pop=new maplibregl.Popup({closeButton:false,closeOnClick:false});
-  map.on('mousemove','hexfill',e=>{
-    const p=e.features[0].properties;
-    map.getCanvas().style.cursor='pointer';
-    const cls = p.c>=0 ? CLS[p.c] : '<span style="color:var(--mut)">no major road</span>';
-    const pri = p.t>0 ? `Tier ${p.t}` : '<span style="color:var(--mut)">outside envelope</span>';
-    pop.setLngLat(e.lngLat).setHTML(
-      `<b>${provName(D.provinces[p.p])}</b> · ${pri}<br>Built-up: ${(p.b*100).toFixed(0)}% · Roads: ${p.r.toFixed(1)} km<br>Top road class: ${cls}`
-    ).addTo(map);
-  });
-  map.on('mouseleave','hexfill',()=>{map.getCanvas().style.cursor='';pop.remove();});
-  mapReady=true; $('load').style.display='none';
-  apply();
-});
-map.on('error',e=>console.warn('map:',e&&e.error?e.error.message:e));  // non-fatal; don't alarm partners
+    let mapReady = false;
+    // Self-contained style — no external glyphs/sprites/tiles, so nothing on a CDN
+    // can break the demo. The hex layer (added on load) is the whole map.
+    const map = new maplibregl.Map({
+      container: 'map',
+      style: { version: 8, sources: {}, layers: [{ id: 'bg', type: 'background', paint: { 'background-color': '#0a0f16' } }] },
+      center: [107.6, 16.2], zoom: 5.1, attributionControl: false
+    });
+    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+    map.on('load', () => {
+      map.addSource('hex', { type: 'geojson', data: D.fc });
+      map.addLayer({ id: 'hexfill', type: 'fill', source: 'hex', paint: { 'fill-opacity': 0.72 } });
+      const CLS = ['Motorway', 'Trunk', 'Primary', 'Secondary', 'Tertiary'];
+      const pop = new maplibregl.Popup({ closeButton: false, closeOnClick: false });
+      map.on('mousemove', 'hexfill', e => {
+        const p = e.features[0].properties;
+        map.getCanvas().style.cursor = 'pointer';
+        const cls = p.c >= 0 ? CLS[p.c] : '<span style="color:var(--mut)">no major road</span>';
+        const pri = p.t > 0 ? `Tier ${p.t}` : '<span style="color:var(--mut)">outside envelope</span>';
+        pop.setLngLat(e.lngLat).setHTML(
+          `<b>${provName(D.provinces[p.p])}</b> · ${pri}<br>Built-up: ${(p.b * 100).toFixed(0)}% · Roads: ${p.r.toFixed(1)} km<br>Top road class: ${cls}`
+        ).addTo(map);
+      });
+      map.on('mouseleave', 'hexfill', () => { map.getCanvas().style.cursor = ''; pop.remove(); });
+      mapReady = true; $('load').style.display = 'none';
+      apply();
+    });
+    map.on('error', e => console.warn('map:', e && e.error ? e.error.message : e));  // non-fatal; don't alarm partners
 
-$('genTag').textContent=`Vietnam · H3 res-${D.map_res} · ${D.generated}`;
-buildTierList();
-apply();
+    $('genTag').textContent = `Vietnam · H3 res-${D.map_res} · ${D.generated}`;
+    buildTierList();
+    apply();
 
-// --- export ----------------------------------------------------------------
-const CLS=['Motorway','Trunk','Primary','Secondary','Tertiary'];
+    // --- export ----------------------------------------------------------------
+    const CLS = ['Motorway', 'Trunk', 'Primary', 'Secondary', 'Tertiary'];
 
-function selectedFeats(){ return selectedIdx().map(i=>F[i]); }
+    function selectedFeats() { return selectedIdx().map(i => F[i]); }
 
-function selDesc(){ return selMode==='demo' ? {mode:'demo_trial',requested_km2:demoKm} : {mode:'priority_tiers',cutoff:'T1–T'+priCut+' of '+NT}; }
+    function selDesc() { return selMode === 'demo' ? { mode: 'demo_trial', requested_km2: demoKm } : { mode: 'priority_tiers', cutoff: 'T1–T' + priCut + ' of ' + NT }; }
 
-function buildSummary(){
-  const idx=selectedIdx(), feats=idx.map(i=>F[i]);
-  const byProv={};
-  feats.forEach(f=>{ const nm=D.provinces[f.properties.p];
-    (byProv[nm]||(byProv[nm]={km2:0})).km2+=ringAreaKm2(f.geometry.coordinates[0]); });
-  for(const k in byProv) byProv[k].km2=Math.round(byProv[k].km2);
-  const out={
-    generated:new Date().toISOString().slice(0,10),
-    source:'TASCO Mapping Division — Satellite Coverage Selector',
-    selection:selDesc(),
-    total_km2: selMode==='tier'?cumKm(priCut):Math.round(selArea(idx)),
-    cells:idx.length,
-    by_province:byProv
-  };
-  return JSON.stringify(out,null,2);
-}
+    function buildSummary() {
+      const idx = selectedIdx(), feats = idx.map(i => F[i]);
+      const byProv = {};
+      feats.forEach(f => {
+        const nm = D.provinces[f.properties.p];
+        (byProv[nm] || (byProv[nm] = { km2: 0 })).km2 += ringAreaKm2(f.geometry.coordinates[0]);
+      });
+      for (const k in byProv) byProv[k].km2 = Math.round(byProv[k].km2);
+      const out = {
+        generated: new Date().toISOString().slice(0, 10),
+        source: 'TASCO Mapping Division — Satellite Coverage Selector',
+        selection: selDesc(),
+        total_km2: selMode === 'tier' ? cumKm(priCut) : Math.round(selArea(idx)),
+        cells: idx.length,
+        by_province: byProv
+      };
+      return JSON.stringify(out, null, 2);
+    }
 
-function buildGeoJSON(){
-  const feats=selectedFeats().map(f=>{
-    const p=f.properties;
-    return {...f, properties:{
-      province:D.provinces[p.p],
-      tier:p.t?'T'+p.t:null,
-      built_up_pct:Math.round(p.b*100),
-      road_km:Math.round(p.r*10)/10,
-      top_road_class:p.c>=0?CLS[p.c]:null
-    }};
-  });
-  const out={
-    type:'FeatureCollection',
-    metadata:{
-      generated:new Date().toISOString().slice(0,10),
-      source:'TASCO Mapping Division — Satellite Coverage Selector',
-      selection:selDesc(), total_cells:feats.length
-    },
-    features:feats
-  };
-  return JSON.stringify(out);
-}
+    function buildGeoJSON() {
+      const feats = selectedFeats().map(f => {
+        const p = f.properties;
+        return {
+          ...f, properties: {
+            province: D.provinces[p.p],
+            tier: p.t ? 'T' + p.t : null,
+            built_up_pct: Math.round(p.b * 100),
+            road_km: Math.round(p.r * 10) / 10,
+            top_road_class: p.c >= 0 ? CLS[p.c] : null
+          }
+        };
+      });
+      const out = {
+        type: 'FeatureCollection',
+        metadata: {
+          generated: new Date().toISOString().slice(0, 10),
+          source: 'TASCO Mapping Division — Satellite Coverage Selector',
+          selection: selDesc(), total_cells: feats.length
+        },
+        features: feats
+      };
+      return JSON.stringify(out);
+    }
 
-// single-zip export — native CompressionStream, no library (CSP forbids externals)
-const CRCT=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c;}return t;})();
-function crc32(u8){let c=~0;for(let i=0;i<u8.length;i++)c=CRCT[(c^u8[i])&255]^(c>>>8);return(~c)>>>0;}
-async function deflateRaw(u8){
-  const cs=new CompressionStream('deflate-raw');
-  const blob=await new Response(new Blob([u8]).stream().pipeThrough(cs)).blob();
-  return new Uint8Array(await blob.arrayBuffer());
-}
-async function makeZip(files){                     // files=[{name,data:Uint8Array}]
-  const enc=new TextEncoder(), body=[], central=[]; let off=0;
-  for(const f of files){
-    const nb=enc.encode(f.name), crc=crc32(f.data), comp=await deflateRaw(f.data);
-    const lh=new DataView(new ArrayBuffer(30));
-    lh.setUint32(0,0x04034b50,true); lh.setUint16(4,20,true); lh.setUint16(8,8,true);
-    lh.setUint32(14,crc,true); lh.setUint32(18,comp.length,true);
-    lh.setUint32(22,f.data.length,true); lh.setUint16(26,nb.length,true);
-    body.push(new Uint8Array(lh.buffer),nb,comp);
-    const ch=new DataView(new ArrayBuffer(46));
-    ch.setUint32(0,0x02014b50,true); ch.setUint16(4,20,true); ch.setUint16(6,20,true);
-    ch.setUint16(10,8,true); ch.setUint32(16,crc,true); ch.setUint32(20,comp.length,true);
-    ch.setUint32(24,f.data.length,true); ch.setUint16(28,nb.length,true); ch.setUint32(42,off,true);
-    central.push(new Uint8Array(ch.buffer),nb);
-    off+=30+nb.length+comp.length;
-  }
-  let cdLen=0; central.forEach(c=>cdLen+=c.length);
-  const eo=new DataView(new ArrayBuffer(22));
-  eo.setUint32(0,0x06054b50,true); eo.setUint16(8,files.length,true); eo.setUint16(10,files.length,true);
-  eo.setUint32(12,cdLen,true); eo.setUint32(16,off,true);
-  return new Blob([...body,...central,new Uint8Array(eo.buffer)],{type:'application/zip'});
-}
-// --- tasking footprints: snap hexes to a coarse grid, bbox each cell (satellites
-//     image strips/scenes; grid caps footprint size so nothing spans the country) --
-const FOOT_GRID=0.5;                          // tasking-grid cell (deg) ≈ 55 km max footprint
-function gridBuckets(idxs){
-  const b=new Map();
-  for(const i of idxs){ const v=F[i].geometry.coordinates[0][0];
-    const k=Math.floor(v[0]/FOOT_GRID)+'_'+Math.floor(v[1]/FOOT_GRID);
-    (b.get(k)||b.set(k,[]).get(k)).push(i); }
-  return [...b.values()];
-}
-function bboxRect(cl){                        // axis-aligned bbox, padded to min footprint
-  let x0=180,y0=90,x1=-180,y1=-90;
-  cl.forEach(i=>F[i].geometry.coordinates[0].forEach(([x,y])=>{if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y;}));
-  const cla=Math.cos((y0+y1)/2*Math.PI/180), dLat=MIN_FOOT_KM/110.57, dLon=MIN_FOOT_KM/(111.32*cla);
-  if(y1-y0<dLat){const c=(y0+y1)/2;y0=c-dLat/2;y1=c+dLat/2;}
-  if(x1-x0<dLon){const c=(x0+x1)/2;x0=c-dLon/2;x1=c+dLon/2;}
-  return [x0,y0,x1,y1];
-}
-function rectKm2(b){const cla=Math.cos((b[1]+b[3])/2*Math.PI/180);return (b[2]-b[0])*111.32*cla*(b[3]-b[1])*110.57;}
-// exact area of the union of axis-aligned rects (dedup: overlaps counted once)
-function rectUnionKm2(rects){
-  if(!rects.length) return 0;
-  const xs=[...new Set(rects.flatMap(r=>[r[0],r[2]]))].sort((a,b)=>a-b); let km=0;
-  for(let i=0;i<xs.length-1;i++){ const x0=xs[i],x1=xs[i+1],xm=(x0+x1)/2,w=x1-x0;
-    const iv=rects.filter(r=>r[0]<=xm&&xm<r[2]).map(r=>[r[1],r[3]]).sort((a,b)=>a[0]-b[0]);
-    let cs=null,ce=null; const add=()=>{ if(ce!==null){ const mid=(cs+ce)/2; km+=w*111.32*Math.cos(mid*Math.PI/180)*(ce-cs)*110.57; } };
-    for(const [s,e] of iv){ if(ce===null){cs=s;ce=e;} else if(s>ce){add();cs=s;ce=e;} else ce=Math.max(ce,e); }
-    add();
-  }
-  return km;
-}
-function taskingFeatures(idxs){
-  // one bounded bbox per occupied grid cell — footprints can't span the country
-  return gridBuckets(idxs).map((cl,k)=>{
-    const b=bboxRect(cl), foot=rectKm2(b);
-    const target=cl.reduce((s,i)=>s+ringAreaKm2(F[i].geometry.coordinates[0]),0);
-    const tiers=[...new Set(cl.map(i=>F[i].properties.t))].sort((a,b)=>a-b).map(t=>'T'+t);
-    return {type:'Feature',properties:{footprint_id:k+1,cells:cl.length,
-      target_km2:Math.round(target),footprint_km2:Math.round(foot),
-      fill_pct:Math.round(target/foot*100),tiers:tiers.join(',')},
-      geometry:{type:'Polygon',coordinates:[[[b[0],b[1]],[b[2],b[1]],[b[2],b[3]],[b[0],b[3]],[b[0],b[1]]]]}};
-  });
-}
-function buildTaskingGeoJSON(){
-  const feats=taskingFeatures(selectedIdx());
-  const tgt=feats.reduce((s,f)=>s+f.properties.target_km2,0);
-  const rects=feats.map(f=>{const c=f.geometry.coordinates[0];return [c[0][0],c[0][1],c[2][0],c[2][1]];});
-  const dedup=Math.round(rectUnionKm2(rects));           // billable area, overlaps once
-  return JSON.stringify({type:'FeatureCollection',metadata:{
-    generated:new Date().toISOString().slice(0,10),
-    source:'TASCO Mapping Division — tasking footprints',
-    note:'One bbox scene per ~55 km tasking-grid cell for NEW acquisition (satellites image strips/scenes, not hexes). target_km2 = priority cells inside; deduped_footprint_km2 = union area of all footprints (overlaps billed once).',
-    selection:selDesc(), footprints:feats.length,
-    total_target_km2:tgt, deduped_footprint_km2:dedup, overhead_pct:tgt?Math.round((dedup/tgt-1)*100):0},
-    features:feats});
-}
-async function exportZip(){
-  const enc=new TextEncoder();
-  const blob=await makeZip([
-    {name:'tasco-aoi-summary.json',data:enc.encode(buildSummary())},
-    {name:'tasco-aoi-archive-mask.geojson',data:enc.encode(buildGeoJSON())},
-    {name:'tasco-aoi-tasking-footprints.geojson',data:enc.encode(buildTaskingGeoJSON())},
-  ]);
-  const url=URL.createObjectURL(blob), a=document.createElement('a');
-  a.href=url; a.download='tasco-aoi.zip'; a.click();
-  setTimeout(()=>URL.revokeObjectURL(url),1000);
-}
+    // single-zip export — native CompressionStream, no library (CSP forbids externals)
+    const CRCT = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++)c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c; } return t; })();
+    function crc32(u8) { let c = ~0; for (let i = 0; i < u8.length; i++)c = CRCT[(c ^ u8[i]) & 255] ^ (c >>> 8); return (~c) >>> 0; }
+    async function deflateRaw(u8) {
+      const cs = new CompressionStream('deflate-raw');
+      const blob = await new Response(new Blob([u8]).stream().pipeThrough(cs)).blob();
+      return new Uint8Array(await blob.arrayBuffer());
+    }
+    async function makeZip(files) {                     // files=[{name,data:Uint8Array}]
+      const enc = new TextEncoder(), body = [], central = []; let off = 0;
+      for (const f of files) {
+        const nb = enc.encode(f.name), crc = crc32(f.data), comp = await deflateRaw(f.data);
+        const lh = new DataView(new ArrayBuffer(30));
+        lh.setUint32(0, 0x04034b50, true); lh.setUint16(4, 20, true); lh.setUint16(8, 8, true);
+        lh.setUint32(14, crc, true); lh.setUint32(18, comp.length, true);
+        lh.setUint32(22, f.data.length, true); lh.setUint16(26, nb.length, true);
+        body.push(new Uint8Array(lh.buffer), nb, comp);
+        const ch = new DataView(new ArrayBuffer(46));
+        ch.setUint32(0, 0x02014b50, true); ch.setUint16(4, 20, true); ch.setUint16(6, 20, true);
+        ch.setUint16(10, 8, true); ch.setUint32(16, crc, true); ch.setUint32(20, comp.length, true);
+        ch.setUint32(24, f.data.length, true); ch.setUint16(28, nb.length, true); ch.setUint32(42, off, true);
+        central.push(new Uint8Array(ch.buffer), nb);
+        off += 30 + nb.length + comp.length;
+      }
+      let cdLen = 0; central.forEach(c => cdLen += c.length);
+      const eo = new DataView(new ArrayBuffer(22));
+      eo.setUint32(0, 0x06054b50, true); eo.setUint16(8, files.length, true); eo.setUint16(10, files.length, true);
+      eo.setUint32(12, cdLen, true); eo.setUint32(16, off, true);
+      return new Blob([...body, ...central, new Uint8Array(eo.buffer)], { type: 'application/zip' });
+    }
+    // --- tasking footprints: snap hexes to a coarse grid, bbox each cell (satellites
+    //     image strips/scenes; grid caps footprint size so nothing spans the country) --
+    function gridBuckets(idxs) {
+      const b = new Map();
+      for (const i of idxs) {
+        const v = F[i].geometry.coordinates[0][0];
+        const k = Math.floor(v[0] / FOOT_GRID) + '_' + Math.floor(v[1] / FOOT_GRID);
+        (b.get(k) || b.set(k, []).get(k)).push(i);
+      }
+      return [...b.values()];
+    }
+    function bboxRect(cl) {                        // axis-aligned bbox, padded to min footprint
+      let x0 = 180, y0 = 90, x1 = -180, y1 = -90;
+      cl.forEach(i => F[i].geometry.coordinates[0].forEach(([x, y]) => { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }));
+      const cla = Math.cos((y0 + y1) / 2 * Math.PI / 180), dLat = MIN_FOOT_KM / 110.57, dLon = MIN_FOOT_KM / (111.32 * cla);
+      if (y1 - y0 < dLat) { const c = (y0 + y1) / 2; y0 = c - dLat / 2; y1 = c + dLat / 2; }
+      if (x1 - x0 < dLon) { const c = (x0 + x1) / 2; x0 = c - dLon / 2; x1 = c + dLon / 2; }
+      return [x0, y0, x1, y1];
+    }
+    function rectKm2(b) { const cla = Math.cos((b[1] + b[3]) / 2 * Math.PI / 180); return (b[2] - b[0]) * 111.32 * cla * (b[3] - b[1]) * 110.57; }
+    // exact area of the union of axis-aligned rects (dedup: overlaps counted once)
+    function rectUnionKm2(rects) {
+      if (!rects.length) return 0;
+      const xs = [...new Set(rects.flatMap(r => [r[0], r[2]]))].sort((a, b) => a - b); let km = 0;
+      for (let i = 0; i < xs.length - 1; i++) {
+        const x0 = xs[i], x1 = xs[i + 1], xm = (x0 + x1) / 2, w = x1 - x0;
+        const iv = rects.filter(r => r[0] <= xm && xm < r[2]).map(r => [r[1], r[3]]).sort((a, b) => a[0] - b[0]);
+        let cs = null, ce = null; const add = () => { if (ce !== null) { const mid = (cs + ce) / 2; km += w * 111.32 * Math.cos(mid * Math.PI / 180) * (ce - cs) * 110.57; } };
+        for (const [s, e] of iv) { if (ce === null) { cs = s; ce = e; } else if (s > ce) { add(); cs = s; ce = e; } else ce = Math.max(ce, e); }
+        add();
+      }
+      return km;
+    }
+    function taskingFeatures(idxs) {
+      // one bounded bbox per occupied grid cell — footprints can't span the country
+      return gridBuckets(idxs).map((cl, k) => {
+        const b = bboxRect(cl), foot = rectKm2(b);
+        const target = cl.reduce((s, i) => s + ringAreaKm2(F[i].geometry.coordinates[0]), 0);
+        const tiers = [...new Set(cl.map(i => F[i].properties.t))].sort((a, b) => a - b).map(t => 'T' + t);
+        return {
+          type: 'Feature', properties: {
+            footprint_id: k + 1, cells: cl.length,
+            target_km2: Math.round(target), footprint_km2: Math.round(foot),
+            fill_pct: Math.round(target / foot * 100), tiers: tiers.join(',')
+          },
+          geometry: { type: 'Polygon', coordinates: [[[b[0], b[1]], [b[2], b[1]], [b[2], b[3]], [b[0], b[3]], [b[0], b[1]]]] }
+        };
+      });
+    }
+    function buildTaskingGeoJSON() {
+      const feats = taskingFeatures(selectedIdx());
+      const tgt = feats.reduce((s, f) => s + f.properties.target_km2, 0);
+      const rects = feats.map(f => { const c = f.geometry.coordinates[0]; return [c[0][0], c[0][1], c[2][0], c[2][1]]; });
+      const dedup = Math.round(rectUnionKm2(rects));           // billable area, overlaps once
+      return JSON.stringify({
+        type: 'FeatureCollection', metadata: {
+          generated: new Date().toISOString().slice(0, 10),
+          source: 'TASCO Mapping Division — tasking footprints',
+          note: 'One bbox scene per ~55 km tasking-grid cell for NEW acquisition (satellites image strips/scenes, not hexes). target_km2 = priority cells inside; deduped_footprint_km2 = union area of all footprints (overlaps billed once).',
+          selection: selDesc(), footprints: feats.length,
+          total_target_km2: tgt, deduped_footprint_km2: dedup, overhead_pct: tgt ? Math.round((dedup / tgt - 1) * 100) : 0
+        },
+        features: feats
+      });
+    }
+    async function exportZip() {
+      const enc = new TextEncoder();
+      const blob = await makeZip([
+        { name: 'tasco-aoi-summary.json', data: enc.encode(buildSummary()) },
+        { name: 'tasco-aoi-archive-mask.geojson', data: enc.encode(buildGeoJSON()) },
+        { name: 'tasco-aoi-tasking-footprints.geojson', data: enc.encode(buildTaskingGeoJSON()) },
+      ]);
+      const url = URL.createObjectURL(blob), a = document.createElement('a');
+      a.href = url; a.download = 'tasco-aoi.zip'; a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
 
-</script>
+  </script>
 </body>
+
 </html>
