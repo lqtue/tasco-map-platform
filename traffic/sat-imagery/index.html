@@ -129,7 +129,7 @@
   </main>
 </div>
 
-<script src="data.js?v=7"></script>
+<script src="data.js?v=8"></script>
 <script>
 const D = window.DATA;
 const $ = id => document.getElementById(id);
@@ -146,7 +146,7 @@ const findProv = subs => D.provinces.map((p,i)=>({n:p.toLowerCase(),i}))
 // --- selection model: demo/trial (slider) + 4 rule-based priority tiers ------
 const NT = (D.tier_km2||[]).length-1;                 // 4 tiers
 const TIER_COL=['#ff5b4a','#ff9838','#ffcf3f','#7bc96f'];
-const TIER_DESC=['Densest urban','Dense urban + major road','Urban + primary','Rest of envelope'];
+const TIER_DESC=['Densest urban','Dense urban','Urban','Rest + road corridors'];
 const MIN_FOOT_KM=5;                                  // min tasking-footprint side (km)
 const DEMO_MIN=50, DEMO_MAX=1000;
 
@@ -362,16 +362,15 @@ async function makeZip(files){                     // files=[{name,data:Uint8Arr
   eo.setUint32(12,cdLen,true); eo.setUint32(16,off,true);
   return new Blob([...body,...central,new Uint8Array(eo.buffer)],{type:'application/zip'});
 }
-// --- tasking footprints: bbox per contiguous cluster (satellites image strips) --
-function clusterFeats(idxs){                 // union-find over shared-edge adjacency
-  const edge=new Map();
-  idxs.forEach(i=>{const ring=F[i].geometry.coordinates[0];
-    for(let j=0;j<ring.length-1;j++){const a=vk(ring[j]),b=vk(ring[j+1]),k=a<b?a+'|'+b:b+'|'+a;(edge.get(k)||edge.set(k,[]).get(k)).push(i);}});
-  const par=new Map(); idxs.forEach(i=>par.set(i,i));
-  const find=x=>{while(par.get(x)!==x){par.set(x,par.get(par.get(x)));x=par.get(x);}return x;};
-  for(const cells of edge.values()) for(let m=1;m<cells.length;m++) par.set(find(cells[0]),find(cells[m]));
-  const g=new Map(); idxs.forEach(i=>{const r=find(i);(g.get(r)||g.set(r,[]).get(r)).push(i);});
-  return [...g.values()];
+// --- tasking footprints: snap hexes to a coarse grid, bbox each cell (satellites
+//     image strips/scenes; grid caps footprint size so nothing spans the country) --
+const FOOT_GRID=0.5;                          // tasking-grid cell (deg) ≈ 55 km max footprint
+function gridBuckets(idxs){
+  const b=new Map();
+  for(const i of idxs){ const v=F[i].geometry.coordinates[0][0];
+    const k=Math.floor(v[0]/FOOT_GRID)+'_'+Math.floor(v[1]/FOOT_GRID);
+    (b.get(k)||b.set(k,[]).get(k)).push(i); }
+  return [...b.values()];
 }
 function bboxRect(cl){                        // axis-aligned bbox, padded to min footprint
   let x0=180,y0=90,x1=-180,y1=-90;
@@ -382,7 +381,6 @@ function bboxRect(cl){                        // axis-aligned bbox, padded to mi
   return [x0,y0,x1,y1];
 }
 function rectKm2(b){const cla=Math.cos((b[1]+b[3])/2*Math.PI/180);return (b[2]-b[0])*111.32*cla*(b[3]-b[1])*110.57;}
-const rectContains=(a,b)=>a[0]<=b[0]&&a[1]<=b[1]&&a[2]>=b[2]&&a[3]>=b[3];
 // exact area of the union of axis-aligned rects (dedup: overlaps counted once)
 function rectUnionKm2(rects){
   if(!rects.length) return 0;
@@ -396,19 +394,15 @@ function rectUnionKm2(rects){
   return km;
 }
 function taskingFeatures(idxs){
-  // tight bbox per contiguous cluster (no cascade merge — that balloons on scattered AOIs)
-  let recs=clusterFeats(idxs).map(cl=>({
-    b:bboxRect(cl),
-    target:cl.reduce((s,i)=>s+ringAreaKm2(F[i].geometry.coordinates[0]),0),
-    cells:cl.length, tiers:new Set(cl.map(i=>F[i].properties.t))
-  }));
-  // dedup: drop any footprint fully contained in a larger one
-  recs=recs.filter((r,i)=>!recs.some((o,j)=>j!==i&&rectContains(o.b,r.b)&&rectKm2(o.b)>rectKm2(r.b)));
-  return recs.map((r,k)=>{ const foot=rectKm2(r.b), tiers=[...r.tiers].sort((a,b)=>a-b).map(t=>'P'+t);
-    return {type:'Feature',properties:{footprint_id:k+1,cells:r.cells,
-      target_km2:Math.round(r.target),footprint_km2:Math.round(foot),
-      fill_pct:Math.round(r.target/foot*100),priority_tiers:tiers.join(',')},
-      geometry:{type:'Polygon',coordinates:[[[r.b[0],r.b[1]],[r.b[2],r.b[1]],[r.b[2],r.b[3]],[r.b[0],r.b[3]],[r.b[0],r.b[1]]]]}};
+  // one bounded bbox per occupied grid cell — footprints can't span the country
+  return gridBuckets(idxs).map((cl,k)=>{
+    const b=bboxRect(cl), foot=rectKm2(b);
+    const target=cl.reduce((s,i)=>s+ringAreaKm2(F[i].geometry.coordinates[0]),0);
+    const tiers=[...new Set(cl.map(i=>F[i].properties.t))].sort((a,b)=>a-b).map(t=>'T'+t);
+    return {type:'Feature',properties:{footprint_id:k+1,cells:cl.length,
+      target_km2:Math.round(target),footprint_km2:Math.round(foot),
+      fill_pct:Math.round(target/foot*100),tiers:tiers.join(',')},
+      geometry:{type:'Polygon',coordinates:[[[b[0],b[1]],[b[2],b[1]],[b[2],b[3]],[b[0],b[3]],[b[0],b[1]]]]}};
   });
 }
 function buildTaskingGeoJSON(){
@@ -419,8 +413,8 @@ function buildTaskingGeoJSON(){
   return JSON.stringify({type:'FeatureCollection',metadata:{
     generated:new Date().toISOString().slice(0,10),
     source:'TASCO Mapping Division — tasking footprints',
-    note:'Bbox strip per contiguous cluster for NEW acquisition (satellites image strips/scenes, not hexes). target_km2 = priority cells inside; deduped_footprint_km2 = union area of all footprints (overlaps billed once).',
-    priority_cutoff:'P1–P'+priCut+' of '+NT, footprints:feats.length,
+    note:'One bbox scene per ~55 km tasking-grid cell for NEW acquisition (satellites image strips/scenes, not hexes). target_km2 = priority cells inside; deduped_footprint_km2 = union area of all footprints (overlaps billed once).',
+    selection:selDesc(), footprints:feats.length,
     total_target_km2:tgt, deduped_footprint_km2:dedup, overhead_pct:tgt?Math.round((dedup/tgt-1)*100):0},
     features:feats});
 }

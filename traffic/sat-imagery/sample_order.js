@@ -54,14 +54,15 @@ D.sample_order = order;
 D.sample_pri = pri;
 
 // --- priority tiers (for the selector): explicit rule-based bins -------------
-// 1 densest urban · 2 dense urban + major road · 3 urban + primary · 4 rest
+// urban-density steps for 1-3 (compact city blobs), roads land in "rest" (tier 4)
+// — roads are linear across VN, so binning them early balloons both area and footprints.
 const N = 4;
-const T1B = 0.30, T2B = 0.15, T3B = 0.08;   // built-up thresholds (tunable)
+const T1B = 0.30, T2B = 0.20, T3B = 0.10;   // built-up thresholds (tunable)
 const tierRule = i => { const p = F[i].properties;
-  if (p.b >= T1B) return 1;                                 // densest urban
-  if (p.b >= T2B || (p.c >= 0 && p.c <= 1)) return 2;       // dense urban OR motorway/trunk
-  if (p.b >= T3B || (p.c >= 0 && p.c <= 2)) return 3;       // urban OR primary
-  return 4;                                                 // rest of the candidate envelope
+  if (p.b >= T1B) return 1;    // densest urban
+  if (p.b >= T2B) return 2;    // dense urban
+  if (p.b >= T3B) return 3;    // urban
+  return 4;                    // rest of the envelope: fringe urban + all road corridors + islands
 };
 const ringArea = ring => {          // spherical excess km²
   const R = 6371.0088, d = Math.PI / 180; let s = 0;
@@ -93,7 +94,7 @@ const withRoad = order.filter(i => F[i].properties.c >= 0).length;
 const keyN = order.filter(i => F[i].properties.i).length;
 console.log(`candidates=${cand.length} scored=${scored.length} baked=${order.length}`);
 console.log(`pri[top]=${pri[0]} pri[last]=${pri[pri.length - 1]} descending=${dsc} provinces=${provs} with_road=${withRoad} key_cells=${keyN}`);
-const TL = ['', 'densest urban', 'dense urban + major road', 'urban + primary', 'rest'];
+const TL = ['', 'densest urban', 'dense urban', 'urban', 'rest + roads'];
 console.log('tiers:');
 for (let t = 1; t <= N; t++) console.log(`  T${t} ${TL[t]}: ${tierN[t]} cells, ${D.tier_km2[t].toLocaleString()} km²  (cumulative ${D.tier_km2.slice(1, t + 1).reduce((a, b) => a + b, 0).toLocaleString()} km²)`);
 console.assert(dsc, 'order not descending by priority');
