@@ -76,6 +76,12 @@
   .tier .tdesc{font-size:10px;color:var(--mut)}
   .tier .tkm{font-size:12.5px;font-weight:700;color:var(--ink2);font-variant-numeric:tabular-nums;text-align:right}
   .tier .tkm small{display:block;font-size:9.5px;color:var(--mut);font-weight:500}
+  .metric-row{display:flex;justify-content:space-between;font-size:12px;color:var(--ink2);margin-bottom:5px}
+  .metric-row b{color:#fff;font-variant-numeric:tabular-nums}
+  .rmix{display:flex;height:9px;border-radius:5px;overflow:hidden;margin:9px 0 6px;border:1px solid var(--line)}
+  .rmix span{display:block;min-width:2px}
+  .rmix-legend{display:flex;flex-wrap:wrap;gap:9px;font-size:10px;color:var(--mut)}
+  .rmix-legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px}
 </style>
 </head>
 <body>
@@ -92,13 +98,19 @@
     <div class="hero">
       <div class="hero-label">Selected imaging area</div>
       <div class="hero-km" id="hKm">0 <small>km²</small></div>
+      <div class="hero-usd" id="hUsd"></div>
       <div class="hero-scope" id="hScope">Loading…</div>
     </div>
 
     <div class="section">
       <div class="sec-title">Priority selection — image the top tiers first</div>
       <div id="tierList"></div>
-      <div class="note">Every hex is scored on built-up density + road access + key zones, then binned into priority tiers. Picking a tier includes all higher tiers; the total is the cumulative km² to image.</div>
+      <div class="note">Every hex is scored on built-up density + road access + key zones, then binned into priority tiers. Picking a tier includes all higher tiers; total = cumulative km² + est. cost.</div>
+    </div>
+
+    <div class="section">
+      <div class="sec-title">Selection metrics</div>
+      <div id="metrics"></div>
     </div>
 
     <div class="section">
@@ -121,20 +133,19 @@
       <div class="sec-title">Export AOI for partners</div>
       <button class="exp-btn" onclick="exportZip()">
         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M8 2v3M8 7v2M8 11v3"/></svg>
-        Download AOI bundle — summary + hex polygons
+        Download AOI bundle — summary + mask + tasking strips
         <span class="ext">ZIP</span>
       </button>
-      <button class="exp-btn" onclick="exportSummary()">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 8h6M8 5v6"/></svg>
-        AOI Summary — km² by tier &amp; province
-        <span class="ext">JSON</span>
+      <button class="exp-btn" onclick="previewTasking()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 16 16"><rect x="1.5" y="4" width="13" height="4" rx="1"/><rect x="1.5" y="9.5" width="9" height="3.5" rx="1"/></svg>
+        Preview tasking footprints (strips)
       </button>
       <button class="exp-btn" onclick="exportGeoJSON()">
         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 16 16"><polygon points="8,2 14,6 14,10 8,14 2,10 2,6"/><path d="M8 2v12M2 6l12 0M2 10l12 0"/></svg>
-        AOI Cells — hex polygons for archive lookup
+        AOI Cells — hex mask for archive lookup
         <span class="ext">GeoJSON</span>
       </button>
-      <div class="note">Send to providers so they can check archive coverage and quote pricing against your exact selection.</div>
+      <div class="note">Bundle = pricing summary + hex <b>archive mask</b> (coverage lookup) + <b>tasking footprints</b> (bbox strips per cluster, for new acquisition — satellites shoot strips, not hexes).</div>
     </div>
   </aside>
 
@@ -169,7 +180,33 @@ let priCut = 1;                                        // include tiers 1..priCu
 // attach the baked tier to each hex feature so the map can paint by it
 D.fc.features.forEach((f,i)=>{ f.properties.t = D.htier[i]||0; });
 
-const cumKm = cut => { let s=0; for(let t=1;t<=cut;t++) s+=D.tier_km2[t]||0; return s; };
+const F = D.fc.features;
+const ROAD_CLS=['Motorway','Trunk','Primary','Secondary','Tertiary'];
+const TIER_PRICE=[3.0,2.5,2.0,1.5,1.2];   // USD/km² per priority tier — PLACEHOLDER, set to real quotes
+const MIN_FOOT_KM=5;                      // min side of a tasking footprint (km) — no sliver orders
+
+const cumKm  = cut => { let s=0; for(let t=1;t<=cut;t++) s+=D.tier_km2[t]||0; return s; };
+const tierCost = t => (D.tier_km2[t]||0)*(TIER_PRICE[t-1]||0);
+const cumCost  = cut => { let s=0; for(let t=1;t<=cut;t++) s+=tierCost(t); return s; };
+const usd = n => '$'+Math.round(n).toLocaleString('en-US');
+const selectedIdx = () => { const o=[]; for(let i=0;i<F.length;i++){const t=F[i].properties.t; if(t>0&&t<=priCut)o.push(i);} return o; };
+
+function renderMetrics(){
+  const idx=selectedIdx(), n=idx.length;
+  if(!n){ $('metrics').innerHTML='<div class="note">No cells selected.</div>'; return; }
+  let bsum=0; const cls=new Array(6).fill(0);      // 0-4 = road classes, 5 = urban/no major road
+  idx.forEach(i=>{ const p=F[i].properties; bsum+=p.b; cls[p.c>=0?p.c:5]++; });
+  const COLS=['#ff5b4a','#ff9838','#ffcf3f','#7bc96f','#4c8dff'];
+  const bar=ROAD_CLS.map((nm,c)=>({nm,c,n:cls[c]})).filter(o=>o.n>0);
+  let h=`<div class="metric-row"><span>Avg built-up density</span><b>${Math.round(bsum/n*100)}%</b></div>`
+      +`<div class="metric-row"><span>Cells / footprint area</span><b>${fmt(n)} · ${fmt(cumKm(priCut))} km²</b></div>`
+      +`<div class="metric-row"><span>Est. cost</span><b>${usd(cumCost(priCut))}</b></div>`;
+  h+='<div class="rmix">'+bar.map(o=>`<span style="flex:${o.n};background:${COLS[o.c]}"></span>`).join('')
+    +(cls[5]?`<span style="flex:${cls[5]};background:#3a4453"></span>`:'')+'</div>';
+  h+='<div class="rmix-legend">'+bar.map(o=>`<span><i style="background:${COLS[o.c]}"></i>${o.nm} ${Math.round(o.n/n*100)}%</span>`).join('')
+    +(cls[5]?`<span><i style="background:#3a4453"></i>Urban, no major road ${Math.round(cls[5]/n*100)}%</span>`:'')+'</div>';
+  $('metrics').innerHTML=h;
+}
 
 // --- render ----------------------------------------------------------------
 function renderTiers(){
@@ -179,14 +216,16 @@ function renderTiers(){
     d.className='tier'+(t<=priCut?' on':''); d.style.setProperty('--tc',TIER_COL[t-1]);
     d.innerHTML=`<span class="dot"></span>
       <span class="tinfo"><span class="tname">Priority ${t}</span><span class="tdesc">${TIER_DESC[t-1]||''}</span></span>
-      <span class="tkm">${fmt(D.tier_km2[t])} km²<small>cum ${fmt(cumKm(t))}</small></span>`;
+      <span class="tkm">${fmt(D.tier_km2[t])} km²<small>${usd(tierCost(t))} · cum ${fmt(cumKm(t))} km²</small></span>`;
     d.onclick=()=>{ priCut=t; update(); };
     el.appendChild(d);
   }
 }
 function update(){
   renderTiers();
+  renderMetrics();
   $('hKm').innerHTML=`${fmt(cumKm(priCut))} <small>km²</small>`;
+  $('hUsd').textContent=`${usd(cumCost(priCut))} est.`;
   $('hScope').textContent = priCut===1 ? 'Priority 1 only' : `Priority 1–${priCut} of ${NT}`;
   if(mapReady){ paintMap(); renderLegend(); }
 }
@@ -253,12 +292,14 @@ function buildSummary(){
     byProv[nm].km2+=ringAreaKm2(f.geometry.coordinates[0]); });
   for(const k in byProv) byProv[k].km2=Math.round(byProv[k].km2);
   const by_priority={};
-  for(let t=1;t<=priCut;t++) by_priority['P'+t]={km2:D.tier_km2[t],cumulative_km2:cumKm(t)};
+  for(let t=1;t<=priCut;t++) by_priority['P'+t]={km2:D.tier_km2[t],usd_per_km2:TIER_PRICE[t-1],est_usd:Math.round(tierCost(t)),cumulative_km2:cumKm(t)};
   const out={
     generated:new Date().toISOString().slice(0,10),
     source:'TASCO Mapping Division — Satellite Coverage Selector',
     settings:{ priority_cutoff:'P1–P'+priCut+' of '+NT, scoring:'0.6·density_percentile + 0.3·road_class + 0.1·key_area' },
     total_km2:cumKm(priCut),
+    total_est_usd:Math.round(cumCost(priCut)),
+    pricing_note:'Per-tier USD/km² are placeholders — replace with negotiated archive/tasking rates. Cost is on hex-mask km²; tasking footprints (bbox) bill larger, see tasking-footprints file.',
     by_priority,
     by_province:byProv
   };
@@ -321,11 +362,61 @@ async function makeZip(files){                     // files=[{name,data:Uint8Arr
   eo.setUint32(12,cdLen,true); eo.setUint32(16,off,true);
   return new Blob([...body,...central,new Uint8Array(eo.buffer)],{type:'application/zip'});
 }
+// --- tasking footprints: bbox per contiguous cluster (satellites image strips) --
+function clusterFeats(idxs){                 // union-find over shared-edge adjacency
+  const edge=new Map();
+  idxs.forEach(i=>{const ring=F[i].geometry.coordinates[0];
+    for(let j=0;j<ring.length-1;j++){const a=vk(ring[j]),b=vk(ring[j+1]),k=a<b?a+'|'+b:b+'|'+a;(edge.get(k)||edge.set(k,[]).get(k)).push(i);}});
+  const par=new Map(); idxs.forEach(i=>par.set(i,i));
+  const find=x=>{while(par.get(x)!==x){par.set(x,par.get(par.get(x)));x=par.get(x);}return x;};
+  for(const cells of edge.values()) for(let m=1;m<cells.length;m++) par.set(find(cells[0]),find(cells[m]));
+  const g=new Map(); idxs.forEach(i=>{const r=find(i);(g.get(r)||g.set(r,[]).get(r)).push(i);});
+  return [...g.values()];
+}
+function bboxRect(cl){                        // axis-aligned bbox, padded to min footprint
+  let x0=180,y0=90,x1=-180,y1=-90;
+  cl.forEach(i=>F[i].geometry.coordinates[0].forEach(([x,y])=>{if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y;}));
+  const cla=Math.cos((y0+y1)/2*Math.PI/180), dLat=MIN_FOOT_KM/110.57, dLon=MIN_FOOT_KM/(111.32*cla);
+  if(y1-y0<dLat){const c=(y0+y1)/2;y0=c-dLat/2;y1=c+dLat/2;}
+  if(x1-x0<dLon){const c=(x0+x1)/2;x0=c-dLon/2;x1=c+dLon/2;}
+  return [x0,y0,x1,y1];
+}
+function rectKm2(b){const cla=Math.cos((b[1]+b[3])/2*Math.PI/180);return (b[2]-b[0])*111.32*cla*(b[3]-b[1])*110.57;}
+function taskingFeatures(idxs){
+  return clusterFeats(idxs).map((cl,k)=>{
+    const b=bboxRect(cl);
+    const target=cl.reduce((s,i)=>s+ringAreaKm2(F[i].geometry.coordinates[0]),0), foot=rectKm2(b);
+    const tiers=[...new Set(cl.map(i=>F[i].properties.t))].sort((a,b)=>a-b).map(t=>'P'+t);
+    return {type:'Feature',properties:{footprint_id:k+1,cells:cl.length,
+      target_km2:Math.round(target),footprint_km2:Math.round(foot),
+      fill_pct:Math.round(target/foot*100),priority_tiers:tiers.join(',')},
+      geometry:{type:'Polygon',coordinates:[[[b[0],b[1]],[b[2],b[1]],[b[2],b[3]],[b[0],b[3]],[b[0],b[1]]]]}};
+  });
+}
+function buildTaskingGeoJSON(){
+  const feats=taskingFeatures(selectedIdx());
+  const tgt=feats.reduce((s,f)=>s+f.properties.target_km2,0), ft=feats.reduce((s,f)=>s+f.properties.footprint_km2,0);
+  return JSON.stringify({type:'FeatureCollection',metadata:{
+    generated:new Date().toISOString().slice(0,10),
+    source:'TASCO Mapping Division — tasking footprints',
+    note:'Bounding-box strip per contiguous cluster for NEW acquisition (satellites image strips/scenes, not hexes). target_km2 = priority cells inside; footprint_km2 = billable bbox.',
+    priority_cutoff:'P1–P'+priCut+' of '+NT, footprints:feats.length,
+    total_target_km2:tgt, total_footprint_km2:ft, overhead_pct:tgt?Math.round((ft/tgt-1)*100):0},
+    features:feats});
+}
+function previewTasking(){
+  const fc={type:'FeatureCollection',features:taskingFeatures(selectedIdx())};
+  if(map.getSource('task')) map.getSource('task').setData(fc);
+  else{ map.addSource('task',{type:'geojson',data:fc});
+    map.addLayer({id:'taskfill',type:'fill',source:'task',paint:{'fill-color':'#ffffff','fill-opacity':0.05}});
+    map.addLayer({id:'taskline',type:'line',source:'task',paint:{'line-color':'#ffffff','line-width':1.4,'line-dasharray':[3,2]}}); }
+}
 async function exportZip(){
   const enc=new TextEncoder();
   const blob=await makeZip([
     {name:'tasco-aoi-summary.json',data:enc.encode(buildSummary())},
-    {name:'tasco-aoi-cells.geojson',data:enc.encode(buildGeoJSON())},
+    {name:'tasco-aoi-archive-mask.geojson',data:enc.encode(buildGeoJSON())},
+    {name:'tasco-aoi-tasking-footprints.geojson',data:enc.encode(buildTaskingGeoJSON())},
   ]);
   const url=URL.createObjectURL(blob), a=document.createElement('a');
   a.href=url; a.download='tasco-aoi.zip'; a.click();
@@ -444,7 +535,8 @@ async function exportSampleZip(){
   const enc=new TextEncoder();
   const blob=await makeZip([
     {name:'tasco-free-sample-summary.json',data:enc.encode(sampleSummary())},
-    {name:'tasco-free-sample-aoi.geojson',data:enc.encode(sampleGeoJSON())},
+    {name:'tasco-free-sample-aoi-mask.geojson',data:enc.encode(sampleGeoJSON())},
+    {name:'tasco-free-sample-tasking-footprints.geojson',data:enc.encode(JSON.stringify({type:'FeatureCollection',features:taskingFeatures(_sample.sel)}))},
   ]);
   const url=URL.createObjectURL(blob),a=document.createElement('a');
   a.href=url;a.download='tasco-free-sample.zip';a.click();

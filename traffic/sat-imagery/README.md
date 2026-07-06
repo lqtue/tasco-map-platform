@@ -7,7 +7,13 @@ areas to buy satellite imagery for, and **track** procurement against that plan.
   every hex is pre-scored (`priority = 0.6·density_percentile + 0.3·road_class +
   0.1·key_area`) and binned into 5 priority tiers (P1 densest cores → P5 rest of
   envelope); the panel lists each tier + its km² (and cumulative), and picking a tier
-  images all higher tiers. Hero km², map colouring, and export update live.
+  images all higher tiers. Hero km², map colouring, **selection metrics** (avg built-up
+  %, road-class mix), and **per-tier pricing** (`TIER_PRICE` USD/km²) update live.
+- **Dual AOI export** (satellites image strips/scenes, not hexes): the ZIP bundles a
+  pricing **summary**, the hex **archive mask** (`buildGeoJSON`, for coverage lookup),
+  and **tasking footprints** (`taskingFeatures` — a bounding-box strip per contiguous
+  cluster, padded to `MIN_FOOT_KM`, with `target_km²` vs billable `footprint_km²` and
+  an `overhead_pct`). "Preview tasking footprints" overlays them on the map.
 - `data.js` — baked H3 res-7 bundle (`window.DATA`); the only data the page needs.
   `sample_order.js` bakes the priority fields: `htier` (per-hex tier 1..5, 0=outside
   envelope), `tier_km2` (imaging km² per tier), plus `sample_order`/`sample_pri` for
