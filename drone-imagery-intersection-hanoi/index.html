@@ -26,6 +26,7 @@
  <h1>Site Priority — Preliminary Volume</h1>
  <p class="sub">Capacity proxy from OSM lanes × class (no footage yet). Rank fly-first sites. ● = fits one 50 m frame, ○ = needs mosaic.</p>
  <div class="lbl">Drone (frame size)</div><select id="drone"></select>
+ <div class="lbl">Lens</div><select id="lens"></select>
  <div class="lbl">Priority (est. peak PCU/hr)</div>
  <div class="ramp"></div><div class="ramplab"><span>low</span><span id="vmax">–</span></div>
  <div class="rows" id="rows"></div>
@@ -40,13 +41,15 @@ const DRONES=[{id:"mavic3pro",name:"Mavic 3 Pro (4/3)",fov:84,ar:[4,3],px:5280},
  {id:"p4pro",name:"Phantom 4 Pro (1\")",fov:84,ar:[3,2],px:5472}];
 const CLS={motorway:"#4a90d9",trunk:"#c86ba0",primary:"#8a9aa8"};
 const $=id=>document.getElementById(id),H=50;
+const LENS=[{n:"Standard",k:1.0},{n:"Wide converter 0.75x",k:0.75},{n:"Ultra-wide 0.6x",k:0.6}];
 const dsel=$("drone");DRONES.forEach(d=>{const o=document.createElement("option");o.value=d.id;o.textContent=d.name;dsel.appendChild(o);});
+const lsel=$("lens");LENS.forEach((l,i)=>{const o=document.createElement("option");o.value=i;o.textContent=l.n;lsel.appendChild(o);});
 const map=L.map("map",{preferCanvas:true}).setView([21.01,105.82],13);
 L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",{maxZoom:20,attribution:"Esri"}).addTo(map);
 const roadLayer=L.layerGroup().addTo(map);
 NET.roads.forEach(r=>L.polyline(r.c.map(([x,y])=>[y,x]),{color:CLS[r.cls]||"#888",weight:r.cls==="primary"?1:1.6,opacity:.6}).addTo(roadLayer));
-function frame(d){const dg=Math.hypot(d.ar[0],d.ar[1]),t=Math.tan(d.fov*Math.PI/360);
- return {w:2*H*Math.tan(Math.atan(d.ar[0]/dg*t)),v:2*H*Math.tan(Math.atan(d.ar[1]/dg*t))};}
+function frame(d,k){const dg=Math.hypot(d.ar[0],d.ar[1]),t=Math.tan(d.fov*Math.PI/360);
+ return {w:2*H*Math.tan(Math.atan(d.ar[0]/dg*t))/k,v:2*H*Math.tan(Math.atan(d.ar[1]/dg*t))/k};}
 // priority ramp: grey->amber->red
 function lerp(a,b,t){return a.map((v,i)=>Math.round(v+(b[i]-v)*t));}
 function priCol(t){const g=[91,102,115],a=[245,166,35],r=[224,87,75];
@@ -54,7 +57,7 @@ function priCol(t){const g=[91,102,115],a=[245,166,35],r=[224,87,75];
 const vmax=Math.max(...NET.groups.map(g=>g.vol));$("vmax").textContent=vmax.toLocaleString()+" PCU/hr";
 let layer=L.layerGroup().addTo(map);
 function render(){
- const d=DRONES.find(x=>x.id===dsel.value),f=frame(d),fmax=Math.max(f.w,f.v),fmin=Math.min(f.w,f.v);
+ const d=DRONES.find(x=>x.id===dsel.value),k=LENS[+lsel.value].k,f=frame(d,k),fmax=Math.max(f.w,f.v),fmin=Math.min(f.w,f.v);
  layer.clearLayers();const rows=$("rows");rows.innerHTML="";
  NET.groups.forEach((g,i)=>{
   const fits=(g.L<=fmax+1&&g.W<=fmin+1);
@@ -67,5 +70,5 @@ function render(){
   r.onclick=()=>{map.setView([g.lat,g.lon],17);p.openTooltip();};rows.appendChild(r);
  });
 }
-dsel.addEventListener("change",render);dsel.value="mavic3pro";render();
+dsel.addEventListener("change",render);lsel.addEventListener("change",render);dsel.value="mavic3pro";lsel.value="0";render();
 </script></body></html>
